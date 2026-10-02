@@ -1,0 +1,702 @@
+{
+  "settings": {
+    "buyProducts": 1,
+    "freeProducts": 6,
+    "codAdvance": 149,
+    "mysteryGiftPrice": 399
+  },
+  "theme": {
+    "primary": "#052925",
+    "secondary": "#0b665b",
+    "accent": "#28a88e",
+    "logoColor": "#d5b06b",
+    "background": "#f8f9f7",
+    "text": "#111111"
+  },
+  "homeBanners": [
+    "banners/banner1.jpg",
+    "banners/banner2.jpg"
+  ],
+  "mysteryImage": "banners/mystery-win.jpg",
+  "paymentQr": "assets/payment-qr.png",
+  "products": [
+    {
+      "id": 1,
+      "name": "TENVER Noir",
+      "price": 699,
+      "oldPrice": 1999,
+      "volume": 100,
+      "badge": "OFFER_TEXT",
+      "main": "assets/products/product1.jpg",
+      "subs": [
+        "assets/products/product1sub1.jpg",
+        "assets/products/product1sub2.jpg",
+        "assets/products/product1sub3.jpg",
+        "assets/products/product1sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product1-desc1.jpg",
+        "assets/products/product1-desc2.jpg"
+      ],
+      "rating": 4.73,
+      "reviews": 119,
+      "dist": {
+        "5": 94,
+        "4": 70,
+        "3": 50,
+        "2": 3,
+        "1": 2
+      },
+      "description": "A modern signature fragrance crafted for confident evenings, with a smooth blend of fresh, woody and warm notes. Designed for everyday wear, date nights and special occasions.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "name": "TENVER Oud",
+      "price": 799,
+      "oldPrice": 2199,
+      "volume": 100,
+      "badge": "BESTSELLER",
+      "main": "assets/products/product2.jpg",
+      "subs": [
+        "assets/products/product2sub1.jpg",
+        "assets/products/product2sub2.jpg",
+        "assets/products/product2sub3.jpg",
+        "assets/products/product2sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product2-desc1.jpg",
+        "assets/products/product2-desc2.jpg"
+      ],
+      "rating": 4.61,
+      "reviews": 284,
+      "dist": {
+        "5": 210,
+        "4": 55,
+        "3": 14,
+        "2": 3,
+        "1": 2
+      },
+      "description": "Rich oud-inspired character with warm woods and a refined finish. A bold fragrance profile for customers who prefer a deeper, premium scent.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "name": "TENVER Sport",
+      "price": 649,
+      "oldPrice": 1699,
+      "volume": 100,
+      "badge": "OFFER_TEXT",
+      "main": "assets/products/product3.jpg",
+      "subs": [
+        "assets/products/product3sub1.jpg",
+        "assets/products/product3sub2.jpg",
+        "assets/products/product3sub3.jpg",
+        "assets/products/product3sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product3-desc1.jpg",
+        "assets/products/product3-desc2.jpg"
+      ],
+      "rating": 4.48,
+      "reviews": 173,
+      "dist": {
+        "5": 120,
+        "4": 38,
+        "3": 11,
+        "2": 3,
+        "1": 1
+      },
+      "description": "Fresh, energetic and clean. TENVER Sport is made for active days, travel and a crisp after-shower feel.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "name": "TENVER Hamilton",
+      "price": 699,
+      "oldPrice": 1999,
+      "volume": 100,
+      "badge": "OFFER_TEXT",
+      "main": "assets/products/product4.jpg",
+      "subs": [
+        "assets/products/product4sub1.jpg",
+        "assets/products/product4sub2.jpg",
+        "assets/products/product4sub3.jpg",
+        "assets/products/product4sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product4-desc1.jpg",
+        "assets/products/product4-desc2.jpg"
+      ],
+      "rating": 4.73,
+      "reviews": 119,
+      "dist": {
+        "5": 94,
+        "4": 70,
+        "3": 50,
+        "2": 3,
+        "1": 2
+      },
+      "description": "An elegant green-fragrance profile with fresh opening notes and a warm, polished dry-down. Easy to wear from daytime to evening.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "name": "TENVER Honour",
+      "price": 749,
+      "oldPrice": 1899,
+      "volume": 100,
+      "badge": "POPULAR",
+      "main": "assets/products/product5.jpg",
+      "subs": [
+        "assets/products/product5sub1.jpg",
+        "assets/products/product5sub2.jpg",
+        "assets/products/product5sub3.jpg",
+        "assets/products/product5sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product5-desc1.jpg",
+        "assets/products/product5-desc2.jpg"
+      ],
+      "rating": 4.56,
+      "reviews": 226,
+      "dist": {
+        "5": 156,
+        "4": 51,
+        "3": 14,
+        "2": 3,
+        "1": 2
+      },
+      "description": "A polished aromatic fragrance with a balanced character that works well for office hours, dinners and occasions.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "name": "TENVER Caliber",
+      "price": 699,
+      "oldPrice": 1999,
+      "volume": 100,
+      "badge": "OFFER_TEXT",
+      "main": "assets/products/product6.jpg",
+      "subs": [
+        "assets/products/product6sub1.jpg",
+        "assets/products/product6sub2.jpg",
+        "assets/products/product6sub3.jpg",
+        "assets/products/product6sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product6-desc1.jpg",
+        "assets/products/product6-desc2.jpg"
+      ],
+      "rating": 4.67,
+      "reviews": 198,
+      "dist": {
+        "5": 139,
+        "4": 43,
+        "3": 11,
+        "2": 3,
+        "1": 2
+      },
+      "description": "A confident blend of clean freshness and woody depth, created for a versatile signature scent.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "name": "TENVER Classic",
+      "price": 599,
+      "oldPrice": 1499,
+      "volume": 100,
+      "badge": "NEW",
+      "main": "assets/products/product7.jpg",
+      "subs": [
+        "assets/products/product7sub1.jpg",
+        "assets/products/product7sub2.jpg",
+        "assets/products/product7sub3.jpg",
+        "assets/products/product7sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product7-desc1.jpg",
+        "assets/products/product7-desc2.jpg"
+      ],
+      "rating": 4.42,
+      "reviews": 151,
+      "dist": {
+        "5": 102,
+        "4": 35,
+        "3": 10,
+        "2": 3,
+        "1": 1
+      },
+      "description": "A clean classic profile with a comfortable everyday character and a smooth finish.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "name": "TENVER Black",
+      "price": 699,
+      "oldPrice": 1799,
+      "volume": 100,
+      "badge": "OFFER_TEXT",
+      "main": "assets/products/product8.jpg",
+      "subs": [
+        "assets/products/product8sub1.jpg",
+        "assets/products/product8sub2.jpg",
+        "assets/products/product8sub3.jpg",
+        "assets/products/product8sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product8-desc1.jpg",
+        "assets/products/product8-desc2.jpg"
+      ],
+      "rating": 4.58,
+      "reviews": 247,
+      "dist": {
+        "5": 172,
+        "4": 57,
+        "3": 14,
+        "2": 3,
+        "1": 1
+      },
+      "description": "A dark and smooth fragrance with a modern woody personality for evening wear.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "name": "TENVER Blue",
+      "price": 649,
+      "oldPrice": 1699,
+      "volume": 100,
+      "badge": "POPULAR",
+      "main": "assets/products/product9.jpg",
+      "subs": [
+        "assets/products/product9sub1.jpg",
+        "assets/products/product9sub2.jpg",
+        "assets/products/product9sub3.jpg",
+        "assets/products/product9sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product9-desc1.jpg",
+        "assets/products/product9-desc2.jpg"
+      ],
+      "rating": 4.51,
+      "reviews": 186,
+      "dist": {
+        "5": 127,
+        "4": 42,
+        "3": 12,
+        "2": 3,
+        "1": 2
+      },
+      "description": "Fresh blue-style fragrance with an airy opening and a clean, easy-going dry-down.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    },
+    {
+      "id": 10,
+      "name": "TENVER Elite",
+      "price": 799,
+      "oldPrice": 2199,
+      "volume": 100,
+      "badge": "BESTSELLER",
+      "main": "assets/products/product10.jpg",
+      "subs": [
+        "assets/products/product10sub1.jpg",
+        "assets/products/product10sub2.jpg",
+        "assets/products/product10sub3.jpg",
+        "assets/products/product10sub4.jpg"
+      ],
+      "descBanners": [
+        "assets/products/product10-desc1.jpg",
+        "assets/products/product10-desc2.jpg"
+      ],
+      "rating": 4.69,
+      "reviews": 312,
+      "dist": {
+        "5": 225,
+        "4": 68,
+        "3": 14,
+        "2": 3,
+        "1": 2
+      },
+      "description": "A refined premium profile with a rich, confident character designed for special occasions and evening wear.",
+      "additionalInfo": [
+        [
+          "Volume",
+          "100 ml"
+        ],
+        [
+          "Fragrance Type",
+          "Everyday / Premium"
+        ],
+        [
+          "Recommended For",
+          "Daily wear, evenings and special occasions"
+        ],
+        [
+          "Offer",
+          "BUY 1 GET 6 FREE + FREE Mystery Gift"
+        ]
+      ],
+      "faqs": [
+        [
+          "How do I choose the free perfumes?",
+          "Add your paid perfume to cart, then select the required number of complimentary perfumes shown in the cart."
+        ],
+        [
+          "How many images can I change?",
+          "Each product has one main image, four sub-images and two description banners."
+        ],
+        [
+          "Is the rating fixed?",
+          "No. Rating, review count and review distribution can be changed from the Admin Panel."
+        ],
+        [
+          "Can I change the product price?",
+          "Yes. Price and old price can be changed directly from the Admin Panel."
+        ]
+      ]
+    }
+  ],
+  "site": {
+    "brand": "TENVER",
+    "logo": "assets/logo.png",
+    "demoMode": true,
+    "demoNote": "All current product/banner images are DEMO SAMPLE artwork and can be replaced from Admin Panel."
+  },
+  "benefits": [
+    [
+      "🚚",
+      "FREE & FAST",
+      "DELIVERY"
+    ],
+    [
+      "🐇",
+      "CRUELTY",
+      "FREE"
+    ],
+    [
+      "☀️",
+      "ALL DAY",
+      "FRESHNESS"
+    ],
+    [
+      "👥",
+      "5 MILLION+",
+      "HAPPY CUSTOMERS"
+    ]
+  ]
+}
