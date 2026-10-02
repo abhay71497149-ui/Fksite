@@ -175,6 +175,7 @@ let OFFER_TICKER='Diwali Sale • BUY 1 GET 4 FREE • GET A CHANCE TO WIN iPhon
 let CART_TICKER='Diwali Sale 🪔 Buy 1 Get 3 & Chance to Win A 18 Pro Max';
 let NAV_LEFT_LOGO='';
 let BRAND_LOGO='';
+let PRODUCT_BRAND='TENVER';
 let benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
 let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
 const $=id=>document.getElementById(id);
@@ -214,6 +215,7 @@ async function loadRemoteConfig(){
     if(typeof c.cartTicker==='string' && c.cartTicker.trim()) CART_TICKER=c.cartTicker;
     if(typeof c.navLeftLogo==='string') NAV_LEFT_LOGO=c.navLeftLogo;
     if(typeof c.brandLogo==='string') BRAND_LOGO=c.brandLogo;
+    if(typeof c.productBrand==='string') PRODUCT_BRAND=c.productBrand;
     if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
     if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
   }catch(e){
@@ -239,7 +241,7 @@ function updateTimer(){let t=Number(localStorage.getItem('tenverTimer')||600);if
 function renderBenefits(){const one=benefits.concat(benefits);$('benefitTrack').innerHTML=one.map(b=>`<div class="benefit-item"><span class="benefit-icon">${b[0]}</span>${b[1]}<br>${b[2]}</div>`).join('')}
 function openProduct(id){currentProduct=TENVER_PRODUCTS.find(p=>p.id===id);if(!currentProduct)return;currentImage=0;detailQty=1;$('detailQty').textContent=1;$('homePage').style.display='none';$('productPage').classList.add('show');window.scrollTo(0,0);renderProductDetail()}
 function showHome(){ $('productPage').classList.remove('show');$('homePage').style.display='block';window.scrollTo(0,0)}
-function renderProductDetail(){const p=currentProduct;$('detailName').textContent=`${p.name} 100ml | TENVER`;$('detailStars').textContent='★';$('detailRating').textContent=p.rating.toFixed(2);$('detailReviews').textContent=p.reviews;$('detailPrice').textContent=money(p.price);$('detailPriceMl').textContent=`Price per ml: ${money(p.price/p.volume)}`;$('detailOffer').textContent=`ADD ${BUY_PRODUCTS} PRODUCT${BUY_PRODUCTS>1?'S':''}, GET ${FREE_PRODUCTS} FREE`;$('detailDescription').textContent=p.description;$('mainProductImage').src=p.main;$('mainProductImage').alt=p.name;$('thumbs').innerHTML=p.subs.map((src,i)=>`<button class="thumb ${i===0?'active':''}" onclick="setImage(${i})"><img src="${src}" alt="${p.name} image ${i+1}" onerror="this.src='${p.main}'"></button>`).join('');$('descBanner1').src=p.descBanners[0];$('descBanner2').src=p.descBanners[1];$('descBanner1').onerror=()=>{$('descBanner1').src=p.main};$('descBanner2').onerror=()=>{$('descBanner2').src=p.main};$('additionalInfo').innerHTML=(p.additionalInfo||[['Volume',p.volume+' ml'],['Fragrance Type','Everyday / Premium'],['Recommended For','Daily wear, evenings and special occasions'],['Offer',OFFER_TEXT+' + FREE Mystery Gift']]).map(x=>`<div class="info-row"><b>${x[0]}</b><br><span>${x[1]}</span></div>`).join('');$('faqs').innerHTML=(p.faqs||[]).map(x=>`<div class="faq-item"><div class="faq-q">${x[0]}</div><div class="faq-a">${x[1]}</div></div>`).join('');renderReviews(p);updateMainImage()}
+function renderProductDetail(){const p=currentProduct;$('detailName').textContent=`${p.name} 100ml`+(PRODUCT_BRAND.trim()?` | ${PRODUCT_BRAND.trim()}`:'');$('detailStars').textContent='★';$('detailRating').textContent=p.rating.toFixed(2);$('detailReviews').textContent=p.reviews;$('detailPrice').textContent=money(p.price);$('detailPriceMl').textContent=`Price per ml: ${money(p.price/p.volume)}`;$('detailOffer').textContent=`ADD ${BUY_PRODUCTS} PRODUCT${BUY_PRODUCTS>1?'S':''}, GET ${FREE_PRODUCTS} FREE`;$('detailDescription').textContent=p.description;$('mainProductImage').src=p.main;$('mainProductImage').alt=p.name;$('thumbs').innerHTML=p.subs.map((src,i)=>`<button class="thumb ${i===0?'active':''}" onclick="setImage(${i})"><img src="${src}" alt="${p.name} image ${i+1}" onerror="this.src='${p.main}'"></button>`).join('');$('descBanner1').src=p.descBanners[0];$('descBanner2').src=p.descBanners[1];$('descBanner1').onerror=()=>{$('descBanner1').src=p.main};$('descBanner2').onerror=()=>{$('descBanner2').src=p.main};$('additionalInfo').innerHTML=(p.additionalInfo||[['Volume',p.volume+' ml'],['Fragrance Type','Everyday / Premium'],['Recommended For','Daily wear, evenings and special occasions'],['Offer',OFFER_TEXT+' + FREE Mystery Gift']]).map(x=>`<div class="info-row"><b>${x[0]}</b><br><span>${x[1]}</span></div>`).join('');$('faqs').innerHTML=(p.faqs||[]).map(x=>`<div class="faq-item"><div class="faq-q">${x[0]}</div><div class="faq-a">${x[1]}</div></div>`).join('');renderReviews(p);updateMainImage()}
 function backToMainProduct(){
   const page=$('productPage');
   const target=$('detailName');
