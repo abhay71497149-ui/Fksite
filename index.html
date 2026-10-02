@@ -8,7 +8,7 @@
 :root{--teal:#052925;--teal2:#0b665b;--mint:#28a88e;--gold:#d5b06b;--logo-color:#d5b06b;--bg:#f8f9f7;--text:#111;--muted:#737373;--card:#fff}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
 .top{background:var(--teal);color:#fff;text-align:center;padding:9px 8px;font-size:11px;font-weight:800;letter-spacing:.4px}
-nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:50}.logo-mark{width:145px;height:44px;background:var(--logo-color);-webkit-mask:var(--logo-image) center/contain no-repeat;mask:var(--logo-image) center/contain no-repeat;display:block}.logo-fallback{font-size:25px;font-weight:900;letter-spacing:3px;color:#111}.nav-right{display:flex;align-items:center;gap:14px}.home-btn{border:0;background:none;font-size:22px}.cart-btn{border:0;background:none;font-size:21px}.cart-count{background:var(--teal);color:#fff;border-radius:50%;font-size:10px;padding:3px 6px;vertical-align:top;margin-left:-5px}
+nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:50}.logo-mark{width:145px;height:44px;background:var(--logo-color);-webkit-mask:var(--logo-image) center/contain no-repeat;mask:var(--logo-image) center/contain no-repeat;display:block}.logo-fallback{font-size:25px;font-weight:900;letter-spacing:3px;color:#111}.nav-right{display:flex;align-items:center;gap:14px}.nav-right-logo{display:none;align-items:center;justify-content:center;width:34px;height:34px;margin-right:2px}.nav-right-logo.show{display:flex}.right-logo-img{width:28px;height:28px;object-fit:contain;display:block}.home-btn{border:0;background:none;font-size:22px}.cart-btn{border:0;background:none;font-size:21px}.cart-count{background:var(--teal);color:#fff;border-radius:50%;font-size:10px;padding:3px 6px;vertical-align:top;margin-left:-5px}
 .page{display:block}.home-page{padding-bottom:30px}.banner-wrap{margin:12px;border-radius:16px;overflow:hidden;position:relative;background:#111}.slides{display:flex;transition:transform .5s ease}.slide{min-width:100%;height:245px}.slide img{width:100%;height:100%;display:block;object-fit:cover}.dots{position:absolute;bottom:10px;width:100%;text-align:center}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#bbb;margin:0 4px}.dot.active{background:#fff}
 .countdown-box{margin:12px;border-radius:14px;background:var(--teal);color:#fff;text-align:center;padding:15px 12px}.countdown-box .label{font-size:11px;letter-spacing:1.3px;color:#e9cf98;font-weight:800}.countdown{font-size:34px;font-weight:900;letter-spacing:3px;margin:3px 0}.countdown-box .sub{font-size:10px;color:#bbb}.offer{text-align:center;padding:10px 12px 18px}.offer h2{font-size:23px;margin:3px}.offer p{color:#666;margin:7px 0;font-size:13px}
 .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 12px}.product-card{background:#fff;border:1px solid #e5e5e5;border-radius:15px;padding:9px;overflow:hidden}.product-image-wrap{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:12px;background:#ececea}.product-image{width:100%;height:100%;object-fit:cover;display:block}.product-badge{position:absolute;left:8px;top:8px;background:var(--teal);color:#fff;padding:6px 8px;border-radius:6px;font-size:9px;font-weight:800}.product-card-name{font-size:15px;font-weight:800;color:var(--teal);margin-top:10px;line-height:1.2}.product-review{font-size:11px;margin-top:6px;color:#555;white-space:nowrap}.stars{color:#d6ad13;letter-spacing:1px}.product-card-price{display:flex;align-items:center;gap:7px;margin-top:7px}.product-card-price del{color:#999;font-size:12px}.product-card-price strong{color:var(--teal);font-size:18px}.product-add-button{width:100%;margin-top:10px;padding:11px;border:0;border-radius:8px;background:var(--teal);color:#fff;font-weight:800;font-size:12px}.clickable{cursor:pointer}
@@ -36,7 +36,7 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
   <button class="home-btn" onclick="showHome()">⌂</button>
   <span class="logo-mark" aria-label="TENVER"></span>
   <div id="logoFallback" class="logo-fallback" style="display:none">TENVER</div>
-  <div class="nav-right"><button class="cart-btn" onclick="openCart()">🛒<sup class="cart-count" id="cartCount">0</sup></button></div>
+  <div class="nav-right"><div id="navRightLogo" class="nav-right-logo"><img id="navRightLogoImg" class="right-logo-img" src="" alt="Logo"></div><button class="cart-btn" onclick="openCart()">🛒<sup class="cart-count" id="cartCount">0</sup></button></div>
 </nav>
 
 <main id="homePage" class="page home-page">
@@ -64,7 +64,7 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
   <div class="thumbs" id="thumbs" style="padding:10px 14px 4px"></div>
   <div class="detail-actions"><div class="qty"><button onclick="changeDetailQty(-1)">−</button><span id="detailQty">1</span><button onclick="changeDetailQty(1)">+</button></div><button class="detail-add" onclick="addDetailToCart()">ADD TO CART</button></div>
   <div class="benefit-wrap"><div class="benefit-track" id="benefitTrack"></div></div>
-  <div class="detail-banner" onclick="showHome()"><img src="banners/banner2.jpg" alt="TENVER Offer Banner"></div>
+  <div class="detail-banner" onclick="showHome()"><img id="detailBannerImage" src="banners/banner2.jpg" alt="TENVER Offer Banner"></div>
   <section class="detail-section"><h2>Description</h2><p id="detailDescription"></p><img id="descBanner1" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"><img id="descBanner2" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"></section>
   <section class="detail-section"><h2>Additional Information</h2><div id="additionalInfo"></div></section>
   <section class="detail-section"><h2>FAQs</h2><div id="faqs"></div></section>
@@ -168,11 +168,23 @@ let TENVER_PRODUCTS = [
 
 let homeBanners=['banners/banner1.jpg','banners/banner2.jpg'];
 let TENVER_LOGO_IMAGE='assets/logo.png';
+let NAV_RIGHT_LOGO='';
+let DETAIL_BANNER='banners/banner2.jpg';
 const benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
 let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
 const $=id=>document.getElementById(id);
 const money=n=>'₹'+Number(n).toLocaleString('en-IN');
 const stars=n=>'★★★★★';
+
+function applyHeaderCustomizations(){
+  const box=document.getElementById('navRightLogo'), img=document.getElementById('navRightLogoImg');
+  if(box&&img){
+    if(NAV_RIGHT_LOGO){img.src=NAV_RIGHT_LOGO;box.classList.add('show')}
+    else{img.removeAttribute('src');box.classList.remove('show')}
+  }
+  const db=document.getElementById('detailBannerImage');
+  if(db&&DETAIL_BANNER) db.src=DETAIL_BANNER;
+}
 
 async function loadRemoteConfig(){
   try{
@@ -186,6 +198,8 @@ async function loadRemoteConfig(){
     if(Array.isArray(c.homeBanners)) homeBanners=c.homeBanners;
     if(Array.isArray(c.benefits)) benefits=c.benefits;
     if(c.site&&c.site.logo) TENVER_LOGO_IMAGE=c.site.logo;
+    if(c.navRightLogo) NAV_RIGHT_LOGO=c.navRightLogo;
+    if(c.detailBanner) DETAIL_BANNER=c.detailBanner;
     if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
     if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
   }catch(e){
@@ -252,7 +266,7 @@ function placeOnlineOrder(){alert('Payment step ready. Connect your actual payme
 function renderReviews(p){$('reviewBig').textContent=p.rating.toFixed(2);const total=Object.values(p.dist).reduce((a,b)=>a+b,0);$('reviewBars').innerHTML=[5,4,3,2,1].map(n=>{const c=p.dist[n]||0;return `<div class="bar-row"><span>${n} ★</span><div class="bar"><i style="width:${Math.round(c/total*100)}%"></i></div><span>${c}</span></div>`}).join('');const names=['Aman','Rohit','Vikram','Arjun','Kunal'];$('reviewList').innerHTML=names.map((n,i)=>`<div class="customer-review"><div class="rname">${n} <span class="stars">★★★★★</span> <span style="color:#388044">✓ Verified</span></div><div class="rtext">${reviewText(p)}</div></div>`).join('')}
 function openMysteryWin(){$('mysteryWinOverlay').classList.add('show')}function closeMysteryWin(e){if(e&&e.target&&e.target.id!=='mysteryWinOverlay')return;$('mysteryWinOverlay').classList.remove('show')}
 
-loadRemoteConfig().then(()=>{applyTheme();init();});
+loadRemoteConfig().then(()=>{applyTheme();applyHeaderCustomizations();init();});
 </script>
 </body>
 </html>
