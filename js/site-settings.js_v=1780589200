@@ -1,5 +1,0 @@
-window.FK_SITE_SETTINGS = {
-  address_required: true,
-  display_mode: "fixed",
-  product_shuffle: false,
-};
