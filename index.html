@@ -181,6 +181,7 @@ const $=id=>document.getElementById(id);
 const money=n=>'₹'+Number(n).toLocaleString('en-IN');
 const stars=n=>'★★★★★';
 
+const bust=u=>u+(u.includes('?')?'&':'?')+'v='+Date.now();
 function applyHeaderCustomizations(){
   const box=document.getElementById('navRightLogo'), img=document.getElementById('navRightLogoImg');
   if(box&&img){
@@ -188,9 +189,9 @@ function applyHeaderCustomizations(){
     else{img.removeAttribute('src');box.classList.remove('show')}
   }
   const ll=document.getElementById('navLeftLogoImg');
-  if(ll){ if(NAV_LEFT_LOGO){ll.src=NAV_LEFT_LOGO;ll.style.display='block'} else {ll.removeAttribute('src');ll.style.display='none'} }
+  if(ll){ if(NAV_LEFT_LOGO){ll.src=bust(NAV_LEFT_LOGO);ll.style.display='block'} else {ll.removeAttribute('src');ll.style.display='none'} }
   const bl=document.getElementById('brandLogoImg'), lm=document.querySelector('nav .logo-mark');
-  if(bl&&lm){ if(BRAND_LOGO){bl.src=BRAND_LOGO;bl.style.display='block';lm.style.display='none'} else {bl.removeAttribute('src');bl.style.display='none';lm.style.display=''} }
+  if(bl&&lm){ if(BRAND_LOGO){bl.src=bust(BRAND_LOGO);bl.style.display='block';lm.style.display='none'} else {bl.removeAttribute('src');bl.style.display='none';lm.style.display=''} }
   const db=document.getElementById('detailBannerImage');
   if(db&&DETAIL_BANNER) db.src=DETAIL_BANNER;
 }
