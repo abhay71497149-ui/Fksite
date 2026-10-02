@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TENVER — Premium Fragrances</title>
+<style>
+:root{--teal:#052925;--teal2:#0b665b;--mint:#28a88e;--gold:#d5b06b;--logo-color:#d5b06b;--bg:#f8f9f7;--text:#111;--muted:#737373;--card:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.top{background:var(--teal);color:#fff;text-align:center;padding:9px 8px;font-size:11px;font-weight:800;letter-spacing:.4px}
+nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:50}.logo-mark{width:145px;height:44px;background:var(--logo-color);-webkit-mask:var(--logo-image) center/contain no-repeat;mask:var(--logo-image) center/contain no-repeat;display:block}.logo-fallback{font-size:25px;font-weight:900;letter-spacing:3px;color:#111}.nav-right{display:flex;align-items:center;gap:14px}.home-btn{border:0;background:none;font-size:22px}.cart-btn{border:0;background:none;font-size:21px}.cart-count{background:var(--teal);color:#fff;border-radius:50%;font-size:10px;padding:3px 6px;vertical-align:top;margin-left:-5px}
+.page{display:block}.home-page{padding-bottom:30px}.banner-wrap{margin:12px;border-radius:16px;overflow:hidden;position:relative;background:#111}.slides{display:flex;transition:transform .5s ease}.slide{min-width:100%;height:245px}.slide img{width:100%;height:100%;display:block;object-fit:cover}.dots{position:absolute;bottom:10px;width:100%;text-align:center}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#bbb;margin:0 4px}.dot.active{background:#fff}
+.countdown-box{margin:12px;border-radius:14px;background:var(--teal);color:#fff;text-align:center;padding:15px 12px}.countdown-box .label{font-size:11px;letter-spacing:1.3px;color:#e9cf98;font-weight:800}.countdown{font-size:34px;font-weight:900;letter-spacing:3px;margin:3px 0}.countdown-box .sub{font-size:10px;color:#bbb}.offer{text-align:center;padding:10px 12px 18px}.offer h2{font-size:23px;margin:3px}.offer p{color:#666;margin:7px 0;font-size:13px}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 12px}.product-card{background:#fff;border:1px solid #e5e5e5;border-radius:15px;padding:9px;overflow:hidden}.product-image-wrap{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:12px;background:#ececea}.product-image{width:100%;height:100%;object-fit:cover;display:block}.product-badge{position:absolute;left:8px;top:8px;background:var(--teal);color:#fff;padding:6px 8px;border-radius:6px;font-size:9px;font-weight:800}.product-card-name{font-size:15px;font-weight:800;color:var(--teal);margin-top:10px;line-height:1.2}.product-review{font-size:11px;margin-top:6px;color:#555;white-space:nowrap}.stars{color:#d6ad13;letter-spacing:1px}.product-card-price{display:flex;align-items:center;gap:7px;margin-top:7px}.product-card-price del{color:#999;font-size:12px}.product-card-price strong{color:var(--teal);font-size:18px}.product-add-button{width:100%;margin-top:10px;padding:11px;border:0;border-radius:8px;background:var(--teal);color:#fff;font-weight:800;font-size:12px}.clickable{cursor:pointer}
+.mystery{margin:18px 12px;padding:24px 18px;text-align:center;border-radius:16px;background:linear-gradient(135deg,#21180e,#4d351c);color:#fff}.box{font-size:55px}.mystery h2{margin:8px 0;font-size:25px}.mystery p{color:#ddd;line-height:1.5;font-size:13px}.reveal{background:#fff;color:var(--teal);border:0;border-radius:7px;padding:12px 18px;font-weight:800}.steps{display:flex;gap:8px;padding:0 12px 25px}.step{flex:1;background:#fff;border:1px solid #eee;border-radius:10px;padding:11px;text-align:center;font-size:11px}.step b{display:block;font-size:17px;margin-bottom:5px}.site-footer{background:var(--teal);color:#aaa;text-align:center;padding:28px 15px;font-size:11px}
+/* product detail */
+.product-page{display:none;background:#fff;min-height:100vh;padding-bottom:35px}.product-page.show{display:block}.detail-head{background:#fff;padding:18px 14px 8px}.detail-title{font-size:25px;line-height:1.15;margin:0 0 10px}.detail-rating{font-size:14px;color:#555}.verified{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#1877e8;color:#fff;align-items:center;justify-content:center;font-size:12px;font-weight:900;margin-left:5px}.detail-price{font-size:29px;font-weight:900;margin-top:14px;color:#111}.tax{font-size:12px;color:#666;margin-top:4px}.price-ml{font-size:14px;font-weight:700;margin-top:25px}
+.gallery{padding:10px 12px 0;position:relative;overflow:hidden}.gallery-main{position:relative;border-radius:15px;overflow:hidden;background:#f0f0ee;aspect-ratio:1/1;touch-action:pan-y}.gallery-main img{width:100%;height:100%;object-fit:cover;display:block}.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:50px;border:0;border-radius:50%;background:#fff;color:#333;font-size:28px;box-shadow:0 2px 10px #0002;z-index:3}.gallery-arrow.left{left:0}.gallery-arrow.right{right:0}.thumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 4px}.thumbs::-webkit-scrollbar{display:none}.thumb{flex:0 0 72px;height:72px;border:2px solid transparent;border-radius:9px;overflow:hidden;background:#eee;padding:0}.thumb.active{border-color:var(--teal)}.thumb img{width:100%;height:100%;object-fit:cover}
+.offer-strip{text-align:center;background:var(--teal2);color:#fff;font-size:18px;font-weight:900;padding:10px;margin-top:6px;letter-spacing:.2px}.detail-actions{padding:10px 14px;display:grid;grid-template-columns:38% 1fr;gap:10px}.qty{height:54px;border:1px solid #999;border-radius:13px;display:flex;align-items:center;justify-content:space-around;font-size:24px}.qty button{border:0;background:none;font-size:26px}.qty span{font-size:19px}.detail-add{height:54px;border:0;border-radius:13px;background:var(--teal);color:#fff;font-weight:900;letter-spacing:1.5px;font-size:16px}
+.benefit-wrap{overflow:hidden;padding:15px 0;background:#fff}.benefit-track{display:flex;width:max-content;animation:benefitMove 22s linear infinite}.benefit-item{width:180px;text-align:center;flex:0 0 180px;font-size:11px;font-weight:800;color:#222}.benefit-icon{font-size:34px;display:block;margin-bottom:4px}@keyframes benefitMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.detail-banner{margin:8px 14px;border-radius:2px;overflow:hidden;cursor:pointer}.detail-banner img{width:100%;display:block;max-height:170px;object-fit:cover}.detail-section{padding:20px 15px;border-top:1px solid #eee}.detail-section h2{font-size:20px;margin:0 0 10px;color:var(--teal)}.detail-section p,.detail-section li{font-size:13px;line-height:1.65;color:#555}.desc-banner{width:100%;display:block;border-radius:10px;margin:12px 0;max-height:280px;object-fit:cover}.info-row{border-bottom:1px solid #e7e7e7;padding:14px 0}.info-row:last-child{border-bottom:0}.info-row summary{font-weight:800;color:#222;cursor:pointer}.faq-item{border-bottom:1px solid #eee;padding:14px 0}.faq-q{font-weight:800;font-size:14px}.faq-a{font-size:13px;color:#666;line-height:1.5;margin-top:7px}
+.review-summary{background:#f7f8f6;border-radius:14px;padding:15px}.review-top{display:flex;align-items:center;gap:18px}.review-big{font-size:35px;font-weight:900}.bar-row{display:grid;grid-template-columns:38px 1fr 35px;gap:7px;align-items:center;font-size:11px;margin:5px 0}.bar{height:8px;background:#ddd;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:#d6ad13}.customer-review{padding:14px 0;border-bottom:1px solid #eee}.customer-review .rname{font-size:12px;font-weight:800}.customer-review .rtext{font-size:13px;color:#555;line-height:1.5;margin-top:5px}
+/* cart */
+.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:100}.overlay.show{display:block}.cart-panel{position:fixed;right:-100%;top:0;width:min(410px,100%);height:100%;background:#fff;z-index:110;box-shadow:-5px 0 25px #0003;transition:right .3s;padding:20px;overflow:auto}.cart-panel.open{right:0}.cart-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:14px}.close{border:0;background:#eee;border-radius:50%;width:32px;height:32px}.cart-item{display:flex;gap:10px;padding:15px 0;border-bottom:1px solid #eee}.cart-thumb{width:65px;height:65px;background:#eee;border-radius:8px;overflow:hidden;flex:none}.cart-thumb img{width:100%;height:100%;object-fit:cover}.cart-item h4{margin:3px 0}.cart-item small{color:#777}.diwali-strip{margin:12px -20px 8px;height:38px;background:linear-gradient(90deg,#8d0905,#e33a12,#9d0905);color:#fff;overflow:hidden;display:flex;align-items:center;white-space:nowrap}.diwali-marquee{display:inline-block;padding-left:100%;animation:diwaliMove 15s linear infinite;font-size:12px;font-weight:700}.diwali-marquee span{margin:0 24px}.free-title{font-size:17px;font-weight:800;margin:16px 0 4px}.free-sub{font-size:12px;color:#777;margin-bottom:8px}.free-option{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #eee}.free-option .thumb{width:62px;height:62px;border:1px solid #ddd;border-radius:8px;overflow:hidden}.free-option .thumb img{width:100%;height:100%;object-fit:cover}.free-option h4{margin:0 0 4px;font-size:14px}.free-option .mrp{font-size:12px;color:#888}.free-pill{display:inline-block;background:#e9e9e9;color:var(--teal);border-radius:4px;padding:4px 7px;font-weight:800;font-size:10px}.free-add{margin-left:auto;background:var(--teal);color:#fff;border:0;border-radius:5px;padding:8px 10px;font-size:10px;font-weight:800}.free-add.added{background:#ddd;color:var(--teal)}.mystery-cart{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid #eee}.cart-total{font-size:20px;font-weight:800;margin:20px 0}.checkout{width:100%;padding:15px;border:0;border-radius:7px;background:var(--teal);color:#fff;font-weight:800}
+/* checkout */
+.checkout-page{display:none;position:fixed;inset:0;z-index:200;background:#f5faf9;overflow-y:auto}.checkout-page.show{display:block}.checkout-header{height:75px;background:var(--teal);display:flex;align-items:center;justify-content:center;position:relative}.back-btn{position:absolute;left:15px;border:0;background:none;color:#fff;font-size:31px}.checkout-logo{width:155px;height:48px;background:var(--logo-color);-webkit-mask:var(--logo-image) center/contain no-repeat;mask:var(--logo-image) center/contain no-repeat;display:block}.checkout-container{max-width:650px;margin:auto;padding:14px}.order-summary,.coupon-box,.customer-details,.checkout-cart,.checkout-total{background:#fff;border-radius:16px;margin-bottom:12px}.summary-top{padding:18px;display:flex;justify-content:space-between;gap:10px}.summary-top h2{margin:0 0 8px;font-size:20px}.offer-applied{color:#4d873f;font-size:13px}.summary-price{white-space:nowrap}.summary-price del{color:#999}.summary-price strong{font-size:20px}.saved-bar{background:#d7f4df;color:#378245;text-align:center;padding:9px;font-size:13px}.coupon-box{padding:16px;display:flex;gap:10px}.coupon-input{flex:1;display:flex;align-items:center;border:1px solid #ddd;border-radius:10px;padding:0 10px}.coupon-input input{border:0;outline:0;padding:13px 9px;width:100%}.coupon-box button{border:0;background:none;color:#9a7432;font-weight:800}.customer-details{padding:18px}.customer-details h2{margin:0;text-align:center}.customer-details p{text-align:center;color:#888;margin:6px 0 18px}.customer-details label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}.customer-details input,.customer-details textarea{width:100%;border:1px solid #d8c89e;border-radius:9px;padding:13px;outline:none}.customer-details textarea{height:85px}.phone-input{display:flex;border:1px solid #d8c89e;border-radius:9px;overflow:hidden}.phone-input span{padding:13px 9px;border-right:1px solid #ddd}.phone-input input{border:0;border-radius:0}.two-input{display:grid;grid-template-columns:1fr 1fr;gap:10px}.checkout-cart{padding:18px}.checkout-cart h2{margin-top:0}.checkout-product{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.checkout-product-image{width:58px;height:58px;border-radius:8px;background:#eee;overflow:hidden;flex:none}.checkout-product-image img{width:100%;height:100%;object-fit:cover}.checkout-product-info{flex:1}.checkout-product-info b{font-size:14px}.checkout-product-info small{color:#777}.checkout-total{padding:18px}.checkout-total div{display:flex;justify-content:space-between;padding:8px 0}.discount{color:#3c8b48}.grand-total{border-top:1px solid #eee;margin-top:8px;padding-top:14px!important;font-size:19px;font-weight:800}.continue-btn{width:100%;background:var(--teal);color:#fff;border:0;border-radius:9px;padding:16px;font-size:17px;font-weight:800}.checkout-trust{display:flex;justify-content:space-around;text-align:center;color:#777;padding:25px 5px}.checkout-trust div{display:flex;flex-direction:column;gap:5px;font-size:22px}.checkout-trust small{font-size:10px}.checkout-footer{text-align:center;color:#777;font-size:11px;padding:20px}.payment-page{display:none}.payment-page.show{display:block}.delivery-preview{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}.delivery-preview h3{margin:0 0 8px}.delivery-address{font-size:13px;line-height:1.55;color:#555}.payment-safe{display:flex;justify-content:space-between;padding:10px 3px;font-size:12px}.online-offer{background:#e8f7ee;color:#26723c;padding:11px;border-radius:9px;text-align:center;font-size:12px;font-weight:700;margin-bottom:12px}.payment-section-title{font-size:12px;font-weight:900;margin:12px 3px;color:#444}.payment-card{background:#fff;border-radius:16px;overflow:hidden}.payment-method{display:flex;align-items:center;gap:10px;padding:16px;border-bottom:1px solid #eee}.payment-method.selected{background:#f0faf7}.payment-radio{width:19px;height:19px;border:2px solid #999;border-radius:50%}.payment-method.selected .payment-radio{border-color:var(--teal);box-shadow:inset 0 0 0 4px #fff;background:var(--teal)}.pay-logo{font-weight:900;width:40px;text-align:center}.pay-name{flex:1;font-weight:700;font-size:13px}.pay-note{font-size:10px;color:#388044}.payment-detail{display:none;padding:14px;border-bottom:1px solid #eee}.payment-detail.show{display:block}.qr-box{text-align:center}.qr-image{width:220px;max-width:80%;display:block;margin:0 auto;border:1px solid #ddd}.utr-input{width:100%;margin-top:12px;border:1px solid #ddd;border-radius:9px;padding:13px}.verify-btn{width:100%;margin-top:9px;border:0;background:var(--teal);color:#fff;border-radius:9px;padding:13px;font-weight:800}.cod-box{background:#f7f7f7;padding:13px;border-radius:10px;font-size:12px;color:#666}.cod-amount{font-size:19px;font-weight:900;color:#222;margin-top:8px}.payment-total{background:#fff;border-radius:16px;padding:17px;margin:12px 0}.payment-total-row{display:flex;justify-content:space-between;padding:8px 0}.payment-total-row.final{border-top:1px solid #eee;font-size:19px;font-weight:900}.pay-now-btn{width:100%;border:0;border-radius:10px;background:var(--teal);color:#fff;padding:16px;font-size:16px;font-weight:900}
+.checkout-loading{position:fixed;inset:0;background:#fff;z-index:500;display:none;align-items:center;justify-content:center;flex-direction:column}.checkout-loading.show{display:flex}.loader-circle{width:70px;height:70px;border-radius:50%;border:7px solid #eee;border-top-color:var(--teal);animation:spin 1s linear infinite;margin-bottom:22px}@keyframes spin{to{transform:rotate(360deg)}}.success-overlay{position:fixed;inset:0;background:#0008;z-index:510;display:none;align-items:center;justify-content:center}.success-overlay.show{display:flex}.success-popup{width:min(330px,88%);background:#fff;border-radius:20px;text-align:center;padding:30px}.success-gift{font-size:50px}.success-popup h2{color:var(--teal)}.saved-amount{font-size:24px;font-weight:900;color:#c28a20}.confetti{position:fixed;top:-15px;width:8px;height:15px;z-index:520;animation:fall 1.4s linear forwards}@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+.mystery-win-overlay{display:none;position:fixed;inset:0;background:#0008;z-index:300;align-items:center;justify-content:center;padding:18px}.mystery-win-overlay.show{display:flex}.mystery-win-modal{background:#fff;border-radius:16px;max-width:520px;position:relative;overflow:hidden}.mystery-win-image{width:100%;display:block}.mystery-close{position:absolute;right:8px;top:8px;width:34px;height:34px;border:0;border-radius:50%;background:#fff;font-size:22px}
+@media(min-width:700px){.product-grid{grid-template-columns:repeat(4,1fr);max-width:1100px;margin:auto}.banner-wrap,.countdown-box,.offer{max-width:1100px;margin-left:auto;margin-right:auto}.slide{height:360px}.product-page{max-width:720px;margin:auto}.gallery-main{aspect-ratio:1.05/1}}
+</style>
+</head>
+<body>
+
+<div class="top" id="topOffer"></div>
+<nav>
+  <button class="home-btn" onclick="showHome()">⌂</button>
+  <span class="logo-mark" aria-label="TENVER"></span>
+  <div id="logoFallback" class="logo-fallback" style="display:none">TENVER</div>
+  <div class="nav-right"><button class="cart-btn" onclick="openCart()">🛒<sup class="cart-count" id="cartCount">0</sup></button></div>
+</nav>
+
+<main id="homePage" class="page home-page">
+  <div class="banner-wrap">
+    <div class="slides" id="slides"></div><div class="dots" id="dots"></div>
+  </div>
+  <div class="countdown-box"><div class="label">🔥 DIWALI SALE ENDS IN</div><div class="countdown" id="saleTimer">10:00</div><div class="sub">Hurry! Complete your offer before the timer expires.</div></div>
+  <section class="offer"><h2>Pick Your Signature Scent</h2><p>One order. Your selected perfume + complimentary fragrances + FREE Mystery Box.</p></section>
+  <section class="product-grid" id="products"></section>
+  <section class="mystery"><div class="box">🎁</div><h2>FREE MYSTERY BOX</h2><p>Every eligible order unlocks a Mystery Box. Reward availability is subject to published offer terms.</p><button class="reveal" onclick="openMysteryWin()">WHAT COULD I WIN? ✨</button></section>
+  <section class="steps"><div class="step"><b>01</b>Choose your perfume</div><div class="step"><b>02</b>Get complimentary perfumes</div><div class="step"><b>03</b>Unlock Mystery Gift</div></section>
+  <footer class="site-footer">© 2026 TENVER • Premium Fragrances<br><br>Terms & Conditions • Privacy • Contact</footer>
+</main>
+
+<section id="productPage" class="product-page">
+  <div class="detail-head">
+    <h1 class="detail-title" id="detailName"></h1>
+    <div class="detail-rating"><span class="stars" id="detailStars"></span> <span id="detailRating"></span> | (<span id="detailReviews"></span> Reviews) <span class="verified">✓</span></div>
+    <div class="detail-price" id="detailPrice"></div><div class="tax">Inclusive of all taxes</div><div class="price-ml" id="detailPriceMl"></div>
+  </div>
+  <div class="gallery" id="gallery">
+    <div class="gallery-main"><img id="mainProductImage" src="" alt=""><button class="gallery-arrow left" onclick="prevImage()">‹</button><button class="gallery-arrow right" onclick="nextImage()">›</button></div>
+  </div>
+  <div class="offer-strip" id="detailOffer"></div>
+  <div class="thumbs" id="thumbs" style="padding:10px 14px 4px"></div>
+  <div class="detail-actions"><div class="qty"><button onclick="changeDetailQty(-1)">−</button><span id="detailQty">1</span><button onclick="changeDetailQty(1)">+</button></div><button class="detail-add" onclick="addDetailToCart()">ADD TO CART</button></div>
+  <div class="benefit-wrap"><div class="benefit-track" id="benefitTrack"></div></div>
+  <div class="detail-banner" onclick="showHome()"><img src="banners/banner2.jpg" alt="TENVER Offer Banner"></div>
+  <section class="detail-section"><h2>Description</h2><p id="detailDescription"></p><img id="descBanner1" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"><img id="descBanner2" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"></section>
+  <section class="detail-section"><h2>Additional Information</h2><div id="additionalInfo"></div></section>
+  <section class="detail-section"><h2>FAQs</h2><div id="faqs"></div></section>
+  <section class="detail-section"><h2>Customer Reviews</h2><div class="review-summary"><div class="review-top"><div><div class="review-big" id="reviewBig"></div><div class="stars">★★★★★</div><div style="font-size:11px;color:#777">Based on customer ratings</div></div><div style="flex:1" id="reviewBars"></div></div></div><div id="reviewList"></div></section>
+</section>
+
+<div class="overlay" id="overlay"></div>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-head"><h2>Your Cart <span id="cartSmallCount" style="font-size:13px;color:#777;font-weight:500">(0)</span></h2><button class="close" onclick="closeCart()">×</button></div>
+  <div class="diwali-strip"><div class="diwali-marquee"><span>🪔 DIWALI OFFER</span><span id="cartOfferMarquee"></span><span>✨ GET A CHANCE TO WIN IPHONE 18 PRO MAX 📱</span><span>🚚 FREE SHIPPING • COD AVAILABLE</span></div></div>
+  <div id="cartItems"></div>
+  <div id="freeChooser" style="display:none"><div class="free-title" id="freeTitle"></div><div class="free-sub" id="freeSub"></div><div id="freeProducts"></div></div>
+  <div class="mystery-cart"><div style="width:62px;height:62px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🎁</div><div><b>Mystery Gift 🎁</b><br><span class="free-pill">FREE</span> <del>₹399</del><br><span style="font-size:11px;color:#777">Complimentary with eligible order</span></div><span style="margin-left:auto">✓</span></div>
+  <div class="cart-total" id="cartTotal">Total: ₹0</div><p id="cartNote" style="font-size:12px;color:#777"></p><button class="checkout" onclick="startCheckoutFlow()">CHECKOUT</button>
+</aside>
+
+<div class="checkout-loading" id="checkoutLoading"><div class="loader-circle"></div><div style="font-size:20px;font-weight:700">Initiating Checkout</div></div>
+<div class="success-overlay" id="successOverlay"><div class="success-popup"><div class="success-gift">🎉</div><h2>Hurray!</h2><p id="successOfferText"></p><div class="saved-amount">You saved ₹<span id="savedAmount">0</span></div><p style="font-weight:700;color:#c28a20">Yay! Thanks! 🎁</p></div></div>
+
+<div id="checkoutPage" class="checkout-page">
+  <header class="checkout-header"><button class="back-btn" onclick="closeCheckout()">←</button><span class="checkout-logo" aria-label="TENVER"></span><div style="position:absolute;right:15px;top:12px;color:#c9e9d1;font-size:11px">Free gift added 🎁</div></header>
+  <main class="checkout-container">
+    <section id="paymentPage" class="payment-page">
+      <div class="delivery-preview"><h3>Delivery Address</h3><div class="delivery-address" id="paymentAddress"></div></div>
+      <div class="payment-safe"><span>Select Payment Method</span><b>🛡️ SAFE PAYMENTS</b></div><div class="online-offer">🏷️ Pay online &amp; get EXTRA discount</div><div class="payment-section-title">PAY ONLINE</div>
+      <div class="payment-card">
+        <div class="payment-method selected" data-method="upi" onclick="selectPayment('upi')"><div class="payment-radio"></div><div class="pay-logo">UPI</div><div class="pay-name">UPI (GPay / PhonePe / Paytm)</div></div>
+        <div class="payment-method" data-method="gpay" onclick="selectPayment('gpay')"><div class="payment-radio"></div><div class="pay-logo">G</div><div class="pay-name">G Pay</div></div>
+        <div class="payment-method" data-method="phonepe" onclick="selectPayment('phonepe')"><div class="payment-radio"></div><div class="pay-logo">पे</div><div class="pay-name">PhonePe</div></div>
+        <div class="payment-method" data-method="paytm" onclick="selectPayment('paytm')"><div class="payment-radio"></div><div class="pay-logo">pay</div><div class="pay-name">Paytm</div></div>
+        <div class="payment-method" data-method="qr" onclick="selectPayment('qr')"><div class="payment-radio"></div><div class="pay-logo">QR</div><div class="pay-name">Pay Using QR Code</div></div>
+        <div class="payment-detail" id="qrDetail"><div class="qr-box"><img src="assets/payment-qr.png" class="qr-image" alt="Payment QR"><input class="utr-input" id="utrNumber" type="text" placeholder="Enter UTR / Transaction Number"><button class="verify-btn" onclick="submitUTR()">SUBMIT PAYMENT DETAILS</button><div id="utrStatus" style="font-size:12px;margin-top:8px"></div></div></div>
+      </div>
+      <div class="payment-section-title">CASH ON DELIVERY</div><div class="payment-card"><div class="payment-method" data-method="cod" onclick="selectPayment('cod')"><div class="payment-radio"></div><div class="pay-logo">COD</div><div class="pay-name">Cash on Delivery</div></div><div class="payment-detail" id="codDetail"><div class="cod-box">COD is available for this order. A delivery-charge advance is required to confirm the COD shipment.<div class="cod-amount">Pay ₹<span id="codAdvanceDisplay">149</span> advance</div></div><button class="verify-btn" onclick="payCodAdvance()">PAY COD ADVANCE ₹<span id="codAdvanceButton">149</span></button></div></div>
+      <div class="payment-total"><div class="payment-total-row"><span>Shipping</span><b>FREE</b></div><div class="payment-total-row"><span>Product Price</span><span id="paymentProductPrice">₹0</span></div><div class="payment-total-row final"><span>Order Total</span><strong id="paymentOrderTotal">₹0</strong></div></div><button class="pay-now-btn" onclick="placeOnlineOrder()">PAY NOW</button>
+    </section>
+    <section class="order-summary"><div class="summary-top"><div><h2>Order summary <span id="checkoutItemsCount">(0 Items)</span></h2><div class="offer-applied" id="checkoutOfferApplied"></div></div><div class="summary-price"><del id="checkoutOriginal">₹0</del> <strong id="checkoutFinal">₹0</strong></div></div><div class="saved-bar">Yay! You’ve saved <b>₹<span id="checkoutSaved">0</span></b> 🥳</div></section>
+    <section class="coupon-box"><div class="coupon-input"><span>%</span><input type="text" id="couponCode" placeholder="Enter coupon code"></div><button onclick="applyCoupon()">Apply</button></section>
+    <section class="customer-details"><h2>Delivery Details</h2><p>Enter your details to continue</p><label>Full Name</label><input id="customerName" type="text" placeholder="Enter your full name"><label>Mobile Number</label><div class="phone-input"><span>🇮🇳 +91</span><input id="customerPhone" type="tel" maxlength="10" placeholder="10-digit mobile number"></div><label>Delivery Address</label><textarea id="customerAddress" placeholder="House / Flat No., Street, Area"></textarea><div class="two-input"><div><label>Pincode</label><input id="customerPincode" type="tel" maxlength="6" placeholder="6-digit pincode"></div><div><label>City</label><input id="customerCity" type="text" placeholder="City"></div></div><label>State</label><input id="customerState" type="text" placeholder="State"></section>
+    <section class="checkout-cart"><h2>Your Cart</h2><div id="checkoutCartItems"></div></section><section class="checkout-total"><div><span>Original Price</span><del id="totalOriginal">₹0</del></div><div><span>Offer Discount</span><strong class="discount">-₹<span id="totalDiscount">0</span></strong></div><div class="grand-total"><span>Total Payable</span><strong id="totalPayable">₹0</strong></div></section><button class="continue-btn" onclick="continueOrder()">CONTINUE</button><div class="checkout-trust"><div>🛡️<small>Secure Checkout</small></div><div>🚚<small>Assured Delivery</small></div><div>✓<small>Verified Seller</small></div></div><footer class="checkout-footer">T&C &nbsp; | &nbsp; Privacy Policy<br><br>© 2026 TENVER</footer>
+  </main>
+</div>
+
+<div class="mystery-win-overlay" id="mysteryWinOverlay" onclick="closeMysteryWin(event)"><div class="mystery-win-modal"><button class="mystery-close" onclick="closeMysteryWin()">×</button><img id="mysteryWinImage" src="banners/mystery-win.jpg" class="mystery-win-image" alt="Mystery Box"></div></div>
+
+<script>
+/* =========================================================
+   TENVER SETTINGS — EDIT PRODUCTS HERE
+   =========================================================
+   For every product you can change:
+   name, price, oldPrice, volume, main image,
+   4 sub-images, 2 description banners,
+   rating/review count, and review distribution.
+
+   Image paths are easy to replace. Example:
+   assets/products/product1.jpg
+   assets/products/product1sub1.jpg ... product1sub4.jpg
+   assets/products/product1-desc1.jpg / product1-desc2.jpg
+   ========================================================= */
+let BUY_PRODUCTS = 1;
+let FREE_PRODUCTS = 6; // Change to 3, 4, 5, 6 etc.
+let OFFER_TEXT = `BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;
+let MAX_FREE_PRODUCTS = FREE_PRODUCTS;
+let COD_ADVANCE = 149;
+
+/* =========================================================
+   TENVER THEME SETTINGS — EDIT THESE COLORS IN ONE PLACE
+   ========================================================= */
+let TENVER_THEME = {
+  primary: '#052925',   // Main dark teal
+  secondary: '#0b665b', // Secondary teal / offer strips
+  accent: '#28a88e',    // Accent teal
+  logoColor: '#d5b06b', // TENVER logo color
+  background: '#f8f9f7',
+  text: '#111111'
+};
+
+function applyTheme(){
+  const r = document.documentElement.style;
+  r.setProperty('--teal', TENVER_THEME.primary);
+  r.setProperty('--teal2', TENVER_THEME.secondary);
+  r.setProperty('--mint', TENVER_THEME.accent);
+  r.setProperty('--logo-color', TENVER_THEME.logoColor);
+  r.setProperty('--bg', TENVER_THEME.background);
+  r.setProperty('--text', TENVER_THEME.text);
+  r.setProperty('--logo-image', `url('${window.TENVER_LOGO_IMAGE || 'assets/logo.png'}')`);
+}
+
+let TENVER_PRODUCTS = [
+ {id:1,name:'TENVER Noir',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product1.jpg',subs:['assets/products/product1sub1.jpg','assets/products/product1sub2.jpg','assets/products/product1sub3.jpg','assets/products/product1sub4.jpg'],descBanners:['assets/products/product1-desc1.jpg','assets/products/product1-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'A modern signature fragrance crafted for confident evenings, with a smooth blend of fresh, woody and warm notes. Designed for everyday wear, date nights and special occasions.'},
+ {id:2,name:'TENVER Oud',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product2.jpg',subs:['assets/products/product2sub1.jpg','assets/products/product2sub2.jpg','assets/products/product2sub3.jpg','assets/products/product2sub4.jpg'],descBanners:['assets/products/product2-desc1.jpg','assets/products/product2-desc2.jpg'],rating:4.61,reviews:284,dist:{5:210,4:55,3:14,2:3,1:2},description:'Rich oud-inspired character with warm woods and a refined finish. A bold fragrance profile for customers who prefer a deeper, premium scent.'},
+ {id:3,name:'TENVER Sport',price:649,oldPrice:1699,volume:100,badge:OFFER_TEXT,main:'assets/products/product3.jpg',subs:['assets/products/product3sub1.jpg','assets/products/product3sub2.jpg','assets/products/product3sub3.jpg','assets/products/product3sub4.jpg'],descBanners:['assets/products/product3-desc1.jpg','assets/products/product3-desc2.jpg'],rating:4.48,reviews:173,dist:{5:120,4:38,3:11,2:3,1:1},description:'Fresh, energetic and clean. TENVER Sport is made for active days, travel and a crisp after-shower feel.'},
+ {id:4,name:'TENVER Hamilton',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product4.jpg',subs:['assets/products/product4sub1.jpg','assets/products/product4sub2.jpg','assets/products/product4sub3.jpg','assets/products/product4sub4.jpg'],descBanners:['assets/products/product4-desc1.jpg','assets/products/product4-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'An elegant green-fragrance profile with fresh opening notes and a warm, polished dry-down. Easy to wear from daytime to evening.'},
+ {id:5,name:'TENVER Honour',price:749,oldPrice:1899,volume:100,badge:'POPULAR',main:'assets/products/product5.jpg',subs:['assets/products/product5sub1.jpg','assets/products/product5sub2.jpg','assets/products/product5sub3.jpg','assets/products/product5sub4.jpg'],descBanners:['assets/products/product5-desc1.jpg','assets/products/product5-desc2.jpg'],rating:4.56,reviews:226,dist:{5:156,4:51,3:14,2:3,1:2},description:'A polished aromatic fragrance with a balanced character that works well for office hours, dinners and occasions.'},
+ {id:6,name:'TENVER Caliber',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product6.jpg',subs:['assets/products/product6sub1.jpg','assets/products/product6sub2.jpg','assets/products/product6sub3.jpg','assets/products/product6sub4.jpg'],descBanners:['assets/products/product6-desc1.jpg','assets/products/product6-desc2.jpg'],rating:4.67,reviews:198,dist:{5:139,4:43,3:11,2:3,1:2},description:'A confident blend of clean freshness and woody depth, created for a versatile signature scent.'},
+ {id:7,name:'TENVER Classic',price:599,oldPrice:1499,volume:100,badge:'NEW',main:'assets/products/product7.jpg',subs:['assets/products/product7sub1.jpg','assets/products/product7sub2.jpg','assets/products/product7sub3.jpg','assets/products/product7sub4.jpg'],descBanners:['assets/products/product7-desc1.jpg','assets/products/product7-desc2.jpg'],rating:4.42,reviews:151,dist:{5:102,4:35,3:10,2:3,1:1},description:'A clean classic profile with a comfortable everyday character and a smooth finish.'},
+ {id:8,name:'TENVER Black',price:699,oldPrice:1799,volume:100,badge:OFFER_TEXT,main:'assets/products/product8.jpg',subs:['assets/products/product8sub1.jpg','assets/products/product8sub2.jpg','assets/products/product8sub3.jpg','assets/products/product8sub4.jpg'],descBanners:['assets/products/product8-desc1.jpg','assets/products/product8-desc2.jpg'],rating:4.58,reviews:247,dist:{5:172,4:57,3:14,2:3,1:1},description:'A dark and smooth fragrance with a modern woody personality for evening wear.'},
+ {id:9,name:'TENVER Blue',price:649,oldPrice:1699,volume:100,badge:'POPULAR',main:'assets/products/product9.jpg',subs:['assets/products/product9sub1.jpg','assets/products/product9sub2.jpg','assets/products/product9sub3.jpg','assets/products/product9sub4.jpg'],descBanners:['assets/products/product9-desc1.jpg','assets/products/product9-desc2.jpg'],rating:4.51,reviews:186,dist:{5:127,4:42,3:12,2:3,1:2},description:'Fresh blue-style fragrance with an airy opening and a clean, easy-going dry-down.'},
+ {id:10,name:'TENVER Elite',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product10.jpg',subs:['assets/products/product10sub1.jpg','assets/products/product10sub2.jpg','assets/products/product10sub3.jpg','assets/products/product10sub4.jpg'],descBanners:['assets/products/product10-desc1.jpg','assets/products/product10-desc2.jpg'],rating:4.69,reviews:312,dist:{5:225,4:68,3:14,2:3,1:2},description:'A refined premium profile with a rich, confident character designed for special occasions and evening wear.'}
+];
+
+let homeBanners=['banners/banner1.jpg','banners/banner2.jpg'];
+let TENVER_LOGO_IMAGE='assets/logo.png';
+const benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
+let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
+const $=id=>document.getElementById(id);
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const stars=n=>'★★★★★';
+
+async function loadRemoteConfig(){
+  try{
+    const r=await fetch('api.php?action=config',{cache:'no-store'});
+    if(!r.ok) throw new Error('config unavailable');
+    const c=await r.json();
+    if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149);}
+    OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;
+    if(c.theme) TENVER_THEME=c.theme;
+    if(Array.isArray(c.products)&&c.products.length) TENVER_PRODUCTS=c.products;
+    if(Array.isArray(c.homeBanners)) homeBanners=c.homeBanners;
+    if(Array.isArray(c.benefits)) benefits=c.benefits;
+    if(c.site&&c.site.logo) TENVER_LOGO_IMAGE=c.site.logo;
+    if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
+    if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
+  }catch(e){
+    console.warn('TENVER remote config not loaded; using local defaults.',e);
+  }
+}
+
+function init(){
+ applyTheme();
+ $('topOffer').textContent=`🔥 ${OFFER_TEXT} • FREE MYSTERY BOX • COD AVAILABLE`;
+ $('cartOfferMarquee').textContent=`ADD ${BUY_PRODUCTS+0} PRODUCT${BUY_PRODUCTS>1?'S':''} — GET ${FREE_PRODUCTS} FREE 🎁`;
+ $('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;
+ $('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;
+ renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();
+ const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}
+ updateCartCount();
+ $('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE;
+}
+function renderBanners(){ $('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length; $('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
+function reviewText(p){const texts=['Smells amazing and feels premium.','Really liked the fragrance and packaging.','Long-lasting for my daily use.','Fresh and pleasant fragrance.','Good value and nice presentation.'];return texts[p.id%texts.length]}
+function renderProducts(){ $('products').innerHTML=TENVER_PRODUCTS.map(p=>`<article class="product-card"><div class="product-image-wrap clickable" onclick="openProduct(${p.id})"><span class="product-badge">${p.badge}</span><img class="product-image" src="${p.main}" alt="${p.name}"></div><div class="product-card-name clickable" onclick="openProduct(${p.id})">${p.name}</div><div class="product-review clickable" onclick="openProduct(${p.id})"><span class="stars">★</span> ${p.rating.toFixed(2)} &nbsp; (${p.reviews} reviews)</div><div class="product-card-price"><del>${money(p.oldPrice)}</del><strong>${money(p.price)}</strong></div><button class="product-add-button" onclick="quickAdd(${p.id})">ADD TO CART</button></article>`).join('')}
+function updateTimer(){let t=Number(localStorage.getItem('tenverTimer')||600);if(t<=0)t=600;const m=String(Math.floor(t/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');$('saleTimer').textContent=`${m}:${s}`;localStorage.setItem('tenverTimer',t-1)}
+function renderBenefits(){const one=benefits.concat(benefits);$('benefitTrack').innerHTML=one.map(b=>`<div class="benefit-item"><span class="benefit-icon">${b[0]}</span>${b[1]}<br>${b[2]}</div>`).join('')}
+function openProduct(id){currentProduct=TENVER_PRODUCTS.find(p=>p.id===id);if(!currentProduct)return;currentImage=0;detailQty=1;$('detailQty').textContent=1;$('homePage').style.display='none';$('productPage').classList.add('show');window.scrollTo(0,0);renderProductDetail()}
+function showHome(){ $('productPage').classList.remove('show');$('homePage').style.display='block';window.scrollTo(0,0)}
+function renderProductDetail(){const p=currentProduct;$('detailName').textContent=`${p.name} 100ml | TENVER`;$('detailStars').textContent='★';$('detailRating').textContent=p.rating.toFixed(2);$('detailReviews').textContent=p.reviews;$('detailPrice').textContent=money(p.price);$('detailPriceMl').textContent=`Price per ml: ${money(p.price/p.volume)}`;$('detailOffer').textContent=`ADD ${BUY_PRODUCTS} PRODUCT${BUY_PRODUCTS>1?'S':''}, GET ${FREE_PRODUCTS} FREE`;$('detailDescription').textContent=p.description;$('mainProductImage').src=p.main;$('mainProductImage').alt=p.name;$('thumbs').innerHTML=p.subs.map((src,i)=>`<button class="thumb ${i===0?'active':''}" onclick="setImage(${i})"><img src="${src}" alt="${p.name} image ${i+1}" onerror="this.src='${p.main}'"></button>`).join('');$('descBanner1').src=p.descBanners[0];$('descBanner2').src=p.descBanners[1];$('descBanner1').onerror=()=>{$('descBanner1').src=p.main};$('descBanner2').onerror=()=>{$('descBanner2').src=p.main};$('additionalInfo').innerHTML=(p.additionalInfo||[['Volume',p.volume+' ml'],['Fragrance Type','Everyday / Premium'],['Recommended For','Daily wear, evenings and special occasions'],['Offer',OFFER_TEXT+' + FREE Mystery Gift']]).map(x=>`<div class="info-row"><b>${x[0]}</b><br><span>${x[1]}</span></div>`).join('');$('faqs').innerHTML=(p.faqs||[]).map(x=>`<div class="faq-item"><div class="faq-q">${x[0]}</div><div class="faq-a">${x[1]}</div></div>`).join('');renderReviews(p);updateMainImage()}
+function backToMainProduct(){
+  const page=$('productPage');
+  const target=$('detailName');
+  if(page && target){
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>window.scrollBy({top:-8,left:0,behavior:'smooth'}),250);
+  }
+}
+function setImage(i){currentImage=i;updateMainImage()}
+function updateMainImage(){const p=currentProduct,src=p.subs[currentImage]||p.main;$('mainProductImage').src=src;$('mainProductImage').onerror=()=>{$('mainProductImage').src=p.main};document.querySelectorAll('.thumb').forEach((t,i)=>t.classList.toggle('active',i===currentImage))}
+function nextImage(){currentImage=(currentImage+1)%4;updateMainImage()}
+function prevImage(){currentImage=(currentImage+3)%4;updateMainImage()}
+let touchStartX=0;document.addEventListener('touchstart',e=>{if($('productPage').classList.contains('show'))touchStartX=e.changedTouches[0].screenX},{passive:true});document.addEventListener('touchend',e=>{if(!$('productPage').classList.contains('show'))return;const dx=e.changedTouches[0].screenX-touchStartX;if(Math.abs(dx)>45){if(dx<0)nextImage();else prevImage()}},{passive:true});
+function changeDetailQty(n){detailQty=Math.max(1,Math.min(10,detailQty+n));$('detailQty').textContent=detailQty}
+function quickAdd(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);cart=[{id:p.id,name:p.name,price:p.price,oldPrice:p.oldPrice,image:p.main,qty:1}];freeCart=[];saveCart();openCart()}
+function addDetailToCart(){const p=currentProduct;cart=[{id:p.id,name:p.name,price:p.price,oldPrice:p.oldPrice,image:p.main,qty:detailQty}];freeCart=[];saveCart();openCart()}
+function saveCart(){localStorage.setItem('tenverCart',JSON.stringify(cart));localStorage.setItem('tenverFreeCart',JSON.stringify(freeCart));updateCartCount()}
+function updateCartCount(){const n=cart.reduce((s,x)=>s+(x.qty||1),0);$('cartCount').textContent=n}
+function openCart(){if(localStorage.getItem('tenverFreeCart')){try{freeCart=JSON.parse(localStorage.getItem('tenverFreeCart'))||[]}catch(e){freeCart=[]}}$('cartPanel').classList.add('open');$('overlay').classList.add('show');renderCart()}
+function closeCart(){$('cartPanel').classList.remove('open');$('overlay').classList.remove('show')}
+$('overlay').onclick=closeCart;
+function renderCart(){const box=$('cartItems');if(!cart.length){box.innerHTML='<p style="color:#777;padding:18px 0">Your cart is empty.</p>';$('freeChooser').style.display='none';$('cartTotal').textContent='Total: ₹0';return}const paid=cart[0];box.innerHTML=`<div class="cart-item"><div class="cart-thumb"><img src="${paid.image||''}" alt="${paid.name}"></div><div><h4>${paid.name}</h4><small>${money(paid.price)} • <b>BUY ${paid.qty||1}</b></small><br><span class="free-pill">OFFER</span></div><button onclick="removePaid()" style="margin-left:auto;border:0;background:none;font-size:18px">✕</button></div>`;$('freeChooser').style.display='block';renderFreeProducts();$('cartTotal').textContent=`Total: ${money(Number(paid.price)*(paid.qty||1))}`;$('cartNote').textContent=`🎁 ${paid.qty||1} paid perfume + ${freeCart.length}/${FREE_PRODUCTS} complimentary perfumes + Mystery Gift.`;$('cartSmallCount').textContent=`(${1+freeCart.length+1} Items)`}
+function renderFreeProducts(){const catalog=TENVER_PRODUCTS.filter(p=>!cart.length||p.id!==cart[0].id);$('freeProducts').innerHTML=catalog.map(p=>{const added=freeCart.some(f=>f.id===p.id);return `<div class="free-option"><div class="thumb"><img src="${p.main}" alt="${p.name}"></div><div><h4>${p.name}</h4><span class="free-pill">FREE</span> <span class="mrp"><del>${money(p.price)}</del></span></div><button class="free-add ${added?'added':''}" onclick="toggleFree(${p.id})">${added?'ADDED ✓':'ADD FREE'}</button></div>`}).join('')}
+function toggleFree(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);const i=freeCart.findIndex(x=>x.id===id);if(i>=0)freeCart.splice(i,1);else if(freeCart.length<MAX_FREE_PRODUCTS)freeCart.push({...p});else{alert(`You can select only ${MAX_FREE_PRODUCTS} free products.`);return}saveCart();renderCart()}
+function removePaid(){cart=[];freeCart=[];saveCart();renderCart()}
+function calculateSaved(){let s=399;freeCart.forEach(x=>s+=Number(x.price));return s}
+function startCheckoutFlow(){if(!cart.length){alert('Please add a perfume first.');return}if(freeCart.length<FREE_PRODUCTS){alert(`Please choose all ${FREE_PRODUCTS} FREE perfumes to complete the ${OFFER_TEXT} offer.`);return}$('checkoutLoading').classList.add('show');setTimeout(()=>{$('checkoutLoading').classList.remove('show');$('savedAmount').textContent=calculateSaved().toLocaleString('en-IN');$('successOfferText').textContent=`${OFFER_TEXT} applied successfully.`;$('successOverlay').classList.add('show');setTimeout(()=>{$('successOverlay').classList.remove('show');openCheckoutPage()},1000)},900)}
+function openCheckoutPage(){closeCart();$('checkoutPage').classList.add('show');renderCheckout();window.scrollTo(0,0)}
+function closeCheckout(){$('checkoutPage').classList.remove('show');$('paymentPage').classList.remove('show');document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');showHome()}
+function renderCheckout(){if(!cart.length)return;const paid=cart[0],qty=paid.qty||1;let original=Number(paid.price)*qty+399;freeCart.forEach(x=>original+=Number(x.price));const payable=Number(paid.price)*qty,discount=original-payable;$('checkoutOriginal').textContent=money(original);$('checkoutFinal').textContent=money(payable);$('checkoutDiscount').textContent=discount.toLocaleString('en-IN');$('checkoutSaved').textContent=discount.toLocaleString('en-IN');$('checkoutItemsCount').textContent=`(${qty+freeCart.length+1} Items)`;$('checkoutOfferApplied').textContent=`🎉 ${OFFER_TEXT} Applied! You save ${money(discount)}!`;$('totalOriginal').textContent=money(original);$('totalDiscount').textContent=discount.toLocaleString('en-IN');$('totalPayable').textContent=money(payable);let out=`<div class="checkout-product"><div class="checkout-product-image"><img src="${paid.image}" alt=""></div><div class="checkout-product-info"><b>${paid.name}</b><br><small>${money(paid.price)} × ${qty}</small></div></div>`;freeCart.forEach(x=>out+=`<div class="checkout-product"><div class="checkout-product-image"><img src="${x.main}" alt=""></div><div class="checkout-product-info"><b>${x.name}</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>${money(x.price)}</del></small></div></div>`);out+=`<div class="checkout-product"><div class="checkout-product-image">🎁</div><div class="checkout-product-info"><b>Mystery Gift 🎁</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>₹399</del></small></div></div>`;$('checkoutCartItems').innerHTML=out}
+function applyCoupon(){const c=$('couponCode').value.trim();if(!c){alert('Please enter coupon code.');return}alert('Coupon applied successfully!')}
+function continueOrder(){const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const payable=Number(cart[0].price)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');window.scrollTo(0,0)}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function selectPayment(method){document.querySelectorAll('.payment-method').forEach(x=>x.classList.toggle('selected',x.dataset.method===method));$('qrDetail').classList.toggle('show',method==='qr');$('codDetail').classList.toggle('show',method==='cod');document.querySelector('.pay-now-btn').textContent=method==='cod'?`PAY COD ADVANCE ₹${COD_ADVANCE}`:'PAY NOW'}
+function submitUTR(){const v=$('utrNumber').value.trim();$('utrStatus').textContent=v?'Payment details submitted for verification.':'Please enter the UTR / transaction number.';$('utrStatus').style.color=v?'#388044':'#b3261e'}
+function payCodAdvance(){alert(`COD advance selected: ₹${COD_ADVANCE}. Connect your payment gateway/backend to collect it.`)}
+function placeOnlineOrder(){alert('Payment step ready. Connect your actual payment gateway/order API here.')}
+function renderReviews(p){$('reviewBig').textContent=p.rating.toFixed(2);const total=Object.values(p.dist).reduce((a,b)=>a+b,0);$('reviewBars').innerHTML=[5,4,3,2,1].map(n=>{const c=p.dist[n]||0;return `<div class="bar-row"><span>${n} ★</span><div class="bar"><i style="width:${Math.round(c/total*100)}%"></i></div><span>${c}</span></div>`}).join('');const names=['Aman','Rohit','Vikram','Arjun','Kunal'];$('reviewList').innerHTML=names.map((n,i)=>`<div class="customer-review"><div class="rname">${n} <span class="stars">★★★★★</span> <span style="color:#388044">✓ Verified</span></div><div class="rtext">${reviewText(p)}</div></div>`).join('')}
+function openMysteryWin(){$('mysteryWinOverlay').classList.add('show')}function closeMysteryWin(e){if(e&&e.target&&e.target.id!=='mysteryWinOverlay')return;$('mysteryWinOverlay').classList.remove('show')}
+
+loadRemoteConfig().then(()=>{applyTheme();init();});
+</script>
+</body>
+</html>
