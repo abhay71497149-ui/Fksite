@@ -27,7 +27,7 @@ if($action==='save'){
   $in=json_decode(file_get_contents('php://input'),true);
   if(!is_array($in)) out(['error'=>'Invalid data'],400);
   $old=cfg();
-  foreach(['settings','theme','homeBanners','detailBanner','mysteryImage','paymentQr','products','site','navRightLogo'] as $k) if(array_key_exists($k,$in)) $old[$k]=$in[$k];
+  foreach(['settings','theme','homeBanners','detailBanner','offerTicker','mysteryImage','paymentQr','products','site','navRightLogo'] as $k) if(array_key_exists($k,$in)) $old[$k]=$in[$k];
   savecfg($old); out(['ok'=>true,'config'=>$old]);
 }
 if($action==='upload' && $_SERVER['REQUEST_METHOD']==='POST'){
