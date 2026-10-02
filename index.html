@@ -171,7 +171,7 @@ let TENVER_LOGO_IMAGE='assets/logo.png';
 let NAV_RIGHT_LOGO='';
 let DETAIL_BANNER='banners/banner2.jpg';
 let OFFER_TICKER='Diwali Sale • BUY 1 GET 4 FREE • GET A CHANCE TO WIN iPhone 18 Pro';
-const benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
+let benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
 let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
 const $=id=>document.getElementById(id);
 const money=n=>'₹'+Number(n).toLocaleString('en-IN');
@@ -199,9 +199,9 @@ async function loadRemoteConfig(){
     if(Array.isArray(c.homeBanners)) homeBanners=c.homeBanners;
     if(Array.isArray(c.benefits)) benefits=c.benefits;
     if(c.site&&c.site.logo) TENVER_LOGO_IMAGE=c.site.logo;
-    if(c.navRightLogo) NAV_RIGHT_LOGO=c.navRightLogo;
-    if(c.detailBanner) DETAIL_BANNER=c.detailBanner;
-    if(c.offerTicker) OFFER_TICKER=c.offerTicker;
+    if(typeof c.navRightLogo==='string') NAV_RIGHT_LOGO=c.navRightLogo;
+    if(typeof c.detailBanner==='string' && c.detailBanner) DETAIL_BANNER=c.detailBanner;
+    if(typeof c.offerTicker==='string') OFFER_TICKER=c.offerTicker;
     if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
     if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
   }catch(e){
@@ -209,6 +209,7 @@ async function loadRemoteConfig(){
   }
 }
 
+function restoreCart(){const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}else{cart=[]}const savedFree=localStorage.getItem('tenverFreeCart');if(savedFree){try{freeCart=JSON.parse(savedFree)||[]}catch(e){freeCart=[]}}else{freeCart=[]}updateCartCount()}
 function init(){
  applyTheme();
  $('topTicker').textContent=OFFER_TICKER;
@@ -216,8 +217,7 @@ function init(){
  $('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;
  $('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;
  renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();
- const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}
- updateCartCount();
+ restoreCart();
  $('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE;
 }
 function renderBanners(){ $('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length; $('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
@@ -246,7 +246,7 @@ function quickAdd(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);cart=[{id:p.id,
 function addDetailToCart(){const p=currentProduct;cart=[{id:p.id,name:p.name,price:p.price,oldPrice:p.oldPrice,image:p.main,qty:detailQty}];freeCart=[];saveCart();openCart()}
 function saveCart(){localStorage.setItem('tenverCart',JSON.stringify(cart));localStorage.setItem('tenverFreeCart',JSON.stringify(freeCart));updateCartCount()}
 function updateCartCount(){const n=cart.reduce((s,x)=>s+(x.qty||1),0);$('cartCount').textContent=n}
-function openCart(){if(localStorage.getItem('tenverFreeCart')){try{freeCart=JSON.parse(localStorage.getItem('tenverFreeCart'))||[]}catch(e){freeCart=[]}}$('cartPanel').classList.add('open');$('overlay').classList.add('show');renderCart()}
+function openCart(){restoreCart();$('cartPanel').classList.add('open');$('overlay').classList.add('show');renderCart()}
 function closeCart(){$('cartPanel').classList.remove('open');$('overlay').classList.remove('show')}
 $('overlay').onclick=closeCart;
 function renderCart(){const box=$('cartItems');if(!cart.length){box.innerHTML='<p style="color:#777;padding:18px 0">Your cart is empty.</p>';$('freeChooser').style.display='none';$('cartTotal').textContent='Total: ₹0';return}const paid=cart[0];box.innerHTML=`<div class="cart-item"><div class="cart-thumb"><img src="${paid.image||''}" alt="${paid.name}"></div><div><h4>${paid.name}</h4><small>${money(paid.price)} • <b>BUY ${paid.qty||1}</b></small><br><span class="free-pill">OFFER</span></div><button onclick="removePaid()" style="margin-left:auto;border:0;background:none;font-size:18px">✕</button></div>`;$('freeChooser').style.display='block';renderFreeProducts();$('cartTotal').textContent=`Total: ${money(Number(paid.price)*(paid.qty||1))}`;$('cartNote').textContent=`🎁 ${paid.qty||1} paid perfume + ${freeCart.length}/${FREE_PRODUCTS} complimentary perfumes + Mystery Gift.`;$('cartSmallCount').textContent=`(${1+freeCart.length+1} Items)`}
@@ -255,9 +255,9 @@ function toggleFree(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);const i=freeC
 function removePaid(){cart=[];freeCart=[];saveCart();renderCart()}
 function calculateSaved(){let s=399;freeCart.forEach(x=>s+=Number(x.price));return s}
 function startCheckoutFlow(){if(!cart.length){alert('Please add a perfume first.');return}if(freeCart.length<FREE_PRODUCTS){alert(`Please choose all ${FREE_PRODUCTS} FREE perfumes to complete the ${OFFER_TEXT} offer.`);return}$('checkoutLoading').classList.add('show');setTimeout(()=>{$('checkoutLoading').classList.remove('show');$('savedAmount').textContent=calculateSaved().toLocaleString('en-IN');$('successOfferText').textContent=`${OFFER_TEXT} applied successfully.`;$('successOverlay').classList.add('show');setTimeout(()=>{$('successOverlay').classList.remove('show');openCheckoutPage()},1000)},900)}
-function openCheckoutPage(){closeCart();$('checkoutPage').classList.add('show');renderCheckout();window.scrollTo(0,0)}
+function openCheckoutPage(){restoreCart();closeCart();$('checkoutPage').classList.add('show');renderCheckout();window.scrollTo(0,0)}
 function closeCheckout(){$('checkoutPage').classList.remove('show');$('paymentPage').classList.remove('show');document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');showHome()}
-function renderCheckout(){if(!cart.length)return;const paid=cart[0],qty=paid.qty||1;let original=Number(paid.price)*qty+399;freeCart.forEach(x=>original+=Number(x.price));const payable=Number(paid.price)*qty,discount=original-payable;$('checkoutOriginal').textContent=money(original);$('checkoutFinal').textContent=money(payable);$('checkoutDiscount').textContent=discount.toLocaleString('en-IN');$('checkoutSaved').textContent=discount.toLocaleString('en-IN');$('checkoutItemsCount').textContent=`(${qty+freeCart.length+1} Items)`;$('checkoutOfferApplied').textContent=`🎉 ${OFFER_TEXT} Applied! You save ${money(discount)}!`;$('totalOriginal').textContent=money(original);$('totalDiscount').textContent=discount.toLocaleString('en-IN');$('totalPayable').textContent=money(payable);let out=`<div class="checkout-product"><div class="checkout-product-image"><img src="${paid.image}" alt=""></div><div class="checkout-product-info"><b>${paid.name}</b><br><small>${money(paid.price)} × ${qty}</small></div></div>`;freeCart.forEach(x=>out+=`<div class="checkout-product"><div class="checkout-product-image"><img src="${x.main}" alt=""></div><div class="checkout-product-info"><b>${x.name}</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>${money(x.price)}</del></small></div></div>`);out+=`<div class="checkout-product"><div class="checkout-product-image">🎁</div><div class="checkout-product-info"><b>Mystery Gift 🎁</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>₹399</del></small></div></div>`;$('checkoutCartItems').innerHTML=out}
+function renderCheckout(){if(!cart.length)restoreCart();if(!cart.length)return;const paid=cart[0],qty=paid.qty||1;let original=Number(paid.price)*qty+399;freeCart.forEach(x=>original+=Number(x.price));const payable=Number(paid.price)*qty,discount=original-payable;$('checkoutOriginal').textContent=money(original);$('checkoutFinal').textContent=money(payable);$('checkoutDiscount').textContent=discount.toLocaleString('en-IN');$('checkoutSaved').textContent=discount.toLocaleString('en-IN');$('checkoutItemsCount').textContent=`(${qty+freeCart.length+1} Items)`;$('checkoutOfferApplied').textContent=`🎉 ${OFFER_TEXT} Applied! You save ${money(discount)}!`;$('totalOriginal').textContent=money(original);$('totalDiscount').textContent=discount.toLocaleString('en-IN');$('totalPayable').textContent=money(payable);let out=`<div class="checkout-product"><div class="checkout-product-image"><img src="${paid.image}" alt=""></div><div class="checkout-product-info"><b>${paid.name}</b><br><small>${money(paid.price)} × ${qty}</small></div></div>`;freeCart.forEach(x=>out+=`<div class="checkout-product"><div class="checkout-product-image"><img src="${x.main}" alt=""></div><div class="checkout-product-info"><b>${x.name}</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>${money(x.price)}</del></small></div></div>`);out+=`<div class="checkout-product"><div class="checkout-product-image">🎁</div><div class="checkout-product-info"><b>Mystery Gift 🎁</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>₹399</del></small></div></div>`;$('checkoutCartItems').innerHTML=out}
 function applyCoupon(){const c=$('couponCode').value.trim();if(!c){alert('Please enter coupon code.');return}alert('Coupon applied successfully!')}
 function continueOrder(){const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const payable=Number(cart[0].price)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');window.scrollTo(0,0)}
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
