@@ -70,7 +70,7 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
 <div class="payment-method selected" data-method="phonepe" onclick="selectPayment('phonepe')"><div class="payment-radio"></div><div class="pay-logo">पे</div><div class="pay-name"><b>PhonePe</b><div class="method-sub">We prefer this payment method</div></div><span class="method-badge recommended-badge">RECOMMENDED</span></div>
 <div class="payment-method" data-method="paytm" onclick="selectPayment('paytm')"><div class="payment-radio"></div><div class="pay-logo">pay</div><div class="pay-name"><b>Paytm</b><div class="method-sub">Most customers use this</div></div><span class="method-badge used-badge">MOST USED</span></div>
 <div class="payment-method" data-method="qr" onclick="selectPayment('qr')"><div class="payment-radio"></div><div class="pay-logo">QR</div><div class="pay-name"><b>QR Code</b><div class="method-sub">Scan and pay using any UPI app</div></div></div>
-<div class="payment-detail" id="qrDetail"><div class="qr-box"><img src="assets/payment-qr.png" class="qr-image" alt="TENVER Payment QR"><div style="font-size:12px;color:#555;margin-top:10px">UPI ID: <b id="qrUpiId">Loading...</b></div><input class="utr-input" id="utrNumber" type="text" placeholder="Enter UTR / Transaction Number"><button class="verify-btn" onclick="submitUTR()">SUBMIT PAYMENT DETAILS</button><div id="utrStatus" style="font-size:12px;margin-top:8px"></div></div></div>
+<div class="payment-detail" id="qrDetail"><div class="qr-box"><img src="assets/payment-qr.png" class="qr-image" alt="TENVER Payment QR"><div style="font-size:12px;color:#555;margin-top:10px">Scan the QR code with your UPI app to pay.</div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 12px"><span id="qrUpiId" style="font-size:13px;font-weight:600;color:#222;word-break:break-all"></span><button type="button" onclick="copyQrUpi()" style="border:1px solid #ddd;background:#fff;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:600;cursor:pointer">COPY UPI ID</button></div><input class="utr-input" id="utrNumber" type="text" placeholder="Enter UTR / Transaction Number"><button class="verify-btn" onclick="submitUTR()">SUBMIT PAYMENT DETAILS</button><div id="utrStatus" style="font-size:12px;margin-top:8px"></div></div></div>
 </div>
 <div class="payment-section-title">CASH ON DELIVERY</div><div class="payment-card"><div class="payment-method" data-method="cod" onclick="selectPayment('cod')"><div class="payment-radio"></div><div class="pay-logo">COD</div><div class="pay-name">Cash on Delivery</div></div><div class="payment-detail" id="codDetail"><div class="cod-box">COD is available for this order. A delivery-charge advance is required to confirm the COD shipment.<div class="cod-amount">Pay ₹<span id="codAdvanceDisplay">149</span> advance</div></div><button class="verify-btn" onclick="payCodAdvance()">PAY COD ADVANCE ₹<span id="codAdvanceButton">149</span></button></div></div>
 <div class="payment-total"><div class="payment-total-row"><span>Shipping</span><b>FREE</b></div><div class="payment-total-row"><span>Product Price</span><span id="paymentProductPrice">₹0</span></div><div class="payment-total-row final"><span>Order Total</span><strong id="paymentOrderTotal">₹0</strong></div></div>
@@ -82,6 +82,7 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
 <section class="checkout-cart"><h2>Your Cart</h2><div id="checkoutCartItems"></div></section><section class="checkout-total"><div><span>Original Price</span><del id="totalOriginal">₹0</del></div><div><span>Offer Discount</span><strong class="discount">-₹<span id="totalDiscount">0</span></strong></div><div class="grand-total"><span>Total Payable</span><strong id="totalPayable">₹0</strong></div></section><button class="continue-btn" onclick="continueOrder()">CONTINUE</button><div class="checkout-trust"><div>🛡️<small>Secure Checkout</small></div><div>🚚<small>Assured Delivery</small></div><div>✓<small>Verified Seller</small></div></div><footer class="checkout-footer">T&C &nbsp; | &nbsp; Privacy Policy<br><br>© 2026 TENVER</footer>
 </main></div>
 <div class="mystery-win-overlay" id="mysteryWinOverlay" onclick="closeMysteryWin(event)"><div class="mystery-win-modal"><button class="mystery-close" onclick="closeMysteryWin()">×</button><img id="mysteryWinImage" src="banners/mystery-win.jpg" class="mystery-win-image" alt="Mystery Box"></div></div>
+<script src="./paytm.js"></script>
 <script>
 let BUY_PRODUCTS = 1;
 let FREE_PRODUCTS = 6;
@@ -110,6 +111,7 @@ function showPopup(msg){let o=document.getElementById('tvPopup');if(!o){o=docume
 window.alert=showPopup;
 let benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
 let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
+window.tenverGetCart=()=>cart;
 const $=id=>document.getElementById(id),money=n=>'₹'+Number(n).toLocaleString('en-IN'),stars=n=>'★★★★★',bust=u=>u+(u.includes('?')?'&':'?')+'v='+Date.now();
 function applyHeaderCustomizations(){const box=document.getElementById('navRightLogo'),img=document.getElementById('navRightLogoImg');if(box&&img){if(NAV_RIGHT_LOGO){img.src=NAV_RIGHT_LOGO;box.classList.add('show')}else{img.removeAttribute('src');box.classList.remove('show')}}const ll=document.getElementById('navLeftLogoImg');if(ll){if(NAV_LEFT_LOGO){ll.src=bust(NAV_LEFT_LOGO);ll.style.display='block'}else{ll.removeAttribute('src');ll.style.display='none'}}const bl=document.getElementById('brandLogoImg'),lm=document.querySelector('nav .logo-mark');if(bl&&lm){if(BRAND_LOGO){bl.src=bust(BRAND_LOGO);bl.style.display='block';lm.style.display='none'}else{bl.removeAttribute('src');bl.style.display='none';lm.style.display=''}}const cl=document.getElementById('coLeftLogoImg'),cb=document.getElementById('coBrandLogoImg'),cm=document.querySelector('.checkout-header .checkout-logo');if(cl){if(NAV_LEFT_LOGO){cl.src=bust(NAV_LEFT_LOGO);cl.style.display='block'}else{cl.removeAttribute('src');cl.style.display='none'}}if(cb&&cm){if(BRAND_LOGO){cb.src=bust(BRAND_LOGO);cb.style.display='block';cm.style.display='none'}else{cb.removeAttribute('src');cb.style.display='none';cm.style.display=''}}const db=document.getElementById('detailBannerImage');if(db&&DETAIL_BANNER)db.src=DETAIL_BANNER}
 async function loadRemoteConfig(){try{const r=await fetch('api.php?action=config',{cache:'no-store'});if(!r.ok)throw new Error('config unavailable');const c=await r.json();if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149)}OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;if(c.theme)TENVER_THEME=c.theme;if(Array.isArray(c.products)&&c.products.length)TENVER_PRODUCTS=c.products;if(Array.isArray(c.homeBanners))homeBanners=c.homeBanners;if(Array.isArray(c.benefits))benefits=c.benefits;if(c.site&&c.site.logo)TENVER_LOGO_IMAGE=c.site.logo;if(typeof c.navRightLogo==='string')NAV_RIGHT_LOGO=c.navRightLogo;if(typeof c.detailBanner==='string'&&c.detailBanner)DETAIL_BANNER=c.detailBanner;if(typeof c.offerTicker==='string')OFFER_TICKER=c.offerTicker;if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=c.cartTicker;if(typeof c.navLeftLogo==='string')NAV_LEFT_LOGO=c.navLeftLogo;if(typeof c.brandLogo==='string')BRAND_LOGO=c.brandLogo;if(typeof c.productBrand==='string')PRODUCT_BRAND=c.productBrand;if(typeof c.popupTitle==='string')POPUP_TITLE=c.popupTitle;if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}}catch(e){console.warn('TENVER remote config not loaded; using local defaults.',e)}}
@@ -184,6 +186,14 @@ const tenverUpiReady=(async()=>{
   throw new Error('upi.txt could not be loaded');
 })();
 
+function copyQrUpi(){
+  const value=tenverUpiID || ($('qrUpiId')&&$('qrUpiId').textContent.trim());
+  if(!value){alert('UPI ID load nahi ho paayi.');return}
+  navigator.clipboard.writeText(value).then(()=>alert('UPI ID copied.')).catch(()=>{
+    const t=document.createElement('textarea');t.value=value;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();alert('UPI ID copied.');
+  });
+}
+
 async function openPhonePe(source,paymentAmount){
   try{await tenverUpiReady}catch(e){alert('UPI ID load nahi ho paayi. Please check upi.txt.');return}
   if(!cart||!cart.length){alert('Cart empty hai.');return}
@@ -209,36 +219,15 @@ async function openPhonePe(source,paymentAmount){
   setTimeout(()=>{if(document.body.contains(a))document.body.removeChild(a)},700);
 }
 
-async function openPaytm(source,paymentAmount){
-  try{await tenverUpiReady}catch(e){alert('UPI ID load nahi ho paayi. Please check upi.txt.');return}
-  if(!cart||!cart.length){alert('Cart empty hai.');return}
-  const paid=cart[0];
-  const rawAmount=paymentAmount!=null?Number(paymentAmount):Number(paid.price)*Number(paid.qty||1);
-  if(!rawAmount||rawAmount<=0){alert('Payment amount invalid hai.');return}
-
-  const paytmAmount=Math.round(rawAmount*100);
-  const payload={
-    p2pPaymentCheckoutParams:{checkoutType:'COLLECT',initialAmount:paytmAmount,note:{type:'text',message:source==='cod'?'TENVER COD Advance':'TENVER Perfumes Order'},supportedInstruments:-1},
-    contact:{type:'EXTERNAL_MERCHANT',name:tenverBankName,vpa:tenverUpiID}
-  };
-  const jsonString=JSON.stringify(payload);
-  const base64Data=btoa(unescape(encodeURIComponent(jsonString)));
-  const nativeDeeplink=`paytmmp://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment`;
-  const upiFallback=`upi://pay?pa=${encodeURIComponent(tenverUpiID)}&pn=${encodeURIComponent(tenverBankName)}&am=${rawAmount.toFixed(2)}&cu=INR`;
-  const intentDeeplink=`intent://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment#Intent;scheme=paytmmp;package=net.one97.paytm;S.browser_fallback_url=${encodeURIComponent(upiFallback)};end`;
-
-  const a=document.createElement('a');
-  a.href=nativeDeeplink;a.style.display='none';document.body.appendChild(a);a.click();
-  setTimeout(()=>{try{window.location.href=nativeDeeplink}catch(e){}},100);
-  setTimeout(()=>{try{window.location.href=intentDeeplink}catch(e){}},300);
-  setTimeout(()=>{if(document.body.contains(a))document.body.removeChild(a)},700);
-}
-
 function placeOnlineOrder(){
   if(!cart||!cart.length){alert('Cart empty hai.');return}
   const method=selectedPaymentMethod||'phonepe';
   if(method==='qr'){$('qrDetail').classList.add('show');return}
-  if(method==='paytm'){openPaytm('online');return}
+  if(method==='paytm'){
+    const amount=Number(cart[0].price)*(cart[0].qty||1);
+    openPaytm('online',amount);
+    return
+  }
   openPhonePe('online');
 }
 
