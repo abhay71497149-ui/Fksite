@@ -108,10 +108,29 @@ let OFFER_TICKER='Diwali Sale • BUY 1 GET 4 FREE • GET A CHANCE TO WIN iPhon
 let CART_TICKER='Diwali Sale 🪔 Buy 1 Get 3 & Chance to Win A 18 Pro Max';
 let NAV_LEFT_LOGO='',BRAND_LOGO='',PRODUCT_BRAND='TENVER',POPUP_TITLE='TENVER';
 let BRAND_NAME='TENVER';
-let RETURNING_OFFER={enabled:false,percent:20,resetSeconds:6,message:'Our Price Increased 20% Due to High Demand.',label:'Returning Customer Price',animation:true};
+let RETURNING_OFFER={enabled:true,percent:20,resetSeconds:6,message:'Hi Customer, Welcome Back! Our Price Increased 20% Due to High Demand.',label:'Returning Customer Price',animation:true};
 let returningOfferActive=false;
 let returningOfferUntil=0;
 let returningOfferTimer=null;
+const normalPriceDropPlayed=new Set();
+let returningAnimationSeq=0;
+function saveReturningOfferState(){
+  if(returningOfferActive&&returningOfferUntil>Date.now()) localStorage.setItem('tenverReturningOfferUntil',String(returningOfferUntil));
+  else localStorage.removeItem('tenverReturningOfferUntil');
+}
+function restoreReturningOfferState(){
+  const until=Number(localStorage.getItem('tenverReturningOfferUntil')||0);
+  if(until>Date.now()&&RETURNING_OFFER.enabled){
+    returningOfferActive=true;
+    returningOfferUntil=until;
+    if(returningOfferTimer)clearTimeout(returningOfferTimer);
+    returningOfferTimer=setTimeout(()=>{returningOfferActive=false;returningOfferUntil=0;saveReturningOfferState();renderAllPrices();updateReturningBanner();},until-Date.now());
+  }else{
+    localStorage.removeItem('tenverReturningOfferUntil');
+    returningOfferActive=false;
+    returningOfferUntil=0;
+  }
+}
 function displayProductName(p){
   const n=String(p&&p.name||'');
   return n.replace(/^TENVER\\b/i,BRAND_NAME);
@@ -137,34 +156,43 @@ function activateReturningOffer(){
   if(!RETURNING_OFFER.enabled)return;
   returningOfferActive=true;
   returningOfferUntil=Date.now()+Math.max(2,Number(RETURNING_OFFER.resetSeconds||6))*1000;
+  returningAnimationSeq++;
   if(returningOfferTimer)clearTimeout(returningOfferTimer);
   returningOfferTimer=setTimeout(()=>{
     returningOfferActive=false;
     returningOfferUntil=0;
+    saveReturningOfferState();
     renderAllPrices();
     updateReturningBanner();
   },Math.max(2,Number(RETURNING_OFFER.resetSeconds||6))*1000);
+  saveReturningOfferState();
   renderAllPrices();
   updateReturningBanner();
 }
-function renderReturningPrice(startPrice,targetPrice,el){
+function animatePrice(el,fromPrice,toPrice,duration=1100){
   if(!el)return;
-  if(!RETURNING_OFFER.animation){el.textContent=money(targetPrice);return}
-  const start=Number(startPrice||0), target=Number(targetPrice||0), duration=650;
+  const from=Number(fromPrice||0),to=Number(toPrice||0);
+  if(!RETURNING_OFFER.animation||!Number.isFinite(from)||!Number.isFinite(to)){
+    el.textContent=money(to);return;
+  }
   const started=performance.now();
   const tick=now=>{
     const t=Math.min(1,(now-started)/duration);
     const eased=1-Math.pow(1-t,3);
-    el.textContent=money(start+(target-start)*eased);
+    el.textContent=money(from+(to-from)*eased);
     if(t<1)requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+}
+function renderReturningPrice(basePrice,targetPrice,el,fromPrice){
+  if(!el)return;
+  animatePrice(el,fromPrice!=null?fromPrice:basePrice,targetPrice,1100);
 }
 function updateReturningBanner(){
   const el=$('returningOfferBanner');
   if(!el)return;
   if(isReturningActive()&&RETURNING_OFFER.enabled){
-    el.textContent=RETURNING_OFFER.message||'Returning Customer Offer';
+    el.textContent='Hi Customer, Welcome Back! '+(RETURNING_OFFER.message||'Returning Customer Offer');
     el.classList.remove('hidden');
   }else{
     el.classList.add('hidden');
@@ -203,9 +231,39 @@ function applyPaymentAvailability(){
     const badge=paytm.querySelector('.method-badge');if(badge)badge.textContent='UNAVAILABLE';
   }
 }
-async function loadRemoteConfig(){try{const r=await fetch('api.php?action=config',{cache:'no-store'});if(!r.ok)throw new Error('config unavailable');const c=await r.json();if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149)}OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;if(c.theme)TENVER_THEME=c.theme;if(Array.isArray(c.products)&&c.products.length)TENVER_PRODUCTS=c.products;if(Array.isArray(c.homeBanners))homeBanners=c.homeBanners;if(Array.isArray(c.benefits))benefits=c.benefits;if(c.site&&c.site.logo)TENVER_LOGO_IMAGE=c.site.logo;if(c.site&&typeof c.site.brand==='string'&&c.site.brand.trim())BRAND_NAME=c.site.brand.trim();if(c.site&&c.site.brand)PRODUCT_BRAND=c.site.brand;if(c.returningOffer&&typeof c.returningOffer==='object')RETURNING_OFFER={...RETURNING_OFFER,...c.returningOffer};if(typeof c.paytmStatus==='string')window.TENVER_PAYTM_STATUS=c.paytmStatus;if(typeof c.navRightLogo==='string')NAV_RIGHT_LOGO=c.navRightLogo;if(typeof c.detailBanner==='string'&&c.detailBanner)DETAIL_BANNER=c.detailBanner;if(typeof c.offerTicker==='string')OFFER_TICKER=c.offerTicker;if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=c.cartTicker;if(typeof c.navLeftLogo==='string')NAV_LEFT_LOGO=c.navLeftLogo;if(typeof c.brandLogo==='string')BRAND_LOGO=c.brandLogo;if(typeof c.productBrand==='string')PRODUCT_BRAND=c.productBrand;if(typeof c.popupTitle==='string')POPUP_TITLE=c.popupTitle;if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}}catch(e){console.warn('TENVER remote config not loaded; using local defaults.',e)}}
+async function applyConfig(c){
+  if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149)}
+  OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;
+  if(c.theme)TENVER_THEME=c.theme;
+  if(Array.isArray(c.products)&&c.products.length)TENVER_PRODUCTS=c.products;
+  if(Array.isArray(c.homeBanners))homeBanners=c.homeBanners;
+  if(Array.isArray(c.benefits))benefits=c.benefits;
+  if(c.site&&c.site.logo)TENVER_LOGO_IMAGE=c.site.logo;
+  if(c.site&&typeof c.site.brand==='string'&&c.site.brand.trim())BRAND_NAME=c.site.brand.trim();
+  if(c.site&&c.site.brand)PRODUCT_BRAND=c.site.brand;
+  if(c.returningOffer&&typeof c.returningOffer==='object')RETURNING_OFFER={...RETURNING_OFFER,...c.returningOffer};
+  if(typeof c.paytmStatus==='string')window.TENVER_PAYTM_STATUS=c.paytmStatus;
+  if(typeof c.navRightLogo==='string')NAV_RIGHT_LOGO=c.navRightLogo;
+  if(typeof c.detailBanner==='string'&&c.detailBanner)DETAIL_BANNER=c.detailBanner;
+  if(typeof c.offerTicker==='string')OFFER_TICKER=c.offerTicker;
+  if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=c.cartTicker;
+  if(typeof c.navLeftLogo==='string')NAV_LEFT_LOGO=c.navLeftLogo;
+  if(typeof c.brandLogo==='string')BRAND_LOGO=c.brandLogo;
+  if(typeof c.productBrand==='string')PRODUCT_BRAND=c.productBrand;
+  if(typeof c.popupTitle==='string')POPUP_TITLE=c.popupTitle;
+  if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
+  if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
+}
+async function loadRemoteConfig(){
+  try{
+    let c=null;
+    try{const r=await fetch('api.php?action=config',{cache:'no-store'});if(r.ok)c=await r.json()}catch(e){}
+    if(!c){const r=await fetch('data/site.json?ts='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('config unavailable');c=await r.json()}
+    await applyConfig(c);
+  }catch(e){console.warn('TENVER remote config not loaded; using local defaults.',e)}
+}
 function restoreCart(){const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}else cart=[];const savedFree=localStorage.getItem('tenverFreeCart');if(savedFree){try{freeCart=JSON.parse(savedFree)||[]}catch(e){freeCart=[]}}else freeCart=[];updateCartCount()}
-function init(){applyTheme();applyBrandName();$('topTicker').textContent=OFFER_TICKER;$('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;$('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;$('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();restoreCart();updateReturningBanner();$('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE}
+function init(){applyTheme();applyBrandName();restoreReturningOfferState();$('topTicker').textContent=OFFER_TICKER;$('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;$('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;$('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();restoreCart();renderAllPrices();updateReturningBanner();$('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE}
 function renderBanners(){$('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length;$('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
 function reviewText(p){const texts=['Smells amazing and feels premium.','Really liked the fragrance and packaging.','Long-lasting for my daily use.','Fresh and pleasant fragrance.','Good value and nice presentation.'];return texts[p.id%texts.length]}
 function renderProducts(){
@@ -215,6 +273,16 @@ function renderProducts(){
     const returning=isReturningActive()&&RETURNING_OFFER.enabled;
     return `<article class="product-card"><div class="product-image-wrap clickable" onclick="openProduct(${p.id})"><span class="product-badge">${p.badge}</span><img class="product-image" src="${p.main}" alt="${esc(name)}"></div><div class="product-card-name clickable" onclick="openProduct(${p.id})">${esc(name)}</div><div class="product-review clickable" onclick="openProduct(${p.id})"><span class="stars">★</span> ${p.rating.toFixed(2)} &nbsp; (${p.reviews} reviews)</div><div class="product-card-price"><del>${money(p.oldPrice)}</del><strong id="homePrice${p.id}">${money(effective)}</strong></div>${returning?'<div class="returning-price-note">RETURNING CUSTOMER PRICE</div>':''}<button class="product-add-button" onclick="quickAdd(${p.id})">ADD TO CART</button></article>`;
   }).join('');
+  TENVER_PRODUCTS.forEach(p=>{
+    const el=$('homePrice'+p.id);
+    if(!el)return;
+    if(isReturningActive()&&RETURNING_OFFER.enabled){
+      animatePrice(el,p.oldPrice,getEffectivePrice(p),1100);
+    }else if(!normalPriceDropPlayed.has(p.id)){
+      normalPriceDropPlayed.add(p.id);
+      animatePrice(el,p.oldPrice,getBasePrice(p),1100);
+    }
+  });
 }
 function updateTimer(){let t=Number(localStorage.getItem('tenverTimer')||600);if(t<=0)t=600;const m=String(Math.floor(t/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');$('saleTimer').textContent=`${m}:${s}`;localStorage.setItem('tenverTimer',t-1)}
 function renderBenefits(){const one=benefits.concat(benefits);$('benefitTrack').innerHTML=one.map(b=>`<div class="benefit-item"><span class="benefit-icon">${b[0]}</span>${b[1]}<br>${b[2]}</div>`).join('')}
@@ -228,7 +296,7 @@ function renderProductDetail(){
   $('detailStars').textContent='★';
   $('detailRating').textContent=p.rating.toFixed(2);
   $('detailReviews').textContent=p.reviews;
-  renderReturningPrice(p.price,effective,$('detailPrice'));
+  renderReturningPrice(p.price,effective,$('detailPrice'),p.oldPrice);
   $('detailPriceMl').textContent=`Price per ml: ${money(effective/p.volume)}`;
   $('detailOffer').textContent=`ADD ${BUY_PRODUCTS} PRODUCT${BUY_PRODUCTS>1?'S':''}, GET ${FREE_PRODUCTS} FREE`;
   $('detailDescription').textContent=p.description;
@@ -290,6 +358,10 @@ function closeCheckout(){
   if(wasCheckout) activateReturningOffer();
   showHome();
 }
+window.addEventListener('pageshow',()=>{restoreReturningOfferState();renderAllPrices();updateReturningBanner();});
+window.addEventListener('popstate',()=>{
+  if($('checkoutPage').classList.contains('show')) closeCheckout();
+});
 function renderCheckout(){
   if(!cart.length)restoreCart();
   if(!cart.length)return;
