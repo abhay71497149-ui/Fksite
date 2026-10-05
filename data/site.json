@@ -3,7 +3,9 @@
     "buyProducts": 1,
     "freeProducts": 6,
     "codAdvance": 149,
-    "mysteryGiftPrice": 399
+    "mysteryGiftPrice": 399,
+    "offerBadgeText": "BUY {buy} GET {free} FREE",
+    "offerApplyAll": true
   },
   "theme": {
     "primary": "#052925",
@@ -22,8 +24,8 @@
   "returningOffer": {
     "enabled": true,
     "percent": 20,
-    "resetSeconds": 6,
-    "message": "Our Price Increased 20% Due to High Demand.",
+    "resetSeconds": 300,
+    "message": "Our Price Increased {percent}% Due to High Demand.",
     "label": "Returning Customer Price",
     "animation": true
   },
@@ -707,5 +709,7 @@
       "5 MILLION+",
       "HAPPY CUSTOMERS"
     ]
-  ]
+  ],
+  "cartTicker": "Diwali Sale 🪔 Buy {buy} Get {free} & Chance to Win A 18 Pro Max",
+  "offerTicker": "Diwali Sale • BUY {buy} GET {free} FREE • GET A CHANCE TO WIN iPhone 18 Pro"
 }
