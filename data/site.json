@@ -19,6 +19,15 @@
   ],
   "mysteryImage": "banners/mystery-win.jpg",
   "paymentQr": "assets/payment-qr.png",
+  "returningOffer": {
+    "enabled": true,
+    "percent": 20,
+    "resetSeconds": 6,
+    "message": "Our Price Increased 20% Due to High Demand.",
+    "label": "Returning Customer Price",
+    "animation": true
+  },
+  "paytmStatus": "unavailable",
   "products": [
     {
       "id": 1,
