@@ -380,6 +380,39 @@ body{
 
     </div>
 
+    <div class="notice">
+      Buy / Free number sirf yahin se badlo. Cart, checkout, product page,
+      badge, ticker sab jagah offer <b>apne aap</b> update ho jayega.
+      Text me <b>{buy}</b> aur <b>{free}</b> likhoge to wo in numbers se replace honge.
+    </div>
+
+    <div class="field">
+      <label>Offer Text (har product ke badge pe)</label>
+      <input
+        id="offerBadgeText"
+        class="input"
+        placeholder="BUY {buy} GET {free} FREE"
+      >
+      <p class="hint">Ek baar yahan likho, sab products me same dikhega.</p>
+    </div>
+
+    <div class="switch">
+      <input id="offerApplyAll" type="checkbox">
+      <label><b>Sab products par yahi offer text lagao</b> (product ka apna badge ignore hoga)</label>
+    </div>
+
+    <div class="field">
+      <label>Cart Headline Text (cart me red strip)</label>
+      <input
+        id="cartTicker"
+        class="input"
+        placeholder="Diwali Sale 🪔 Buy {buy} Get {free} & Chance to Win A 18 Pro Max"
+      >
+      <p class="hint">
+        Example: Diwali Sale 🪔 Buy {buy} Get {free} &amp; Chance to Win A 18 Pro Max
+      </p>
+    </div>
+
   </div>
 
   <div class="savebar">
@@ -429,7 +462,7 @@ body{
       </div>
 
       <div class="field">
-        <label>Offer Duration / Reset Seconds</label>
+        <label>Hiked price kitni der dikhe (seconds)</label>
         <input
           id="returningResetSeconds"
           class="input"
@@ -443,12 +476,12 @@ body{
     </div>
 
     <div class="field">
-      <label>Returning Customer Message</label>
+      <label>Note (timer ke niche dikhega) — {percent} likh sakte ho</label>
       <textarea
         id="returningMessage"
         class="input"
         rows="3"
-        placeholder="Our Price Increased 20% Due to High Demand."
+        placeholder="Our Price Increased {percent}% Due to High Demand."
       ></textarea>
     </div>
 
@@ -470,7 +503,8 @@ body{
 
     <div class="hint">
       Example: Sale Price ₹699 + 20% = Returning Customer Price ₹838.80.
-      Customer ko final amount clearly show hoga.
+      Jab customer payment page tak pahunch kar wapas aata hai (back / home / site dobara kholna),
+      tab price MRP se gir kar hiked price par rukta hai. Itne seconds baad price wapas normal ho jata hai.
     </div>
 
   </div>
@@ -623,7 +657,7 @@ body{
       <input
         id="offerTicker"
         class="input"
-        placeholder="Sale • BUY 1 GET 6 FREE"
+        placeholder="Sale • BUY {buy} GET {free} FREE"
       >
     </div>
 
@@ -867,6 +901,15 @@ async function load(){
   $('mysteryPrice').value=
     C.settings.mysteryGiftPrice ?? 0;
 
+  $('offerBadgeText').value=
+    C.settings.offerBadgeText || 'BUY {buy} GET {free} FREE';
+
+  $('offerApplyAll').checked=
+    C.settings.offerApplyAll!==false;
+
+  $('cartTicker').value=
+    C.cartTicker || 'Diwali Sale 🪔 Buy {buy} Get {free} & Chance to Win A 18 Pro Max';
+
 
   /* RETURNING OFFER */
 
@@ -1051,7 +1094,7 @@ function renderProductsList(){
         </b>
 
         <small>
-          ${esc(p.name||'Unnamed Product')}
+          ${esc(String(p.name||'Unnamed Product').replace(/\{brand\}/gi,(C.site&&C.site.brand)||''))}
         </small>
 
         <div style="margin-top:8px">
@@ -1154,7 +1197,7 @@ function renderProductEditor(){
         </div>
 
         <div class="field">
-          <label>Badge</label>
+          <label>Badge (khali chhodo ya "Sab products par offer text" ON rakho = global offer text)</label>
           <input
             id="p_badge"
             class="input"
@@ -2012,6 +2055,15 @@ async function saveSettings(){
     C.settings.mysteryGiftPrice=
       Number($('mysteryPrice').value||0);
 
+    C.settings.offerBadgeText=
+      $('offerBadgeText').value.trim();
+
+    C.settings.offerApplyAll=
+      $('offerApplyAll').checked;
+
+    C.cartTicker=
+      $('cartTicker').value.trim();
+
 
     const r=await req('save',{
       method:'POST',
@@ -2098,8 +2150,19 @@ async function saveBrand(){
 
     C.site=C.site||{};
 
-    C.site.brand=
-      $('brandName').value.trim();
+    const oldBrand=(C.site.brand||'').trim();
+    const newBrand=$('brandName').value.trim();
+
+    /* Product names ke shuru ka brand -> {brand} token, taaki brand badalte hi sab jagah badal jaye */
+    const escRe=t=>String(t).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const names=[oldBrand,newBrand,'TENVER'].filter(Boolean).map(escRe).join('|');
+    const re=new RegExp('^\\s*(?:'+names+')(?=\\s|$)\\s*','i');
+    (C.products||[]).forEach(pr=>{
+      const nm=String(pr.name||'');
+      if(re.test(nm)) pr.name='{brand} '+nm.replace(re,'');
+    });
+
+    C.site.brand=newBrand;
 
     C.site.logo=
       $('logoPath').value;
