@@ -1,7 +1,8 @@
 (function () {
   "use strict";
 
-  const PAYTM_NAME = "TENVER Perfumes";
+  const PAYTM_NAME_FALLBACK = "TENVER";
+  function paytmName() { return (window.TENVER_BRAND_NAME || PAYTM_NAME_FALLBACK) + " Perfumes"; }
 
   let paytmUpiID = "";
   let paytmUpiReady = null;
@@ -80,7 +81,7 @@
     const paytmDeepLink =
       "paytmmp://pay" +
       "?pa=" + encodeURIComponent(paytmUpiID) +
-      "&pn=" + encodeURIComponent(PAYTM_NAME) +
+      "&pn=" + encodeURIComponent(paytmName()) +
       "&am=" + encodeURIComponent(amount.toFixed(2)) +
       "&cu=INR";
 
@@ -93,7 +94,7 @@
     const upiFallback =
       "upi://pay" +
       "?pa=" + encodeURIComponent(paytmUpiID) +
-      "&pn=" + encodeURIComponent(PAYTM_NAME) +
+      "&pn=" + encodeURIComponent(paytmName()) +
       "&am=" + encodeURIComponent(amount.toFixed(2)) +
       "&cu=INR";
 
