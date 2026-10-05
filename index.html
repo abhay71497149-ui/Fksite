@@ -30,19 +30,14 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
 .checkout-diwali-strip{position:absolute;left:0;right:0;bottom:-38px;margin:0;height:38px;z-index:201}.checkout-header{margin-bottom:38px}</style>
 </head>
 <body>
-
 <div class="top" id="topOffer"><span id="topTicker" class="top-ticker"></span></div>
 <nav>
   <button class="home-btn" onclick="showHome()">⌂</button>
-  <div class="brand-group"><img id="navLeftLogoImg" class="left-logo-img" alt="Logo" style="display:none"><span class="logo-mark" aria-label="TENVER"></span><img id="brandLogoImg" class="brand-logo-img" alt="Logo" style="display:none">
-  <div id="logoFallback" class="logo-fallback" style="display:none">TENVER</div></div>
+  <div class="brand-group"><img id="navLeftLogoImg" class="left-logo-img" alt="Logo" style="display:none"><span class="logo-mark" aria-label="TENVER"></span><img id="brandLogoImg" class="brand-logo-img" alt="Logo" style="display:none"><div id="logoFallback" class="logo-fallback" style="display:none">TENVER</div></div>
   <div class="nav-right"><div id="navRightLogo" class="nav-right-logo"><img id="navRightLogoImg" class="right-logo-img" src="" alt="Logo"></div><button class="cart-btn" onclick="openCart()">🛒<sup class="cart-count" id="cartCount">0</sup></button></div>
 </nav>
-
 <main id="homePage" class="page home-page">
-  <div class="banner-wrap">
-    <div class="slides" id="slides"></div><div class="dots" id="dots"></div>
-  </div>
+  <div class="banner-wrap"><div class="slides" id="slides"></div><div class="dots" id="dots"></div></div>
   <div class="countdown-box"><div class="label">🔥 DIWALI SALE ENDS IN</div><div class="countdown" id="saleTimer">10:00</div><div class="sub">Hurry! Complete your offer before the timer expires.</div></div>
   <section class="offer"><h2>Pick Your Signature Scent</h2><p>One order. Your selected perfume + complimentary fragrances + FREE Mystery Box.</p></section>
   <section class="product-grid" id="products"></section>
@@ -50,330 +45,90 @@ nav{height:62px;background:#fff;display:flex;align-items:center;justify-content:
   <section class="steps"><div class="step"><b>01</b>Choose your perfume</div><div class="step"><b>02</b>Get complimentary perfumes</div><div class="step"><b>03</b>Unlock Mystery Gift</div></section>
   <footer class="site-footer">© 2026 TENVER • Premium Fragrances<br><br>Terms & Conditions • Privacy • Contact</footer>
 </main>
-
 <section id="productPage" class="product-page">
-  <div class="detail-head">
-    <h1 class="detail-title" id="detailName"></h1>
-    <div class="detail-rating"><span class="stars" id="detailStars"></span> <span id="detailRating"></span> | (<span id="detailReviews"></span> Reviews) <span class="verified">✓</span></div>
-    <div class="detail-price" id="detailPrice"></div><div class="tax">Inclusive of all taxes</div><div class="price-ml" id="detailPriceMl"></div>
-  </div>
-  <div class="gallery" id="gallery">
-    <div class="gallery-main"><img id="mainProductImage" src="" alt=""><button class="gallery-arrow left" onclick="prevImage()">‹</button><button class="gallery-arrow right" onclick="nextImage()">›</button></div>
-  </div>
-  <div class="offer-strip" id="detailOffer"></div>
-  <div class="thumbs" id="thumbs" style="padding:10px 14px 4px"></div>
+  <div class="detail-head"><h1 class="detail-title" id="detailName"></h1><div class="detail-rating"><span class="stars" id="detailStars"></span> <span id="detailRating"></span> | (<span id="detailReviews"></span> Reviews) <span class="verified">✓</span></div><div class="detail-price" id="detailPrice"></div><div class="tax">Inclusive of all taxes</div><div class="price-ml" id="detailPriceMl"></div></div>
+  <div class="gallery" id="gallery"><div class="gallery-main"><img id="mainProductImage" src="" alt=""><button class="gallery-arrow left" onclick="prevImage()">‹</button><button class="gallery-arrow right" onclick="nextImage()">›</button></div></div>
+  <div class="offer-strip" id="detailOffer"></div><div class="thumbs" id="thumbs" style="padding:10px 14px 4px"></div>
   <div class="detail-actions"><div class="qty"><button onclick="changeDetailQty(-1)">−</button><span id="detailQty">1</span><button onclick="changeDetailQty(1)">+</button></div><button class="detail-add" onclick="addDetailToCart()">ADD TO CART</button></div>
   <div class="benefit-wrap"><div class="benefit-track" id="benefitTrack"></div></div>
   <div class="detail-banner" onclick="showHome()"><img id="detailBannerImage" src="banners/banner2.jpg" alt="TENVER Offer Banner"></div>
   <section class="detail-section"><h2>Description</h2><p id="detailDescription"></p><img id="descBanner1" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"><img id="descBanner2" class="desc-banner clickable" src="" alt="Product description banner" onclick="backToMainProduct()"></section>
-  <section class="detail-section"><h2>Additional Information</h2><div id="additionalInfo"></div></section>
-  <section class="detail-section"><h2>FAQs</h2><div id="faqs"></div></section>
+  <section class="detail-section"><h2>Additional Information</h2><div id="additionalInfo"></div></section><section class="detail-section"><h2>FAQs</h2><div id="faqs"></div></section>
   <section class="detail-section"><h2>Customer Reviews</h2><div class="review-summary"><div class="review-top"><div><div class="review-big" id="reviewBig"></div><div class="stars">★★★★★</div><div style="font-size:11px;color:#777">Based on customer ratings</div></div><div style="flex:1" id="reviewBars"></div></div></div><div id="reviewList"></div></section>
 </section>
-
 <div class="overlay" id="overlay"></div>
-<aside class="cart-panel" id="cartPanel">
-  <div class="cart-head"><h2>Your Cart <span id="cartSmallCount" style="font-size:13px;color:#777;font-weight:500">(0)</span></h2><button class="close" onclick="closeCart()">×</button></div>
-  <div class="diwali-strip"><div class="diwali-marquee"><span id="cartOfferMarquee"></span><span id="cartOfferMarquee2"></span></div></div>
-  <div id="cartItems"></div>
-  <div id="freeChooser" style="display:none"><div class="free-title" id="freeTitle"></div><div class="free-sub" id="freeSub"></div><div id="freeProducts"></div></div>
-  <div class="mystery-cart"><div style="width:62px;height:62px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🎁</div><div><b>Mystery Gift 🎁</b><br><span class="free-pill">FREE</span> <del>₹399</del><br><span style="font-size:11px;color:#777">Complimentary with eligible order</span></div><span style="margin-left:auto">✓</span></div>
-  <div class="cart-total" id="cartTotal">Total: ₹0</div><p id="cartNote" style="font-size:12px;color:#777"></p><button class="checkout" onclick="startCheckoutFlow()">CHECKOUT</button>
-</aside>
-
+<aside class="cart-panel" id="cartPanel"><div class="cart-head"><h2>Your Cart <span id="cartSmallCount" style="font-size:13px;color:#777;font-weight:500">(0)</span></h2><button class="close" onclick="closeCart()">×</button></div><div class="diwali-strip"><div class="diwali-marquee"><span id="cartOfferMarquee"></span><span id="cartOfferMarquee2"></span></div></div><div id="cartItems"></div><div id="freeChooser" style="display:none"><div class="free-title" id="freeTitle"></div><div class="free-sub" id="freeSub"></div><div id="freeProducts"></div></div><div class="mystery-cart"><div style="width:62px;height:62px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🎁</div><div><b>Mystery Gift 🎁</b><br><span class="free-pill">FREE</span> <del>₹399</del><br><span style="font-size:11px;color:#777">Complimentary with eligible order</span></div><span style="margin-left:auto">✓</span></div><div class="cart-total" id="cartTotal">Total: ₹0</div><p id="cartNote" style="font-size:12px;color:#777"></p><button class="checkout" onclick="startCheckoutFlow()">CHECKOUT</button></aside>
 <div class="checkout-loading" id="checkoutLoading"><div class="loader-circle"></div><div style="font-size:20px;font-weight:700">Initiating Checkout</div></div>
 <div class="success-overlay" id="successOverlay"><div class="success-popup"><div class="success-gift">🎉</div><h2>Hurray!</h2><p id="successOfferText"></p><div class="saved-amount">You saved ₹<span id="savedAmount">0</span></div><p style="font-weight:700;color:#c28a20">Yay! Thanks! 🎁</p></div></div>
-
 <div id="checkoutPage" class="checkout-page">
-  <header class="checkout-header"><button class="back-btn" onclick="closeCheckout()">←</button><div class="brand-group"><img id="coLeftLogoImg" class="left-logo-img" alt="Logo" style="display:none"><span class="checkout-logo" aria-label="TENVER"></span><img id="coBrandLogoImg" class="brand-logo-img" alt="Logo" style="display:none"></div><div style="position:absolute;right:15px;top:12px;color:#c9e9d1;font-size:11px">Free gift added 🎁</div><div class="diwali-strip checkout-diwali-strip"><span id="checkoutOfferMarquee" class="diwali-marquee"></span></div></header>
-  <main class="checkout-container">
-    <section id="paymentPage" class="payment-page">
-      <div class="delivery-preview"><h3>Delivery Address</h3><div class="delivery-address" id="paymentAddress"></div></div>
-      <div class="payment-safe"><span>Select Payment Method</span><b>🛡️ SAFE PAYMENTS</b></div><div class="online-offer">🏷️ Pay online &amp; get EXTRA discount</div><div class="payment-section-title">PAY ONLINE</div>
-      <div class="payment-card">
-        <!-- <div class="payment-method selected" data-method="upi" onclick="selectPayment('upi')"><div class="payment-radio"></div><div class="pay-logo">UPI</div> -->
-        <!-- <div class="pay-name">UPI (GPay / PhonePe / Paytm)</div></div> -->
-        <!-- <div class="payment-method" data-method="gpay" onclick="selectPayment('gpay')"><div class="payment-radio"></div><div class="pay-logo">G</div><div class="pay-name">G Pay</div></div> -->
-        <div class="payment-method selected" data-method="phonepe" onclick="selectPayment('phonepe')"><div class="payment-radio"></div><div class="pay-logo">पे</div><div class="pay-name">PhonePe</div></div>
-        <!-- <div class="payment-method" data-method="paytm" onclick="selectPayment('paytm')"><div class="payment-radio"></div><div class="pay-logo">pay</div><div class="pay-name">Paytm</div></div> -->
-        <!-- <div class="payment-method" data-method="qr" onclick="selectPayment('qr')"><div class="payment-radio"></div><div class="pay-logo">QR</div><div class="pay-name">Pay Using QR Code</div></div> -->
-        <div class="payment-detail" id="qrDetail"><div class="qr-box"><img src="assets/payment-qr.png" class="qr-image" alt="Payment QR"><input class="utr-input" id="utrNumber" type="text" placeholder="Enter UTR / Transaction Number"><button class="verify-btn" onclick="submitUTR()">SUBMIT PAYMENT DETAILS</button><div id="utrStatus" style="font-size:12px;margin-top:8px"></div></div></div>
-      </div>
-      <div class="payment-section-title">CASH ON DELIVERY</div><div class="payment-card"><div class="payment-method" data-method="cod" onclick="selectPayment('cod')"><div class="payment-radio"></div><div class="pay-logo">COD</div><div class="pay-name">Cash on Delivery</div></div><div class="payment-detail" id="codDetail"><div class="cod-box">COD is available for this order. A delivery-charge advance is required to confirm the COD shipment.<div class="cod-amount">Pay ₹<span id="codAdvanceDisplay">149</span> advance</div></div><button class="verify-btn" onclick="payCodAdvance()">PAY COD ADVANCE ₹<span id="codAdvanceButton">149</span></button></div></div>
-      <div class="payment-total"><div class="payment-total-row"><span>Shipping</span><b>FREE</b></div><div class="payment-total-row"><span>Product Price</span><span id="paymentProductPrice">₹0</span></div><div class="payment-total-row final"><span>Order Total</span><strong id="paymentOrderTotal">₹0</strong></div></div><button class="pay-now-btn" onclick="placeOnlineOrder()">PAY NOW</button>
-    </section>
-    <section class="order-summary"><div class="summary-top"><div><h2>Order summary <span id="checkoutItemsCount">(0 Items)</span></h2><div class="offer-applied" id="checkoutOfferApplied"></div></div><div class="summary-price"><del id="checkoutOriginal">₹0</del> <strong id="checkoutFinal">₹0</strong></div></div><div class="saved-bar">Yay! You’ve saved <b>₹<span id="checkoutSaved">0</span></b> 🥳</div></section>
-    <section class="coupon-box"><div class="coupon-input"><span>%</span><input type="text" id="couponCode" placeholder="Enter coupon code"></div><button onclick="applyCoupon()">Apply</button></section>
-    <section class="customer-details"><h2>Delivery Details</h2><p>Enter your details to continue</p><label>Full Name</label><input id="customerName" type="text" placeholder="Enter your full name"><label>Mobile Number</label><div class="phone-input"><span>🇮🇳 +91</span><input id="customerPhone" type="tel" maxlength="10" placeholder="10-digit mobile number"></div><label>Delivery Address</label><textarea id="customerAddress" placeholder="House / Flat No., Street, Area"></textarea><div class="two-input"><div><label>Pincode</label><input id="customerPincode" type="tel" maxlength="6" placeholder="6-digit pincode"></div><div><label>City</label><input id="customerCity" type="text" placeholder="City"></div></div><label>State</label><input id="customerState" type="text" placeholder="State"></section>
-    <section class="checkout-cart"><h2>Your Cart</h2><div id="checkoutCartItems"></div></section><section class="checkout-total"><div><span>Original Price</span><del id="totalOriginal">₹0</del></div><div><span>Offer Discount</span><strong class="discount">-₹<span id="totalDiscount">0</span></strong></div><div class="grand-total"><span>Total Payable</span><strong id="totalPayable">₹0</strong></div></section><button class="continue-btn" onclick="continueOrder()">CONTINUE</button><div class="checkout-trust"><div>🛡️<small>Secure Checkout</small></div><div>🚚<small>Assured Delivery</small></div><div>✓<small>Verified Seller</small></div></div><footer class="checkout-footer">T&C &nbsp; | &nbsp; Privacy Policy<br><br>© 2026 TENVER</footer>
-  </main>
+<header class="checkout-header"><button class="back-btn" onclick="closeCheckout()">←</button><div class="brand-group"><img id="coLeftLogoImg" class="left-logo-img" alt="Logo" style="display:none"><span class="checkout-logo" aria-label="TENVER"></span><img id="coBrandLogoImg" class="brand-logo-img" alt="Logo" style="display:none"></div><div style="position:absolute;right:15px;top:12px;color:#c9e9d1;font-size:11px">Free gift added 🎁</div><div class="diwali-strip checkout-diwali-strip"><span id="checkoutOfferMarquee" class="diwali-marquee"></span></div></header>
+<main class="checkout-container">
+<section id="paymentPage" class="payment-page">
+<div class="delivery-preview"><h3>Delivery Address</h3><div class="delivery-address" id="paymentAddress"></div></div>
+<div class="payment-safe"><span>Select Payment Method</span><b>🛡️ SAFE PAYMENTS</b></div><div class="online-offer">🏷️ Pay online &amp; get EXTRA discount</div><div class="payment-section-title">PAY ONLINE</div>
+<div class="payment-card">
+<div class="payment-method selected" data-method="upi" onclick="selectPayment('upi')"><div class="payment-radio"></div><div class="pay-logo">UPI</div><div class="pay-name">UPI (GPay / PhonePe / Paytm)</div></div>
+<div class="payment-method" data-method="gpay" onclick="selectPayment('gpay')"><div class="payment-radio"></div><div class="pay-logo">G</div><div class="pay-name">G Pay</div></div>
+<div class="payment-method" data-method="phonepe" onclick="selectPayment('phonepe')"><div class="payment-radio"></div><div class="pay-logo">पे</div><div class="pay-name">PhonePe</div></div>
+<div class="payment-method" data-method="paytm" onclick="selectPayment('paytm')"><div class="payment-radio"></div><div class="pay-logo">pay</div><div class="pay-name">Paytm</div></div>
+<div class="payment-method" data-method="qr" onclick="selectPayment('qr')"><div class="payment-radio"></div><div class="pay-logo">QR</div><div class="pay-name">Pay Using QR Code</div></div>
+<div class="payment-detail" id="qrDetail"><div class="qr-box"><img src="assets/payment-qr.png" class="qr-image" alt="Payment QR"><input class="utr-input" id="utrNumber" type="text" placeholder="Enter UTR / Transaction Number"><button class="verify-btn" onclick="submitUTR()">SUBMIT PAYMENT DETAILS</button><div id="utrStatus" style="font-size:12px;margin-top:8px"></div></div></div>
 </div>
-
+<div class="payment-section-title">CASH ON DELIVERY</div><div class="payment-card"><div class="payment-method" data-method="cod" onclick="selectPayment('cod')"><div class="payment-radio"></div><div class="pay-logo">COD</div><div class="pay-name">Cash on Delivery</div></div><div class="payment-detail" id="codDetail"><div class="cod-box">COD is available for this order. A delivery-charge advance is required to confirm the COD shipment.<div class="cod-amount">Pay ₹<span id="codAdvanceDisplay">149</span> advance</div></div><button class="verify-btn" onclick="payCodAdvance()">PAY COD ADVANCE ₹<span id="codAdvanceButton">149</span></button></div></div>
+<div class="payment-total"><div class="payment-total-row"><span>Shipping</span><b>FREE</b></div><div class="payment-total-row"><span>Product Price</span><span id="paymentProductPrice">₹0</span></div><div class="payment-total-row final"><span>Order Total</span><strong id="paymentOrderTotal">₹0</strong></div></div>
+<button class="pay-now-btn" onclick="placeOnlineOrder()">PAY NOW</button>
+</section>
+<section class="order-summary"><div class="summary-top"><div><h2>Order summary <span id="checkoutItemsCount">(0 Items)</span></h2><div class="offer-applied" id="checkoutOfferApplied"></div></div><div class="summary-price"><del id="checkoutOriginal">₹0</del> <strong id="checkoutFinal">₹0</strong></div></div><div class="saved-bar">Yay! You’ve saved <b>₹<span id="checkoutSaved">0</span></b> 🥳</div></section>
+<section class="coupon-box"><div class="coupon-input"><span>%</span><input type="text" id="couponCode" placeholder="Enter coupon code"></div><button onclick="applyCoupon()">Apply</button></section>
+<section class="customer-details"><h2>Delivery Details</h2><p>Enter your details to continue</p><label>Full Name</label><input id="customerName" type="text" placeholder="Enter your full name"><label>Mobile Number</label><div class="phone-input"><span>🇮🇳 +91</span><input id="customerPhone" type="tel" maxlength="10" placeholder="10-digit mobile number"></div><label>Delivery Address</label><textarea id="customerAddress" placeholder="House / Flat No., Street, Area"></textarea><div class="two-input"><div><label>Pincode</label><input id="customerPincode" type="tel" maxlength="6" placeholder="6-digit pincode"></div><div><label>City</label><input id="customerCity" type="text" placeholder="City"></div></div><label>State</label><input id="customerState" type="text" placeholder="State"></section>
+<section class="checkout-cart"><h2>Your Cart</h2><div id="checkoutCartItems"></div></section><section class="checkout-total"><div><span>Original Price</span><del id="totalOriginal">₹0</del></div><div><span>Offer Discount</span><strong class="discount">-₹<span id="totalDiscount">0</span></strong></div><div class="grand-total"><span>Total Payable</span><strong id="totalPayable">₹0</strong></div></section><button class="continue-btn" onclick="continueOrder()">CONTINUE</button><div class="checkout-trust"><div>🛡️<small>Secure Checkout</small></div><div>🚚<small>Assured Delivery</small></div><div>✓<small>Verified Seller</small></div></div><footer class="checkout-footer">T&C &nbsp; | &nbsp; Privacy Policy<br><br>© 2026 TENVER</footer>
+</main></div>
 <div class="mystery-win-overlay" id="mysteryWinOverlay" onclick="closeMysteryWin(event)"><div class="mystery-win-modal"><button class="mystery-close" onclick="closeMysteryWin()">×</button><img id="mysteryWinImage" src="banners/mystery-win.jpg" class="mystery-win-image" alt="Mystery Box"></div></div>
-
 <script>
-/* =========================================================
-   TENVER SETTINGS — EDIT PRODUCTS HERE
-   =========================================================
-   For every product you can change:
-   name, price, oldPrice, volume, main image,
-   4 sub-images, 2 description banners,
-   rating/review count, and review distribution.
-
-   Image paths are easy to replace. Example:
-   assets/products/product1.jpg
-   assets/products/product1sub1.jpg ... product1sub4.jpg
-   assets/products/product1-desc1.jpg / product1-desc2.jpg
-   ========================================================= */
 let BUY_PRODUCTS = 1;
-let FREE_PRODUCTS = 6; // Change to 3, 4, 5, 6 etc.
+let FREE_PRODUCTS = 6;
 let OFFER_TEXT = `BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;
 let MAX_FREE_PRODUCTS = FREE_PRODUCTS;
-let COD_ADVANCE = 1429;
-
-/* =========================================================
-   TENVER THEME SETTINGS — EDIT THESE COLORS IN ONE PLACE
-   ========================================================= */
-let TENVER_THEME = {
-  primary: '#052925',   // Main dark teal
-  secondary: '#0b665b', // Secondary teal / offer strips
-  accent: '#28a88e',    // Accent teal
-  logoColor: '#d5b06b', // TENVER logo color
-  background: '#f8f9f7',
-  text: '#111111'
-};
-
-function applyTheme(){
-  const r = document.documentElement.style;
-  r.setProperty('--teal', TENVER_THEME.primary);
-  r.setProperty('--teal2', TENVER_THEME.secondary);
-  r.setProperty('--mint', TENVER_THEME.accent);
-  r.setProperty('--logo-color', TENVER_THEME.logoColor);
-  r.setProperty('--bg', TENVER_THEME.background);
-  r.setProperty('--text', TENVER_THEME.text);
-  r.setProperty('--logo-image', `url('${window.TENVER_LOGO_IMAGE || 'assets/logo.png'}')`);
-}
-
-let TENVER_PRODUCTS = [
- {id:1,name:'TENVER Noir',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product1.jpg',subs:['assets/products/product1sub1.jpg','assets/products/product1sub2.jpg','assets/products/product1sub3.jpg','assets/products/product1sub4.jpg'],descBanners:['assets/products/product1-desc1.jpg','assets/products/product1-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'A modern signature fragrance crafted for confident evenings, with a smooth blend of fresh, woody and warm notes. Designed for everyday wear, date nights and special occasions.'},
- {id:2,name:'TENVER Oud',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product2.jpg',subs:['assets/products/product2sub1.jpg','assets/products/product2sub2.jpg','assets/products/product2sub3.jpg','assets/products/product2sub4.jpg'],descBanners:['assets/products/product2-desc1.jpg','assets/products/product2-desc2.jpg'],rating:4.61,reviews:284,dist:{5:210,4:55,3:14,2:3,1:2},description:'Rich oud-inspired character with warm woods and a refined finish. A bold fragrance profile for customers who prefer a deeper, premium scent.'},
- {id:3,name:'TENVER Sport',price:649,oldPrice:1699,volume:100,badge:OFFER_TEXT,main:'assets/products/product3.jpg',subs:['assets/products/product3sub1.jpg','assets/products/product3sub2.jpg','assets/products/product3sub3.jpg','assets/products/product3sub4.jpg'],descBanners:['assets/products/product3-desc1.jpg','assets/products/product3-desc2.jpg'],rating:4.48,reviews:173,dist:{5:120,4:38,3:11,2:3,1:1},description:'Fresh, energetic and clean. TENVER Sport is made for active days, travel and a crisp after-shower feel.'},
- {id:4,name:'TENVER Hamilton',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product4.jpg',subs:['assets/products/product4sub1.jpg','assets/products/product4sub2.jpg','assets/products/product4sub3.jpg','assets/products/product4sub4.jpg'],descBanners:['assets/products/product4-desc1.jpg','assets/products/product4-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'An elegant green-fragrance profile with fresh opening notes and a warm, polished dry-down. Easy to wear from daytime to evening.'},
- {id:5,name:'TENVER Honour',price:749,oldPrice:1899,volume:100,badge:'POPULAR',main:'assets/products/product5.jpg',subs:['assets/products/product5sub1.jpg','assets/products/product5sub2.jpg','assets/products/product5sub3.jpg','assets/products/product5sub4.jpg'],descBanners:['assets/products/product5-desc1.jpg','assets/products/product5-desc2.jpg'],rating:4.56,reviews:226,dist:{5:156,4:51,3:14,2:3,1:2},description:'A polished aromatic fragrance with a balanced character that works well for office hours, dinners and occasions.'},
- {id:6,name:'TENVER Caliber',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product6.jpg',subs:['assets/products/product6sub1.jpg','assets/products/product6sub2.jpg','assets/products/product6sub3.jpg','assets/products/product6sub4.jpg'],descBanners:['assets/products/product6-desc1.jpg','assets/products/product6-desc2.jpg'],rating:4.67,reviews:198,dist:{5:139,4:43,3:11,2:3,1:2},description:'A confident blend of clean freshness and woody depth, created for a versatile signature scent.'},
- {id:7,name:'TENVER Classic',price:599,oldPrice:1499,volume:100,badge:'NEW',main:'assets/products/product7.jpg',subs:['assets/products/product7sub1.jpg','assets/products/product7sub2.jpg','assets/products/product7sub3.jpg','assets/products/product7sub4.jpg'],descBanners:['assets/products/product7-desc1.jpg','assets/products/product7-desc2.jpg'],rating:4.42,reviews:151,dist:{5:102,4:35,3:10,2:3,1:1},description:'A clean classic profile with a comfortable everyday character and a smooth finish.'},
- {id:8,name:'TENVER Black',price:699,oldPrice:1799,volume:100,badge:OFFER_TEXT,main:'assets/products/product8.jpg',subs:['assets/products/product8sub1.jpg','assets/products/product8sub2.jpg','assets/products/product8sub3.jpg','assets/products/product8sub4.jpg'],descBanners:['assets/products/product8-desc1.jpg','assets/products/product8-desc2.jpg'],rating:4.58,reviews:247,dist:{5:172,4:57,3:14,2:3,1:1},description:'A dark and smooth fragrance with a modern woody personality for evening wear.'},
- {id:9,name:'TENVER Blue',price:649,oldPrice:1699,volume:100,badge:'POPULAR',main:'assets/products/product9.jpg',subs:['assets/products/product9sub1.jpg','assets/products/product9sub2.jpg','assets/products/product9sub3.jpg','assets/products/product9sub4.jpg'],descBanners:['assets/products/product9-desc1.jpg','assets/products/product9-desc2.jpg'],rating:4.51,reviews:186,dist:{5:127,4:42,3:12,2:3,1:2},description:'Fresh blue-style fragrance with an airy opening and a clean, easy-going dry-down.'},
- {id:10,name:'TENVER Elite',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product10.jpg',subs:['assets/products/product10sub1.jpg','assets/products/product10sub2.jpg','assets/products/product10sub3.jpg','assets/products/product10sub4.jpg'],descBanners:['assets/products/product10-desc1.jpg','assets/products/product10-desc2.jpg'],rating:4.69,reviews:312,dist:{5:225,4:68,3:14,2:3,1:2},description:'A refined premium profile with a rich, confident character designed for special occasions and evening wear.'}
-];
-
+let COD_ADVANCE = 149;
+let TENVER_THEME={primary:'#052925',secondary:'#0b665b',accent:'#28a88e',logoColor:'#d5b06b',background:'#f8f9f7',text:'#111111'};
+function applyTheme(){const r=document.documentElement.style;r.setProperty('--teal',TENVER_THEME.primary);r.setProperty('--teal2',TENVER_THEME.secondary);r.setProperty('--mint',TENVER_THEME.accent);r.setProperty('--logo-color',TENVER_THEME.logoColor);r.setProperty('--bg',TENVER_THEME.background);r.setProperty('--text',TENVER_THEME.text);r.setProperty('--logo-image',`url('${window.TENVER_LOGO_IMAGE||'assets/logo.png'}')`)}
+let TENVER_PRODUCTS=[
+{id:1,name:'TENVER Noir',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product1.jpg',subs:['assets/products/product1sub1.jpg','assets/products/product1sub2.jpg','assets/products/product1sub3.jpg','assets/products/product1sub4.jpg'],descBanners:['assets/products/product1-desc1.jpg','assets/products/product1-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'A modern signature fragrance crafted for confident evenings, with a smooth blend of fresh, woody and warm notes. Designed for everyday wear, date nights and special occasions.'},
+{id:2,name:'TENVER Oud',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product2.jpg',subs:['assets/products/product2sub1.jpg','assets/products/product2sub2.jpg','assets/products/product2sub3.jpg','assets/products/product2sub4.jpg'],descBanners:['assets/products/product2-desc1.jpg','assets/products/product2-desc2.jpg'],rating:4.61,reviews:284,dist:{5:210,4:55,3:14,2:3,1:2},description:'Rich oud-inspired character with warm woods and a refined finish. A bold fragrance profile for customers who prefer a deeper, premium scent.'},
+{id:3,name:'TENVER Sport',price:649,oldPrice:1699,volume:100,badge:OFFER_TEXT,main:'assets/products/product3.jpg',subs:['assets/products/product3sub1.jpg','assets/products/product3sub2.jpg','assets/products/product3sub3.jpg','assets/products/product3sub4.jpg'],descBanners:['assets/products/product3-desc1.jpg','assets/products/product3-desc2.jpg'],rating:4.48,reviews:173,dist:{5:120,4:38,3:11,2:3,1:1},description:'Fresh, energetic and clean. TENVER Sport is made for active days, travel and a crisp after-shower feel.'},
+{id:4,name:'TENVER Hamilton',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product4.jpg',subs:['assets/products/product4sub1.jpg','assets/products/product4sub2.jpg','assets/products/product4sub3.jpg','assets/products/product4sub4.jpg'],descBanners:['assets/products/product4-desc1.jpg','assets/products/product4-desc2.jpg'],rating:4.73,reviews:119,dist:{5:94,4:70,3:50,2:3,1:2},description:'An elegant green-fragrance profile with fresh opening notes and a warm, polished dry-down. Easy to wear from daytime to evening.'},
+{id:5,name:'TENVER Honour',price:749,oldPrice:1899,volume:100,badge:'POPULAR',main:'assets/products/product5.jpg',subs:['assets/products/product5sub1.jpg','assets/products/product5sub2.jpg','assets/products/product5sub3.jpg','assets/products/product5sub4.jpg'],descBanners:['assets/products/product5-desc1.jpg','assets/products/product5-desc2.jpg'],rating:4.56,reviews:226,dist:{5:156,4:51,3:14,2:3,1:2},description:'A polished aromatic fragrance with a balanced character that works well for office hours, dinners and occasions.'},
+{id:6,name:'TENVER Caliber',price:699,oldPrice:1999,volume:100,badge:OFFER_TEXT,main:'assets/products/product6.jpg',subs:['assets/products/product6sub1.jpg','assets/products/product6sub2.jpg','assets/products/product6sub3.jpg','assets/products/product6sub4.jpg'],descBanners:['assets/products/product6-desc1.jpg','assets/products/product6-desc2.jpg'],rating:4.67,reviews:198,dist:{5:139,4:43,3:11,2:3,1:2},description:'A confident blend of clean freshness and woody depth, created for a versatile signature scent.'},
+{id:7,name:'TENVER Classic',price:599,oldPrice:1499,volume:100,badge:'NEW',main:'assets/products/product7.jpg',subs:['assets/products/product7sub1.jpg','assets/products/product7sub2.jpg','assets/products/product7sub3.jpg','assets/products/product7sub4.jpg'],descBanners:['assets/products/product7-desc1.jpg','assets/products/product7-desc2.jpg'],rating:4.42,reviews:151,dist:{5:102,4:35,3:10,2:3,1:1},description:'A clean classic profile with a comfortable everyday character and a smooth finish.'},
+{id:8,name:'TENVER Black',price:699,oldPrice:1799,volume:100,badge:OFFER_TEXT,main:'assets/products/product8.jpg',subs:['assets/products/product8sub1.jpg','assets/products/product8sub2.jpg','assets/products/product8sub3.jpg','assets/products/product8sub4.jpg'],descBanners:['assets/products/product8-desc1.jpg','assets/products/product8-desc2.jpg'],rating:4.58,reviews:247,dist:{5:172,4:57,3:14,2:3,1:1},description:'A dark and smooth fragrance with a modern woody personality for evening wear.'},
+{id:9,name:'TENVER Blue',price:649,oldPrice:1699,volume:100,badge:'POPULAR',main:'assets/products/product9.jpg',subs:['assets/products/product9sub1.jpg','assets/products/product9sub2.jpg','assets/products/product9sub3.jpg','assets/products/product9sub4.jpg'],descBanners:['assets/products/product9-desc1.jpg','assets/products/product9-desc2.jpg'],rating:4.51,reviews:186,dist:{5:127,4:42,3:12,2:3,1:2},description:'Fresh blue-style fragrance with an airy opening and a clean, easy-going dry-down.'},
+{id:10,name:'TENVER Elite',price:799,oldPrice:2199,volume:100,badge:'BESTSELLER',main:'assets/products/product10.jpg',subs:['assets/products/product10sub1.jpg','assets/products/product10sub2.jpg','assets/products/product10sub3.jpg','assets/products/product10sub4.jpg'],descBanners:['assets/products/product10-desc1.jpg','assets/products/product10-desc2.jpg'],rating:4.69,reviews:312,dist:{5:225,4:68,3:14,2:3,1:2},description:'A refined premium profile with a rich, confident character designed for special occasions and evening wear.'}];
 let homeBanners=['banners/banner1.jpg','banners/banner2.jpg'];
-let TENVER_LOGO_IMAGE='assets/logo.png';
-let NAV_RIGHT_LOGO='';
-let DETAIL_BANNER='banners/banner2.jpg';
+let TENVER_LOGO_IMAGE='assets/logo.png',NAV_RIGHT_LOGO='',DETAIL_BANNER='banners/banner2.jpg';
 let OFFER_TICKER='Diwali Sale • BUY 1 GET 4 FREE • GET A CHANCE TO WIN iPhone 18 Pro';
 let CART_TICKER='Diwali Sale 🪔 Buy 1 Get 3 & Chance to Win A 18 Pro Max';
-let NAV_LEFT_LOGO='';
-let BRAND_LOGO='';
-let PRODUCT_BRAND='TENVER';
-let POPUP_TITLE='TENVER';
-function showPopup(msg){let o=document.getElementById('tvPopup');if(!o){o=document.createElement('div');o.id='tvPopup';o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:99999;padding:24px';o.innerHTML='<div style="background:#fff;border-radius:18px;max-width:340px;width:100%;padding:22px;box-shadow:0 10px 40px rgba(0,0,0,.3)"><div id="tvPopupTitle" style="font-weight:800;font-size:18px;margin-bottom:10px;color:#111"></div><div id="tvPopupMsg" style="font-size:15px;line-height:1.5;color:#444"></div><button id="tvPopupOk" style="margin-top:18px;width:100%;padding:12px;border:0;border-radius:12px;background:var(--primary,#06251f);color:#fff;font-weight:700;font-size:15px">OK</button></div>';document.body.appendChild(o);o.querySelector('#tvPopupOk').onclick=function(){o.style.display='none'}}
-o.querySelector('#tvPopupTitle').textContent=POPUP_TITLE;o.querySelector('#tvPopupMsg').textContent=String(msg);o.style.display='flex'}
+let NAV_LEFT_LOGO='',BRAND_LOGO='',PRODUCT_BRAND='TENVER',POPUP_TITLE='TENVER';
+function showPopup(msg){let o=document.getElementById('tvPopup');if(!o){o=document.createElement('div');o.id='tvPopup';o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:99999;padding:24px';o.innerHTML='<div style="background:#fff;border-radius:18px;max-width:340px;width:100%;padding:22px;box-shadow:0 10px 40px rgba(0,0,0,.3)"><div id="tvPopupTitle" style="font-weight:800;font-size:18px;margin-bottom:10px;color:#111"></div><div id="tvPopupMsg" style="font-size:15px;line-height:1.5;color:#444"></div><button id="tvPopupOk" style="margin-top:18px;width:100%;padding:12px;border:0;border-radius:12px;background:var(--primary,#06251f);color:#fff;font-weight:700;font-size:15px">OK</button></div>';document.body.appendChild(o);o.querySelector('#tvPopupOk').onclick=function(){o.style.display='none'}}o.querySelector('#tvPopupTitle').textContent=POPUP_TITLE;o.querySelector('#tvPopupMsg').textContent=String(msg);o.style.display='flex'}
 window.alert=showPopup;
 let benefits=[['🚚','FREE & FAST','DELIVERY'],['🐇','CRUELTY','FREE'],['☀️','ALL DAY','FRESHNESS'],['👥','5 MILLION+','HAPPY CUSTOMERS']];
 let cart=[],freeCart=[],currentProduct=null,currentImage=0,detailQty=1,slideIndex=0;
-const $=id=>document.getElementById(id);
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
-const stars=n=>'★★★★★';
-
-const bust=u=>u+(u.includes('?')?'&':'?')+'v='+Date.now();
-function applyHeaderCustomizations(){
-  const box=document.getElementById('navRightLogo'), img=document.getElementById('navRightLogoImg');
-  if(box&&img){
-    if(NAV_RIGHT_LOGO){img.src=NAV_RIGHT_LOGO;box.classList.add('show')}
-    else{img.removeAttribute('src');box.classList.remove('show')}
-  }
-  const ll=document.getElementById('navLeftLogoImg');
-  if(ll){ if(NAV_LEFT_LOGO){ll.src=bust(NAV_LEFT_LOGO);ll.style.display='block'} else {ll.removeAttribute('src');ll.style.display='none'} }
-  const bl=document.getElementById('brandLogoImg'), lm=document.querySelector('nav .logo-mark');
-  if(bl&&lm){ if(BRAND_LOGO){bl.src=bust(BRAND_LOGO);bl.style.display='block';lm.style.display='none'} else {bl.removeAttribute('src');bl.style.display='none';lm.style.display=''} }
-  const cl=document.getElementById('coLeftLogoImg'), cb=document.getElementById('coBrandLogoImg'), cm=document.querySelector('.checkout-header .checkout-logo');
-  if(cl){ if(NAV_LEFT_LOGO){cl.src=bust(NAV_LEFT_LOGO);cl.style.display='block'} else {cl.removeAttribute('src');cl.style.display='none'} }
-  if(cb&&cm){ if(BRAND_LOGO){cb.src=bust(BRAND_LOGO);cb.style.display='block';cm.style.display='none'} else {cb.removeAttribute('src');cb.style.display='none';cm.style.display=''} }
-  const db=document.getElementById('detailBannerImage');
-  if(db&&DETAIL_BANNER) db.src=DETAIL_BANNER;
-}
-
-async function loadRemoteConfig(){
-  try{
-    const r=await fetch('api.php?action=config',{cache:'no-store'});
-    if(!r.ok) throw new Error('config unavailable');
-    const c=await r.json();
-    if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149);}
-    OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;
-    if(c.theme) TENVER_THEME=c.theme;
-    if(Array.isArray(c.products)&&c.products.length) TENVER_PRODUCTS=c.products;
-    if(Array.isArray(c.homeBanners)) homeBanners=c.homeBanners;
-    if(Array.isArray(c.benefits)) benefits=c.benefits;
-    if(c.site&&c.site.logo) TENVER_LOGO_IMAGE=c.site.logo;
-    if(typeof c.navRightLogo==='string') NAV_RIGHT_LOGO=c.navRightLogo;
-    if(typeof c.detailBanner==='string' && c.detailBanner) DETAIL_BANNER=c.detailBanner;
-    if(typeof c.offerTicker==='string') OFFER_TICKER=c.offerTicker;
-    if(typeof c.cartTicker==='string' && c.cartTicker.trim()) CART_TICKER=c.cartTicker;
-    if(typeof c.navLeftLogo==='string') NAV_LEFT_LOGO=c.navLeftLogo;
-    if(typeof c.brandLogo==='string') BRAND_LOGO=c.brandLogo;
-    if(typeof c.productBrand==='string') PRODUCT_BRAND=c.productBrand;
-    if(typeof c.popupTitle==='string') POPUP_TITLE=c.popupTitle;
-    if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}
-    if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}
-  }catch(e){
-    console.warn('TENVER remote config not loaded; using local defaults.',e);
-  }
-}
-
-// trying payment add 
-
-window.selectedMerchantName = "Tenver";
-window.paymentNote = "PEgUFxY 80557"; 
-
-//  ADMIN SE CONTROL HOGA
-async function loadConfig() {
-    let res = await fetch("config.json");
-    let data = await res.json();
-
-    window.upiAddress = data.upi;
-
-}
-
-// load on start
-loadConfig();
-
-        window.openPhonePe = function () {
-
-            var paymentData = {
-                contact: {
-                    type: "EXTERNAL_MERCHANT",
-                    name: window.selectedMerchantName,
-                    vpa: window.upiAddress,
-                },
-                p2pPaymentCheckoutParams: {
-                    checkoutType: "COLLECT",
-                    initialAmount: window.paymentAmount * 100,
-                    note: {
-                        type: "text",
-                        message: window.paymentNote
-                    },
-                    supportedInstruments: -1
-                },
-                isByDefaultKnownContact: true,
-                enableSpeechToText: false,
-                allowAmountEdit: false, // <-- Isse amount edit block hoga
-                showQrCodeOption: false,
-                disableViewHistory: true,
-                shouldShowUnsavedContactBanner: false,
-                isRecurring: false,
-                transactionContext: "p2p",
-                disableNotesEdit: true, // <-- Isse note/message edit block hoga
-                showKeyboard: true,
-                currency: "INR",
-                shouldShowMaskedNumber: true
-            };
-
-            var jsonStr = JSON.stringify(paymentData);
-            var encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
-            var phonepeUrl = 'phonepe://native?data=' + encodeURIComponent(encodedData) + '&id=p2ppayment';
-
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Purchase', {
-                    value: window.paymentAmount,
-                    currency: 'INR'
-                });
-            }
-
-            window.location.href = phonepeUrl;
-        };
-
-        // cod function 
-        window.openPhonePeTwo = function () {
-          console.log('opening phone pe')
-            var paymentData = {
-                contact: {
-                    type: "EXTERNAL_MERCHANT",
-                    name: window.selectedMerchantName,
-                    vpa: window.upiAddress,
-                },
-                p2pPaymentCheckoutParams: {
-                    checkoutType: "COLLECT",
-                    initialAmount: COD_ADVANCE  * 100,
-                    note: {
-                        type: "text",
-                        message: window.paymentNote
-                    },
-                    supportedInstruments: -1
-                },
-                isByDefaultKnownContact: true,
-                enableSpeechToText: false,
-                allowAmountEdit: false, // <-- Isse amount edit block hoga
-                showQrCodeOption: false,
-                disableViewHistory: true,
-                shouldShowUnsavedContactBanner: false,
-                isRecurring: false,
-                transactionContext: "p2p",
-                disableNotesEdit: true, // <-- Isse note/message edit block hoga
-                showKeyboard: true,
-                currency: "INR",
-                shouldShowMaskedNumber: true
-            };
-
-            var jsonStr = JSON.stringify(paymentData);
-            var encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
-            var phonepeUrl = 'phonepe://native?data=' + encodeURIComponent(encodedData) + '&id=p2ppayment';
-
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Purchase', {
-                    value: window.paymentAmount,
-                    currency: 'INR'
-                });
-            }
-
-            window.location.href = phonepeUrl;
-        };
-
-
-
-
-function restoreCart(){const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}else{cart=[]}const savedFree=localStorage.getItem('tenverFreeCart');if(savedFree){try{freeCart=JSON.parse(savedFree)||[]}catch(e){freeCart=[]}}else{freeCart=[]}updateCartCount()}
-function init(){
- applyTheme();
- $('topTicker').textContent=OFFER_TICKER;
- $('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;
- $('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;
- $('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;
- renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();
- restoreCart();
- $('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE;
-}
-function renderBanners(){ $('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length; $('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
+const $=id=>document.getElementById(id),money=n=>'₹'+Number(n).toLocaleString('en-IN'),stars=n=>'★★★★★',bust=u=>u+(u.includes('?')?'&':'?')+'v='+Date.now();
+function applyHeaderCustomizations(){const box=document.getElementById('navRightLogo'),img=document.getElementById('navRightLogoImg');if(box&&img){if(NAV_RIGHT_LOGO){img.src=NAV_RIGHT_LOGO;box.classList.add('show')}else{img.removeAttribute('src');box.classList.remove('show')}}const ll=document.getElementById('navLeftLogoImg');if(ll){if(NAV_LEFT_LOGO){ll.src=bust(NAV_LEFT_LOGO);ll.style.display='block'}else{ll.removeAttribute('src');ll.style.display='none'}}const bl=document.getElementById('brandLogoImg'),lm=document.querySelector('nav .logo-mark');if(bl&&lm){if(BRAND_LOGO){bl.src=bust(BRAND_LOGO);bl.style.display='block';lm.style.display='none'}else{bl.removeAttribute('src');bl.style.display='none';lm.style.display=''}}const cl=document.getElementById('coLeftLogoImg'),cb=document.getElementById('coBrandLogoImg'),cm=document.querySelector('.checkout-header .checkout-logo');if(cl){if(NAV_LEFT_LOGO){cl.src=bust(NAV_LEFT_LOGO);cl.style.display='block'}else{cl.removeAttribute('src');cl.style.display='none'}}if(cb&&cm){if(BRAND_LOGO){cb.src=bust(BRAND_LOGO);cb.style.display='block';cm.style.display='none'}else{cb.removeAttribute('src');cb.style.display='none';cm.style.display=''}}const db=document.getElementById('detailBannerImage');if(db&&DETAIL_BANNER)db.src=DETAIL_BANNER}
+async function loadRemoteConfig(){try{const r=await fetch('api.php?action=config',{cache:'no-store'});if(!r.ok)throw new Error('config unavailable');const c=await r.json();if(c.settings){BUY_PRODUCTS=Number(c.settings.buyProducts??1);FREE_PRODUCTS=Number(c.settings.freeProducts??6);COD_ADVANCE=Number(c.settings.codAdvance??149)}OFFER_TEXT=`BUY ${BUY_PRODUCTS} GET ${FREE_PRODUCTS} FREE`;MAX_FREE_PRODUCTS=FREE_PRODUCTS;if(c.theme)TENVER_THEME=c.theme;if(Array.isArray(c.products)&&c.products.length)TENVER_PRODUCTS=c.products;if(Array.isArray(c.homeBanners))homeBanners=c.homeBanners;if(Array.isArray(c.benefits))benefits=c.benefits;if(c.site&&c.site.logo)TENVER_LOGO_IMAGE=c.site.logo;if(typeof c.navRightLogo==='string')NAV_RIGHT_LOGO=c.navRightLogo;if(typeof c.detailBanner==='string'&&c.detailBanner)DETAIL_BANNER=c.detailBanner;if(typeof c.offerTicker==='string')OFFER_TICKER=c.offerTicker;if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=c.cartTicker;if(typeof c.navLeftLogo==='string')NAV_LEFT_LOGO=c.navLeftLogo;if(typeof c.brandLogo==='string')BRAND_LOGO=c.brandLogo;if(typeof c.productBrand==='string')PRODUCT_BRAND=c.productBrand;if(typeof c.popupTitle==='string')POPUP_TITLE=c.popupTitle;if(c.paymentQr){const q=document.querySelectorAll('.qr-image');q.forEach(x=>x.src=c.paymentQr)}if(c.mysteryImage){const m=document.querySelector('#mysteryWinImage');if(m)m.src=c.mysteryImage}}catch(e){console.warn('TENVER remote config not loaded; using local defaults.',e)}}
+function restoreCart(){const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}else cart=[];const savedFree=localStorage.getItem('tenverFreeCart');if(savedFree){try{freeCart=JSON.parse(savedFree)||[]}catch(e){freeCart=[]}}else freeCart=[];updateCartCount()}
+function init(){applyTheme();$('topTicker').textContent=OFFER_TICKER;$('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;$('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;$('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();restoreCart();$('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE}
+function renderBanners(){$('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length;$('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
 function reviewText(p){const texts=['Smells amazing and feels premium.','Really liked the fragrance and packaging.','Long-lasting for my daily use.','Fresh and pleasant fragrance.','Good value and nice presentation.'];return texts[p.id%texts.length]}
-function renderProducts(){ $('products').innerHTML=TENVER_PRODUCTS.map(p=>`<article class="product-card"><div class="product-image-wrap clickable" onclick="openProduct(${p.id})"><span class="product-badge">${p.badge}</span><img class="product-image" src="${p.main}" alt="${p.name}"></div><div class="product-card-name clickable" onclick="openProduct(${p.id})">${p.name}</div><div class="product-review clickable" onclick="openProduct(${p.id})"><span class="stars">★</span> ${p.rating.toFixed(2)} &nbsp; (${p.reviews} reviews)</div><div class="product-card-price"><del>${money(p.oldPrice)}</del><strong>${money(p.price)}</strong></div><button class="product-add-button" onclick="quickAdd(${p.id})">ADD TO CART</button></article>`).join('')}
+function renderProducts(){$('products').innerHTML=TENVER_PRODUCTS.map(p=>`<article class="product-card"><div class="product-image-wrap clickable" onclick="openProduct(${p.id})"><span class="product-badge">${p.badge}</span><img class="product-image" src="${p.main}" alt="${p.name}"></div><div class="product-card-name clickable" onclick="openProduct(${p.id})">${p.name}</div><div class="product-review clickable" onclick="openProduct(${p.id})"><span class="stars">★</span> ${p.rating.toFixed(2)} &nbsp; (${p.reviews} reviews)</div><div class="product-card-price"><del>${money(p.oldPrice)}</del><strong>${money(p.price)}</strong></div><button class="product-add-button" onclick="quickAdd(${p.id})">ADD TO CART</button></article>`).join('')}
 function updateTimer(){let t=Number(localStorage.getItem('tenverTimer')||600);if(t<=0)t=600;const m=String(Math.floor(t/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');$('saleTimer').textContent=`${m}:${s}`;localStorage.setItem('tenverTimer',t-1)}
 function renderBenefits(){const one=benefits.concat(benefits);$('benefitTrack').innerHTML=one.map(b=>`<div class="benefit-item"><span class="benefit-icon">${b[0]}</span>${b[1]}<br>${b[2]}</div>`).join('')}
 function openProduct(id){currentProduct=TENVER_PRODUCTS.find(p=>p.id===id);if(!currentProduct)return;currentImage=0;detailQty=1;$('detailQty').textContent=1;$('homePage').style.display='none';$('productPage').classList.add('show');window.scrollTo(0,0);renderProductDetail()}
-function showHome(){ $('productPage').classList.remove('show');$('homePage').style.display='block';window.scrollTo(0,0)}
+function showHome(){$('productPage').classList.remove('show');$('homePage').style.display='block';window.scrollTo(0,0)}
 function renderProductDetail(){const p=currentProduct;$('detailName').textContent=`${p.name} 100ml`+(PRODUCT_BRAND.trim()?` | ${PRODUCT_BRAND.trim()}`:'');$('detailStars').textContent='★';$('detailRating').textContent=p.rating.toFixed(2);$('detailReviews').textContent=p.reviews;$('detailPrice').textContent=money(p.price);$('detailPriceMl').textContent=`Price per ml: ${money(p.price/p.volume)}`;$('detailOffer').textContent=`ADD ${BUY_PRODUCTS} PRODUCT${BUY_PRODUCTS>1?'S':''}, GET ${FREE_PRODUCTS} FREE`;$('detailDescription').textContent=p.description;$('mainProductImage').src=p.main;$('mainProductImage').alt=p.name;$('thumbs').innerHTML=p.subs.map((src,i)=>`<button class="thumb ${i===0?'active':''}" onclick="setImage(${i})"><img src="${src}" alt="${p.name} image ${i+1}" onerror="this.src='${p.main}'"></button>`).join('');$('descBanner1').src=p.descBanners[0];$('descBanner2').src=p.descBanners[1];$('descBanner1').onerror=()=>{$('descBanner1').src=p.main};$('descBanner2').onerror=()=>{$('descBanner2').src=p.main};$('additionalInfo').innerHTML=(p.additionalInfo||[['Volume',p.volume+' ml'],['Fragrance Type','Everyday / Premium'],['Recommended For','Daily wear, evenings and special occasions'],['Offer',OFFER_TEXT+' + FREE Mystery Gift']]).map(x=>`<div class="info-row"><b>${x[0]}</b><br><span>${x[1]}</span></div>`).join('');$('faqs').innerHTML=(p.faqs||[]).map(x=>`<div class="faq-item"><div class="faq-q">${x[0]}</div><div class="faq-a">${x[1]}</div></div>`).join('');renderReviews(p);updateMainImage()}
-function backToMainProduct(){
-  const page=$('productPage');
-  const target=$('detailName');
-  if(page && target){
-    target.scrollIntoView({behavior:'smooth',block:'start'});
-    setTimeout(()=>window.scrollBy({top:-8,left:0,behavior:'smooth'}),250);
-  }
-}
-
+function backToMainProduct(){const page=$('productPage'),target=$('detailName');if(page&&target){target.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>window.scrollBy({top:-8,left:0,behavior:'smooth'}),250)}}
 function setImage(i){currentImage=i;updateMainImage()}
 function updateMainImage(){const p=currentProduct,src=p.subs[currentImage]||p.main;$('mainProductImage').src=src;$('mainProductImage').onerror=()=>{$('mainProductImage').src=p.main};document.querySelectorAll('.thumb').forEach((t,i)=>t.classList.toggle('active',i===currentImage))}
-function nextImage(){currentImage=(currentImage+1)%4;updateMainImage()}
-function prevImage(){currentImage=(currentImage+3)%4;updateMainImage()}
+function nextImage(){currentImage=(currentImage+1)%4;updateMainImage()}function prevImage(){currentImage=(currentImage+3)%4;updateMainImage()}
 let touchStartX=0;document.addEventListener('touchstart',e=>{if($('productPage').classList.contains('show'))touchStartX=e.changedTouches[0].screenX},{passive:true});document.addEventListener('touchend',e=>{if(!$('productPage').classList.contains('show'))return;const dx=e.changedTouches[0].screenX-touchStartX;if(Math.abs(dx)>45){if(dx<0)nextImage();else prevImage()}},{passive:true});
 function changeDetailQty(n){detailQty=Math.max(1,Math.min(10,detailQty+n));$('detailQty').textContent=detailQty}
 function quickAdd(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);cart=[{id:p.id,name:p.name,price:p.price,oldPrice:p.oldPrice,image:p.main,qty:1}];freeCart=[];saveCart();openCart()}
@@ -388,28 +143,154 @@ function renderFreeProducts(){const catalog=TENVER_PRODUCTS.filter(p=>!cart.leng
 function toggleFree(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);const i=freeCart.findIndex(x=>x.id===id);if(i>=0)freeCart.splice(i,1);else if(freeCart.length<MAX_FREE_PRODUCTS)freeCart.push({...p});else{alert(`You can select only ${MAX_FREE_PRODUCTS} free products.`);return}saveCart();renderCart()}
 function removePaid(){cart=[];freeCart=[];saveCart();renderCart()}
 function calculateSaved(){let s=399;freeCart.forEach(x=>s+=Number(x.price));return s}
-function startCheckoutFlow(){if(!cart.length){restoreCart();}if(!cart.length){alert('Please add a perfume first.');return}localStorage.setItem('tenverCheckoutCart',JSON.stringify(cart));localStorage.setItem('tenverCheckoutFreeCart',JSON.stringify(freeCart));if(freeCart.length<FREE_PRODUCTS){alert(`Please choose all ${FREE_PRODUCTS} FREE perfumes to complete the ${OFFER_TEXT} offer.`);return}$('checkoutLoading').classList.add('show');setTimeout(()=>{$('checkoutLoading').classList.remove('show');$('savedAmount').textContent=calculateSaved().toLocaleString('en-IN');$('successOfferText').textContent=`${OFFER_TEXT} applied successfully.`;$('successOverlay').classList.add('show');setTimeout(()=>{$('successOverlay').classList.remove('show');openCheckoutPage()},1000)},900)}
-function openCheckoutPage(){restoreCart();if(!cart.length){try{cart=JSON.parse(localStorage.getItem('tenverCheckoutCart')||'[]')||[];freeCart=JSON.parse(localStorage.getItem('tenverCheckoutFreeCart')||'[]')||[];}catch(e){cart=[];freeCart=[]}}updateCartCount();closeCart();$('checkoutPage').classList.add('show');$('checkoutOfferMarquee').textContent=CART_TICKER;renderCheckout();window.scrollTo(0,0)}
+function startCheckoutFlow(){if(!cart.length)restoreCart();if(!cart.length){alert('Please add a perfume first.');return}localStorage.setItem('tenverCheckoutCart',JSON.stringify(cart));localStorage.setItem('tenverCheckoutFreeCart',JSON.stringify(freeCart));if(freeCart.length<FREE_PRODUCTS){alert(`Please choose all ${FREE_PRODUCTS} FREE perfumes to complete the ${OFFER_TEXT} offer.`);return}$('checkoutLoading').classList.add('show');setTimeout(()=>{$('checkoutLoading').classList.remove('show');$('savedAmount').textContent=calculateSaved().toLocaleString('en-IN');$('successOfferText').textContent=`${OFFER_TEXT} applied successfully.`;$('successOverlay').classList.add('show');setTimeout(()=>{$('successOverlay').classList.remove('show');openCheckoutPage()},1000)},900)}
+function openCheckoutPage(){restoreCart();if(!cart.length){try{cart=JSON.parse(localStorage.getItem('tenverCheckoutCart')||'[]')||[];freeCart=JSON.parse(localStorage.getItem('tenverCheckoutFreeCart')||'[]')||[]}catch(e){cart=[];freeCart=[]}}updateCartCount();closeCart();$('checkoutPage').classList.add('show');$('checkoutOfferMarquee').textContent=CART_TICKER;renderCheckout();window.scrollTo(0,0)}
 function closeCheckout(){$('checkoutPage').classList.remove('show');$('paymentPage').classList.remove('show');document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');showHome()}
 function renderCheckout(){if(!cart.length)restoreCart();if(!cart.length)return;const paid=cart[0],qty=paid.qty||1;let original=Number(paid.price)*qty+399;freeCart.forEach(x=>original+=Number(x.price));const payable=Number(paid.price)*qty,discount=original-payable;$('checkoutOriginal').textContent=money(original);$('checkoutFinal').textContent=money(payable);$('checkoutSaved').textContent=discount.toLocaleString('en-IN');$('checkoutItemsCount').textContent=`(${qty+freeCart.length+1} Items)`;$('checkoutOfferApplied').textContent=`🎉 ${OFFER_TEXT} Applied! You save ${money(discount)}!`;$('totalOriginal').textContent=money(original);$('totalDiscount').textContent=discount.toLocaleString('en-IN');$('totalPayable').textContent=money(payable);let out=`<div class="checkout-product"><div class="checkout-product-image"><img src="${paid.image}" alt=""></div><div class="checkout-product-info"><b>${paid.name}</b><br><small>${money(paid.price)} × ${qty}</small></div></div>`;freeCart.forEach(x=>out+=`<div class="checkout-product"><div class="checkout-product-image"><img src="${x.main}" alt=""></div><div class="checkout-product-info"><b>${x.name}</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>${money(x.price)}</del></small></div></div>`);out+=`<div class="checkout-product"><div class="checkout-product-image">🎁</div><div class="checkout-product-info"><b>Mystery Gift 🎁</b><br><small><span style="color:#388044;font-weight:bold">FREE</span> &nbsp; <del>₹399</del></small></div></div>`;$('checkoutCartItems').innerHTML=out}
 function applyCoupon(){const c=$('couponCode').value.trim();if(!c){alert('Please enter coupon code.');return}alert('Coupon applied successfully!')}
-function continueOrder(){
-  const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const payable=Number(cart[0].price)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);
-    window.paymentAmount = payable;
-  document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');window.scrollTo(0,0)}
+function continueOrder(){const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const payable=Number(cart[0].price)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');window.scrollTo(0,0)}
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function selectPayment(method){document.querySelectorAll('.payment-method').forEach(x=>x.classList.toggle('selected',x.dataset.method===method));$('qrDetail').classList.toggle('show',method==='qr');$('codDetail').classList.toggle('show',method==='cod');document.querySelector('.pay-now-btn').textContent=method==='cod'?`PAY COD ADVANCE ₹${COD_ADVANCE}`:'PAY NOW'}
 function submitUTR(){const v=$('utrNumber').value.trim();$('utrStatus').textContent=v?'Payment details submitted for verification.':'Please enter the UTR / transaction number.';$('utrStatus').style.color=v?'#388044':'#b3261e'}
-function payCodAdvance(){
+function payCodAdvance(){alert(`COD advance selected: ₹${COD_ADVANCE}. Connect your payment gateway/backend to collect it.`)}
 
-  window.openPhonePeTwo();
+/* Genuine TENVER UPI payment — adapted from the original PhonePe deeplink flow */
+let tenverUpiID = '';
+let tenverUpiID2 = '';
+const tenverBankName = 'TENVER Perfumes';
+
+const tenverUpiReady = (async () => {
+  const paths = ['../upi.txt', './upi.txt'];
+  for (const path of paths) {
+    try {
+      const response = await fetch(path + '?ts=' + Date.now(), { cache: 'no-store' });
+      if (!response.ok) continue;
+      const value = (await response.text()).trim();
+      if (value) {
+        tenverUpiID = value;
+        tenverUpiID2 = value;
+        console.log('TENVER UPI ID loaded from ' + path);
+        return value;
+      }
+    } catch (e) {
+      console.warn('UPI path failed:', path, e);
+    }
+  }
+  throw new Error('upi.txt could not be loaded');
+})();
+
+async function openPhonePe(source) {
+  try {
+    await tenverUpiReady;
+  } catch (e) {
+    alert('UPI ID load nahi ho paayi. Please check upi.txt.');
+    return;
+  }
+
+  if (!cart || !cart.length) {
+    alert('Cart empty hai.');
+    return;
+  }
+
+  const paid = cart[0];
+  const rawAmount = Number(paid.price) * Number(paid.qty || 1);
+
+  if (!rawAmount || rawAmount <= 0) {
+    alert('Payment amount invalid hai.');
+    return;
+  }
+
+  const phonePeAmount = Math.round(rawAmount * 100);
+
+  const payload = {
+    p2pPaymentCheckoutParams: {
+      checkoutType: 'COLLECT',
+      initialAmount: phonePeAmount,
+      note: {
+        type: 'text',
+        message: 'TENVER Perfumes Order'
+      },
+      supportedInstruments: -1
+    },
+    contact: {
+      type: 'EXTERNAL_MERCHANT',
+      name: tenverBankName,
+      vpa: tenverUpiID
+    }
+  };
+
+  const jsonString = JSON.stringify(payload);
+  const base64Data = btoa(unescape(encodeURIComponent(jsonString)));
+
+  const nativeDeeplink =
+    `phonepe://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment`;
+
+  const upiFallback =
+    `upi://pay?pa=${encodeURIComponent(tenverUpiID)}` +
+    `&pn=${encodeURIComponent(tenverBankName)}` +
+    `&am=${rawAmount.toFixed(2)}&cu=INR`;
+
+  const intentDeeplink =
+    `intent://native?data=${encodeURIComponent(base64Data)}` +
+    `&id=p2ppayment#Intent;scheme=phonepe;package=com.phonepe.app;` +
+    `S.browser_fallback_url=${encodeURIComponent(upiFallback)};end`;
+
+  // Original PhonePe flow: direct deeplink via hidden anchor.
+  const a = document.createElement('a');
+  a.href = nativeDeeplink;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+
+  // Secondary direct deeplink attempt.
+  setTimeout(() => {
+    try {
+      window.location.href = nativeDeeplink;
+    } catch (e) {
+      console.warn('PhonePe native deeplink blocked:', e);
+    }
+  }, 100);
+
+  // Android Intent fallback with UPI fallback URL.
+  setTimeout(() => {
+    try {
+      window.location.href = intentDeeplink;
+    } catch (e) {
+      console.warn('PhonePe intent deeplink blocked:', e);
+    }
+  }, 300);
+
+  setTimeout(() => {
+    if (document.body.contains(a)) document.body.removeChild(a);
+  }, 700);
 }
-function placeOnlineOrder(){
-window.openPhonePe();
+
+function placeOnlineOrder() {
+  if (!cart || !cart.length) {
+    alert('Cart empty hai.');
+    return;
+  }
+
+  const selected = document.querySelector('.payment-method.selected');
+  const method = selected ? selected.dataset.method : 'upi';
+
+  if (method === 'qr') {
+    $('qrDetail').classList.add('show');
+    $('utrNumber').focus();
+    return;
+  }
+
+  if (method === 'cod') {
+    payCodAdvance();
+    return;
+  }
+
+  // UPI / GPay / PhonePe / Paytm all use the original PhonePe + UPI intent flow.
+  openPhonePe(method);
 }
-function renderReviews(p){$('reviewBig').textContent=p.rating.toFixed(2);const total=Object.values(p.dist).reduce((a,b)=>a+b,0);$('reviewBars').innerHTML=[5,4,3,2,1].map(n=>{const c=p.dist[n]||0;return `<div class="bar-row"><span>${n} ★</span><div class="bar"><i style="width:${Math.round(c/total*100)}%"></i></div><span>${c}</span></div>`}).join('');const names=['Aman','Rohit','Vikram','Arjun','Kunal'];$('reviewList').innerHTML=names.map((n,i)=>`<div class="customer-review"><div class="rname">${n} <span class="stars">★★★★★</span> <span style="color:#388044">✓ Verified</span></div><div class="rtext">${reviewText(p)}</div></div>`).join('')}
+
+function renderReviews(p){$('reviewBig').textContent=p.rating.toFixed(2);const total=Object.values(p.dist).reduce((a,b)=>a+b,0);$('reviewBars').innerHTML=[5,4,3,2,1].map(n=>{const c=p.dist[n]||0;return `<div class="bar-row"><span>${n} ★</span><div class="bar"><i style="width:${Math.round(c/total*100)}%"></i></div><span>${c}</span></div>`}).join('');const names=['Aman','Rohit','Vikram','Arjun','Kunal'];$('reviewList').innerHTML=names.map(n=>`<div class="customer-review"><div class="rname">${n} <span class="stars">★★★★★</span> <span style="color:#388044">✓ Verified</span></div><div class="rtext">${reviewText(p)}</div></div>`).join('')}
 function openMysteryWin(){$('mysteryWinOverlay').classList.add('show')}function closeMysteryWin(e){if(e&&e.target&&e.target.id!=='mysteryWinOverlay')return;$('mysteryWinOverlay').classList.remove('show')}
-
 loadRemoteConfig().then(()=>{applyTheme();applyHeaderCustomizations();init();});
 </script>
 </body>
