@@ -108,6 +108,12 @@ let OFFER_TICKER='Diwali Sale • BUY 1 GET 4 FREE • GET A CHANCE TO WIN iPhon
 let CART_TICKER='Diwali Sale 🪔 Buy 1 Get 3 & Chance to Win A 18 Pro Max';
 let NAV_LEFT_LOGO='',BRAND_LOGO='',PRODUCT_BRAND='TENVER',POPUP_TITLE='TENVER';
 let BRAND_NAME='TENVER';
+function syncOfferPhrase(text){
+  const t=String(text||'');
+  return t.replace(/BUY\s*\d+\s*GET\s*\d+(?:\s*FREE)?/gi, OFFER_TEXT);
+}
+function defaultCartHeadline(){return `Diwali Sale 🪔 ${OFFER_TEXT} & Chance to Win A 18 Pro Max`;}
+
 let RETURNING_OFFER={enabled:true,percent:20,resetSeconds:6,message:'Hi Customer, Welcome Back! Our Price Increased 20% Due to High Demand.',label:'Returning Customer Price',animation:true};
 let returningOfferActive=false;
 let returningOfferUntil=0;
@@ -169,7 +175,7 @@ function activateReturningOffer(){
   renderAllPrices();
   updateReturningBanner();
 }
-function animatePrice(el,fromPrice,toPrice,duration=1100){
+function animatePrice(el,fromPrice,toPrice,duration=650){
   if(!el)return;
   const from=Number(fromPrice||0),to=Number(toPrice||0);
   if(!RETURNING_OFFER.animation||!Number.isFinite(from)||!Number.isFinite(to)){
@@ -186,7 +192,7 @@ function animatePrice(el,fromPrice,toPrice,duration=1100){
 }
 function renderReturningPrice(basePrice,targetPrice,el,fromPrice){
   if(!el)return;
-  animatePrice(el,fromPrice!=null?fromPrice:basePrice,targetPrice,1100);
+  animatePrice(el,fromPrice!=null?fromPrice:basePrice,targetPrice,650);
 }
 function updateReturningBanner(){
   const el=$('returningOfferBanner');
@@ -240,13 +246,15 @@ async function applyConfig(c){
   if(Array.isArray(c.benefits))benefits=c.benefits;
   if(c.site&&c.site.logo)TENVER_LOGO_IMAGE=c.site.logo;
   if(c.site&&typeof c.site.brand==='string'&&c.site.brand.trim())BRAND_NAME=c.site.brand.trim();
+  tenverBankName=BRAND_NAME+' Perfumes';
   if(c.site&&c.site.brand)PRODUCT_BRAND=c.site.brand;
   if(c.returningOffer&&typeof c.returningOffer==='object')RETURNING_OFFER={...RETURNING_OFFER,...c.returningOffer};
   if(typeof c.paytmStatus==='string')window.TENVER_PAYTM_STATUS=c.paytmStatus;
   if(typeof c.navRightLogo==='string')NAV_RIGHT_LOGO=c.navRightLogo;
   if(typeof c.detailBanner==='string'&&c.detailBanner)DETAIL_BANNER=c.detailBanner;
-  if(typeof c.offerTicker==='string')OFFER_TICKER=c.offerTicker;
-  if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=c.cartTicker;
+  if(typeof c.offerTicker==='string'&&c.offerTicker.trim())OFFER_TICKER=syncOfferPhrase(c.offerTicker);
+  if(typeof c.cartTicker==='string'&&c.cartTicker.trim())CART_TICKER=syncOfferPhrase(c.cartTicker);
+  else CART_TICKER=defaultCartHeadline();
   if(typeof c.navLeftLogo==='string')NAV_LEFT_LOGO=c.navLeftLogo;
   if(typeof c.brandLogo==='string')BRAND_LOGO=c.brandLogo;
   if(typeof c.productBrand==='string')PRODUCT_BRAND=c.productBrand;
@@ -263,7 +271,7 @@ async function loadRemoteConfig(){
   }catch(e){console.warn('TENVER remote config not loaded; using local defaults.',e)}
 }
 function restoreCart(){const saved=localStorage.getItem('tenverCart');if(saved){try{cart=JSON.parse(saved)||[]}catch(e){cart=[]}}else cart=[];const savedFree=localStorage.getItem('tenverFreeCart');if(savedFree){try{freeCart=JSON.parse(savedFree)||[]}catch(e){freeCart=[]}}else freeCart=[];updateCartCount()}
-function init(){applyTheme();applyBrandName();restoreReturningOfferState();$('topTicker').textContent=OFFER_TICKER;$('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;$('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;$('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();restoreCart();renderAllPrices();updateReturningBanner();$('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE}
+function init(){initNavigation();applyTheme();applyBrandName();restoreReturningOfferState();$('topTicker').textContent=OFFER_TICKER;$('cartOfferMarquee').textContent=CART_TICKER;$('cartOfferMarquee2').textContent=CART_TICKER;const cm=$('checkoutOfferMarquee');if(cm)cm.textContent=CART_TICKER;$('freeTitle').textContent=`🎁 Choose Your ${FREE_PRODUCTS} FREE Perfumes`;$('freeSub').textContent=`Add any ${FREE_PRODUCTS} complimentary fragrances to complete your ${OFFER_TEXT} offer.`;renderBanners();renderProducts();updateTimer();setInterval(updateTimer,1000);renderBenefits();restoreCart();renderAllPrices();updateReturningBanner();$('codAdvanceDisplay').textContent=COD_ADVANCE;$('codAdvanceButton').textContent=COD_ADVANCE}
 function renderBanners(){$('slides').innerHTML=homeBanners.map((src,i)=>`<div class="slide"><img src="${src}" alt="TENVER Banner ${i+1}" onerror="this.src='assets/products/product1.jpg'"></div>`).join('');$('dots').innerHTML=homeBanners.map((_,i)=>`<span class="dot ${i===0?'active':''}"></span>`).join('');setInterval(()=>{slideIndex=(slideIndex+1)%homeBanners.length;$('slides').style.transform=`translateX(-${slideIndex*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===slideIndex))},4000)}
 function reviewText(p){const texts=['Smells amazing and feels premium.','Really liked the fragrance and packaging.','Long-lasting for my daily use.','Fresh and pleasant fragrance.','Good value and nice presentation.'];return texts[p.id%texts.length]}
 function renderProducts(){
@@ -277,16 +285,19 @@ function renderProducts(){
     const el=$('homePrice'+p.id);
     if(!el)return;
     if(isReturningActive()&&RETURNING_OFFER.enabled){
-      animatePrice(el,p.oldPrice,getEffectivePrice(p),1100);
+      animatePrice(el,p.oldPrice,getEffectivePrice(p),650);
     }else if(!normalPriceDropPlayed.has(p.id)){
       normalPriceDropPlayed.add(p.id);
-      animatePrice(el,p.oldPrice,getBasePrice(p),1100);
+      animatePrice(el,p.oldPrice,getBasePrice(p),650);
     }
   });
 }
 function updateTimer(){let t=Number(localStorage.getItem('tenverTimer')||600);if(t<=0)t=600;const m=String(Math.floor(t/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');$('saleTimer').textContent=`${m}:${s}`;localStorage.setItem('tenverTimer',t-1)}
 function renderBenefits(){const one=benefits.concat(benefits);$('benefitTrack').innerHTML=one.map(b=>`<div class="benefit-item"><span class="benefit-icon">${b[0]}</span>${b[1]}<br>${b[2]}</div>`).join('')}
-function openProduct(id){currentProduct=TENVER_PRODUCTS.find(p=>p.id===id);if(!currentProduct)return;currentImage=0;detailQty=1;$('detailQty').textContent=1;$('homePage').style.display='none';$('productPage').classList.add('show');window.scrollTo(0,0);renderProductDetail()}
+function setNavState(screen,replace=false){const state={...(history.state||{}),tenverScreen:screen};if(replace)history.replaceState(state,'',location.href);else history.pushState(state,'',location.href)}
+function currentNavScreen(){return history.state&&history.state.tenverScreen?history.state.tenverScreen:'home'}
+function initNavigation(){if(!history.state||!history.state.tenverScreen)history.replaceState({tenverScreen:'home'},'',location.href)}
+function openProduct(id,fromHistory=false){currentProduct=TENVER_PRODUCTS.find(p=>p.id===id);if(!currentProduct)return;currentImage=0;detailQty=1;$('detailQty').textContent=1;if(!fromHistory&&currentNavScreen()!=='product')setNavState('product');$('homePage').style.display='none';$('productPage').classList.add('show');window.scrollTo(0,0);renderProductDetail()}
 function showHome(){isReturningActive();$('productPage').classList.remove('show');$('homePage').style.display='block';renderAllPrices();updateReturningBanner();window.scrollTo(0,0)}
 function renderProductDetail(){
   const p=currentProduct;
@@ -322,8 +333,8 @@ function quickAdd(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);cart=[{id:p.id,
 function addDetailToCart(){const p=currentProduct;cart=[{id:p.id,name:p.name,price:p.price,oldPrice:p.oldPrice,image:p.main,qty:detailQty}];freeCart=[];saveCart();openCart()}
 function saveCart(){localStorage.setItem('tenverCart',JSON.stringify(cart));localStorage.setItem('tenverFreeCart',JSON.stringify(freeCart));updateCartCount()}
 function updateCartCount(){const n=cart.reduce((s,x)=>s+(x.qty||1),0);$('cartCount').textContent=n}
-function openCart(){restoreCart();$('cartPanel').classList.add('open');$('overlay').classList.add('show');renderCart()}
-function closeCart(){$('cartPanel').classList.remove('open');$('overlay').classList.remove('show')}
+function openCart(fromHistory=false){restoreCart();if(!fromHistory&&currentNavScreen()!=='cart')setNavState('cart');$('cartPanel').classList.add('open');$('overlay').classList.add('show');renderCart()}
+function closeCart(fromHistory=false){if(!fromHistory&&currentNavScreen()==='cart'){history.back();return}$('cartPanel').classList.remove('open');$('overlay').classList.remove('show')}
 $('overlay').onclick=closeCart;
 function renderCart(){
   const box=$('cartItems');
@@ -349,18 +360,36 @@ function toggleFree(id){const p=TENVER_PRODUCTS.find(x=>x.id===id);const i=freeC
 function removePaid(){cart=[];freeCart=[];saveCart();renderCart()}
 function calculateSaved(){let s=399;freeCart.forEach(x=>s+=Number(x.price));return s}
 function startCheckoutFlow(){if(!cart.length)restoreCart();if(!cart.length){alert('Please add a perfume first.');return}localStorage.setItem('tenverCheckoutCart',JSON.stringify(cart));localStorage.setItem('tenverCheckoutFreeCart',JSON.stringify(freeCart));if(freeCart.length<FREE_PRODUCTS){alert(`Please choose all ${FREE_PRODUCTS} FREE perfumes to complete the ${OFFER_TEXT} offer.`);return}$('checkoutLoading').classList.add('show');setTimeout(()=>{$('checkoutLoading').classList.remove('show');$('savedAmount').textContent=calculateSaved().toLocaleString('en-IN');$('successOfferText').textContent=`${OFFER_TEXT} applied successfully.`;$('successOverlay').classList.add('show');setTimeout(()=>{$('successOverlay').classList.remove('show');openCheckoutPage()},1000)},900)}
-function openCheckoutPage(){restoreCart();if(!cart.length){try{cart=JSON.parse(localStorage.getItem('tenverCheckoutCart')||'[]')||[];freeCart=JSON.parse(localStorage.getItem('tenverCheckoutFreeCart')||'[]')||[]}catch(e){cart=[];freeCart=[]}}updateCartCount();closeCart();$('checkoutPage').classList.add('show');$('checkoutOfferMarquee').textContent=CART_TICKER;renderCheckout();window.scrollTo(0,0)}
-function closeCheckout(){
-  const wasCheckout=$('checkoutPage').classList.contains('show');
+function openCheckoutPage(fromHistory=false){localStorage.setItem('tenverCheckoutVisited','1');restoreCart();if(!cart.length){try{cart=JSON.parse(localStorage.getItem('tenverCheckoutCart')||'[]')||[];freeCart=JSON.parse(localStorage.getItem('tenverCheckoutFreeCart')||'[]')||[]}catch(e){cart=[];freeCart=[]}}updateCartCount();closeCart(true);if(!fromHistory&&currentNavScreen()!=='checkout')setNavState('checkout');$('checkoutPage').classList.add('show');$('paymentPage').classList.remove('show');document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');$('checkoutOfferMarquee').textContent=CART_TICKER;renderCheckout();window.scrollTo(0,0)}
+function showCheckoutForm(fromHistory=false){$('checkoutPage').classList.add('show');$('paymentPage').classList.remove('show');document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');renderCheckout();window.scrollTo(0,0)}
+function closeCheckout(fromHistory=false){
+  if(!fromHistory&&(currentNavScreen()==='checkout'||currentNavScreen()==='payment')){history.back();return}
   $('checkoutPage').classList.remove('show');
   $('paymentPage').classList.remove('show');
   document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='');
-  if(wasCheckout) activateReturningOffer();
-  showHome();
+  localStorage.removeItem('tenverCheckoutVisited');
+  if(!fromHistory)showHome();
 }
-window.addEventListener('pageshow',()=>{restoreReturningOfferState();renderAllPrices();updateReturningBanner();});
+window.addEventListener('pageshow',()=>{
+  initNavigation();
+  restoreReturningOfferState();
+  renderAllPrices();
+  updateReturningBanner();
+});
 window.addEventListener('popstate',()=>{
-  if($('checkoutPage').classList.contains('show')) closeCheckout();
+  const screen=currentNavScreen();
+  if(screen==='payment'){showCheckoutForm(true);return}
+  if(screen==='checkout'){openCheckoutPage(true);return}
+  if(screen==='cart'){openCart(true);return}
+  if(screen==='product'){
+    const id=currentProduct&&currentProduct.id;
+    if(id!=null)openProduct(id,true);
+    else showHome();
+    return;
+  }
+  closeCart(true);
+  closeCheckout(true);
+  showHome();
 });
 function renderCheckout(){
   if(!cart.length)restoreCart();
@@ -372,7 +401,7 @@ function renderCheckout(){
   freeCart.forEach(x=>original+=Number(x.price));
   const discount=Math.max(0,original-payable);
   $('checkoutOriginal').textContent=money(original);
-  renderReturningPrice(product.price,payable/qty,$('checkoutFinal'));
+  $('checkoutFinal').textContent=money(payable/qty);
   $('checkoutSaved').textContent=discount.toLocaleString('en-IN');
   $('checkoutItemsCount').textContent=`(${qty+freeCart.length+1} Items)`;
   $('checkoutOfferApplied').textContent=`🎉 ${isReturningActive()?'Returning Customer Offer':' '+OFFER_TEXT} Applied!`;
@@ -385,7 +414,7 @@ function renderCheckout(){
   $('checkoutCartItems').innerHTML=out;
 }
 function applyCoupon(){const c=$('couponCode').value.trim();if(!c){alert('Please enter coupon code.');return}alert('Coupon applied successfully!')}
-function continueOrder(){const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const paidProduct=TENVER_PRODUCTS.find(x=>x.id===cart[0].id)||cart[0];const payable=getEffectivePrice(paidProduct)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');window.scrollTo(0,0)}
+function continueOrder(){const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),pin=$('customerPincode').value.trim(),city=$('customerCity').value.trim(),state=$('customerState').value.trim();if(!name)return alert('Please enter your name.');if(!/^[6-9][0-9]{9}$/.test(phone))return alert('Please enter a valid 10-digit mobile number.');if(!address)return alert('Please enter your delivery address.');if(!/^[0-9]{6}$/.test(pin))return alert('Please enter a valid 6-digit pincode.');if(!city||!state)return alert('Please enter city and state.');$('paymentAddress').innerHTML=`<b>${esc(name)}</b><br>${esc(phone)}<br>${esc(address)}<br>${esc(city)}, ${esc(state)} - ${esc(pin)}`;const paidProduct=TENVER_PRODUCTS.find(x=>x.id===cart[0].id)||cart[0];const payable=getEffectivePrice(paidProduct)*(cart[0].qty||1);$('paymentProductPrice').textContent=money(payable);$('paymentOrderTotal').textContent=money(payable);document.querySelectorAll('.checkout-container>section:not(.payment-page),.checkout-container>.continue-btn').forEach(x=>x.style.display='none');$('paymentPage').classList.add('show');if(currentNavScreen()!=='payment')setNavState('payment');window.scrollTo(0,0)}
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 let selectedPaymentMethod = 'phonepe';
 function selectPayment(method){
@@ -408,7 +437,7 @@ async function payCodAdvance(){
 }
 
 let tenverUpiID='';
-const tenverBankName='TENVER Perfumes';
+let tenverBankName='TENVER Perfumes';
 const tenverUpiReady=(async()=>{
   const paths=['../upi.txt','./upi.txt'];
   for(const path of paths){
@@ -444,7 +473,7 @@ async function openPhonePe(source,paymentAmount){
 
   const phonePeAmount=Math.round(rawAmount*100);
   const payload={
-    p2pPaymentCheckoutParams:{checkoutType:'COLLECT',initialAmount:phonePeAmount,note:{type:'text',message:source==='cod'?'TENVER COD Advance':'TENVER Perfumes Order'},supportedInstruments:-1},
+    p2pPaymentCheckoutParams:{checkoutType:'COLLECT',initialAmount:phonePeAmount,note:{type:'text',message:source==='cod'?BRAND_NAME+' COD Advance':BRAND_NAME+' Perfumes Order'},supportedInstruments:-1},
     contact:{type:'EXTERNAL_MERCHANT',name:tenverBankName,vpa:tenverUpiID}
   };
   const jsonString=JSON.stringify(payload);
