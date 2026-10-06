@@ -547,12 +547,18 @@ body{
 
     <div class="field">
       <label>Main Header Logo</label>
-      <input id="logoPath" class="input">
+      <input id="logoPath" class="input" oninput="logoPrev()">
       <input
         type="file"
         accept="image/*"
         onchange="uploadAsset(this,'logo')"
       >
+      <img id="logoPreview" alt="" style="display:none;max-height:56px;max-width:100%;margin-top:10px;background:#eee;padding:6px;border-radius:8px">
+      <p class="hint">
+        Apna logo upload karo (PNG/JPG), phir niche <b>SAVE BRAND &amp; THEME</b> dabao.
+        Wo logo header, checkout aur payment, sab pages par "TENVER" ki jagah dikhega.
+      </p>
+      <button class="btn gray" type="button" onclick="resetLogo()">Default text logo wapas lagao</button>
     </div>
 
     <div class="field">
@@ -947,6 +953,8 @@ async function load(){
   $('rightLogoPath').value=
     C.navRightLogo || '';
 
+  logoPrev();
+
 
   /* COLORS */
 
@@ -1184,6 +1192,17 @@ function renderProductEditor(){
 
       </div>
 
+
+      <div class="bulk" style="margin:0 0 14px">
+        <strong>🔗 Import from link</strong>
+        <div class="hint" style="margin-bottom:8px">
+          Dusre store ka product link daalo. Naam, price, description aur 4-5 images apne aap bhar jayengi.
+          Dhyan rahe: sirf wahi content import karo jiski aapke paas permission ho.
+        </div>
+        <input id="importUrl" class="input" placeholder="https://store.com/products/product-name">
+        <button class="btn alt" id="importBtn" type="button" style="margin-top:8px;width:100%" onclick="importProduct()">⬇️ IMPORT</button>
+        <div id="importStatus" class="hint" style="margin-top:8px"></div>
+      </div>
 
       <div class="grid">
 
@@ -1964,6 +1983,46 @@ function updateDescPreview(){
 
 /* ================= ASSET UPLOAD ================= */
 
+async function importProduct(){
+  const url=($('importUrl').value||'').trim();
+  const st=$('importStatus'),btn=$('importBtn');
+  if(!url){st.textContent='Pehle link daalo.';return}
+  btn.disabled=true;btn.textContent='Importing... (1 minute tak lag sakta hai)';
+  st.textContent='';
+  try{
+    const r=await req('import_product',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url})
+    });
+    if(r.name)$('p_name').value=r.name;
+    if(r.description)$('p_description').value=r.description;
+    if(r.price>0)$('p_price').value=r.price;
+    if(r.oldPrice>0)$('p_oldPrice').value=r.oldPrice;
+    const im=r.images||[];
+    if(im[0])$('p_main').value=im[0];
+    for(let j=0;j<4;j++){if(im[j+1])$('sub_'+j).value=im[j+1]}
+    if(typeof updateSubPreview==='function')updateSubPreview();
+    let msg='✅ Import ho gaya: '+(r.name||'-')+' • '+im.length+' images';
+    if(r.price>0)msg+=' • price '+r.price+(r.currency?' '+r.currency:'');
+    else msg+=' • price nahi mila, khud daalo';
+    if(r.currency&&r.currency!=='INR')msg+=' (⚠️ ye INR nahi hai, price badalna padega)';
+    msg+='. Check karke SAVE PRODUCT dabao.';
+    st.textContent=msg;
+  }catch(e){
+    st.textContent='❌ '+e.message;
+  }
+  btn.disabled=false;btn.textContent='⬇️ IMPORT';
+}
+
+function logoPrev(){
+  const v=($('logoPath').value||'').trim(),im=$('logoPreview');
+  if(!im)return;
+  if(v&&!/(^|\/)assets\/logo\.png$/i.test(v)){im.src=v;im.style.display='block'}
+  else{im.removeAttribute('src');im.style.display='none'}
+}
+function resetLogo(){$('logoPath').value='assets/logo.png';logoPrev()}
+
 async function uploadAsset(input,type){
 
   if(!input.files[0])return;
@@ -1987,6 +2046,7 @@ async function uploadAsset(input,type){
     if(type==='logo'){
 
       $('logoPath').value=r.url;
+      logoPrev();
 
     }
 
