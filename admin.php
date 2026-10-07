@@ -757,6 +757,16 @@ body{
     </div>
 
     <div class="field">
+      <label>UPI ID (PhonePe / Paytm / QR payment isi par aayegi)</label>
+      <input id="upiId" class="input" placeholder="name@bank" autocapitalize="off" autocomplete="off">
+      <p class="hint">
+        Yahan UPI ID badalke SAVE PAYMENT dabao, upi.txt me jaane ki zarurat nahi.
+        <b>Dhyan rakho:</b> QR image purani UPI ID ka hota hai, UPI badalne ke baad upar se naya
+        "Payment QR Image" bhi upload karo.
+      </p>
+    </div>
+
+    <div class="field">
       <label>Paytm Status</label>
 
       <select id="paytmStatus" class="input">
@@ -770,6 +780,23 @@ body{
 
       <p class="hint">
         Current requirement: Paytm Temporarily Unavailable.
+      </p>
+    </div>
+
+    <div class="field">
+      <label>Cash on Delivery Status</label>
+
+      <select id="codStatus" class="input">
+        <option value="available">
+          Available
+        </option>
+        <option value="unavailable">
+          Temporarily Unavailable
+        </option>
+      </select>
+
+      <p class="hint">
+        Unavailable karoge to payment page par COD grey ho jayega aur customer use select nahi kar payega.
       </p>
     </div>
 
@@ -1005,6 +1032,17 @@ async function load(){
 
   $('paytmStatus').value=
     C.paytmStatus || 'unavailable';
+
+  $('codStatus').value=
+    C.settings.codStatus==='unavailable' ? 'unavailable' : 'available';
+
+  $('upiId').value=C.upiId||'';
+  if(!C.upiId){
+    fetch('upi.txt?t='+Date.now(),{cache:'no-store'})
+      .then(r=>r.ok?r.text():'')
+      .then(t=>{if(!$('upiId').value)$('upiId').value=String(t).trim()})
+      .catch(()=>{});
+  }
 
 
   renderProductsList();
@@ -2329,6 +2367,19 @@ async function savePayment(){
 
     C.paytmStatus=
       $('paytmStatus').value;
+
+    C.settings=C.settings||{};
+    C.settings.codStatus=
+      $('codStatus').value;
+
+    const upi=$('upiId').value.trim();
+    if(upi){
+      if(!/^[A-Za-z0-9._\-]{2,256}@[A-Za-z][A-Za-z0-9]{1,64}$/.test(upi)){
+        $('paymentStatus').textContent='❌ UPI ID galat hai (example: name@bank)';
+        return;
+      }
+      C.upiId=upi;
+    }
 
 
     const r=await req('save',{
