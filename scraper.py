@@ -4,7 +4,7 @@ Flipkart Product Importer - Flipkart Scraper
 Paste a Flipkart product link -> get name, price, mrp, images, specs, reviews.
 Note: Flipkart kabhi-kabhi anti-bot check dikhata hai. Thodi der baad try karein.
 """
-import re, json, html
+import re, json, html, time
 import requests
 from urllib.parse import urlparse, parse_qs, urlencode
 
@@ -24,18 +24,34 @@ class ScrapeError(Exception):
 
 
 def fetch(url):
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=TIMEOUT, allow_redirects=True)
-    except requests.RequestException as e:
-        raise ScrapeError("Page load nahi hua (network error): %s" % e)
-    if r.status_code in (403, 419, 429, 503):
-        raise ScrapeError("Source website ne request block ki (HTTP %s). Thodi der baad dobara try karein." % r.status_code)
-    if r.status_code != 200:
+    # Temporary upstream/server errors (including HTTP 529) can be transient.
+    # Retry a small number of times with backoff; do not try to bypass CAPTCHA/blocking.
+    last_error = None
+    retry_statuses = (408, 425, 429, 500, 502, 503, 504, 529)
+    for attempt in range(3):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=TIMEOUT, allow_redirects=True)
+        except requests.RequestException as e:
+            last_error = e
+            if attempt < 2:
+                time.sleep(1 + attempt * 2)
+                continue
+            raise ScrapeError("Page load nahi hua (network error, 3 attempts): %s" % e)
+
+        if r.status_code == 200:
+            low = r.text.lower()
+            if "robot or human" in low or "unusual traffic" in low:
+                raise ScrapeError("Flipkart ne CAPTCHA/anti-bot check dikhaya. Thodi der baad try karein.")
+            return r
+
+        if r.status_code in retry_statuses and attempt < 2:
+            time.sleep(1 + attempt * 2)
+            continue
+        if r.status_code in (403, 419, 429, 529):
+            raise ScrapeError("Flipkart ne request temporarily reject ki (HTTP %s). 3 attempts ke baad bhi page nahi khula. 1-2 minute baad try karein; agar sabhi links par ho to source/hosting-side restriction ho sakti hai." % r.status_code)
         raise ScrapeError("Page load nahi hua (HTTP %s)." % r.status_code)
-    low = r.text.lower()
-    if "robot or human" in low or ("unusual traffic" in low):
-        raise ScrapeError("Website ne CAPTCHA/anti-bot check dikhaya. Thodi der baad dobara try karein.")
-    return r
+
+    raise ScrapeError("Page load nahi hua. Thodi der baad dobara try karein.")
 
 
 def meta_content(txt, prop):
