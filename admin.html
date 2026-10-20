@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flipkart Admin Panel</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;background:linear-gradient(180deg,#1a0536,#2a0a5c 30%,#6a10b0 55%,#4a0f8a);background-attachment:fixed;min-height:100vh}
+.wrap{max-width:820px;margin:0 auto;padding:16px 14px 60px}
+h1{font-size:22px;margin:6px 0 2px}
+.sub{color:#d9c2ff;font-size:14px;margin-bottom:14px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.tabs button{flex:0 0 auto;border:0;border-radius:14px;padding:10px 16px;font-weight:800;font-size:14px;cursor:pointer;background:#ffffff24;color:#e9dcff}
+.tabs button.on{background:#fff;color:#4a0f8a}
+.card{background:#0a001ebd;border:1px solid #ffffff24;border-radius:18px;padding:18px;margin-top:16px}
+.card h2{font-size:17px;margin:0 0 4px}
+.card p{color:#cdb8f0;font-size:13px;margin:0 0 12px}
+label{display:block;font-size:13px;font-weight:700;color:#e7d8ff;margin:12px 0 4px}
+input[type=text],input[type=number],input[type=url],select,textarea{width:100%;border:0;border-radius:12px;padding:11px 12px;font-size:15px;background:#fff;color:#222;outline:none}
+textarea{min-height:76px;resize:vertical;font-family:inherit}
+input[type=file]{display:none}
+.upbtn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7b2ff7,#c13bd8);color:#fff;border:0;border-radius:12px;padding:10px 16px;font-weight:800;font-size:14px;cursor:pointer}
+.prev{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.prev .it{position:relative;width:86px}
+.prev img,.prev video{width:86px;height:86px;object-fit:cover;border-radius:12px;border:2px solid #ffffff40;background:#000}
+.prev .rm{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:#e8283c;color:#fff;border:0;font-weight:900;cursor:pointer;font-size:12px}
+.btn{background:linear-gradient(135deg,#16c455,#0f8a6a);color:#fff;border:0;border-radius:14px;padding:13px 22px;font-weight:900;font-size:16px;cursor:pointer;width:100%;margin-top:16px}
+.btn.sec{background:linear-gradient(135deg,#7b2ff7,#c13bd8)}
+.btn.danger{background:linear-gradient(135deg,#e8283c,#b3121f);width:auto;padding:10px 18px;font-size:14px}
+.msg{margin-top:12px;font-size:14px;font-weight:700;min-height:20px}
+.msg.ok{color:#5cf0a0}.msg.err{color:#ff9aa8}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plist{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.pitem{display:flex;align-items:center;gap:10px;background:#ffffff14;border-radius:12px;padding:8px 10px;cursor:pointer}
+.pitem img{width:44px;height:44px;object-fit:cover;border-radius:8px;background:#fff}
+.pitem .nm{flex:1;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pitem .pr{color:#ffc34a;font-weight:800;font-size:13px}
+.pitem .del{background:none;border:0;color:#ff9aa8;font-size:18px;cursor:pointer;padding:4px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin-top:8px}
+.grid2 img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.krow{display:flex;gap:8px;margin-top:14px}
+.krow input{flex:1}
+.keybar{display:flex;gap:8px;align-items:center;background:#ffffff1a;border-radius:12px;padding:10px 12px;margin-bottom:14px;font-size:13px;color:#cdb8f0}
+.keybar input{flex:1;background:#fff;border:0;border-radius:8px;padding:8px 10px;font-size:14px}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;font-size:13px;color:#e7d8ff}
+.stat b{color:#ffc34a}
+.rv{border:1px solid #ffffff26;border-radius:12px;padding:10px;margin-top:10px;font-size:13px}
+.rv b{color:#ffc34a}
+.rv .x{color:#e9dcff;margin-top:4px}
+.rv img{width:56px;height:56px;object-fit:cover;border-radius:8px;margin:6px 4px 0 0}
+.hint{font-size:12px;color:#c0a4e8;margin-top:4px}
+#previewCard img{width:100%;border-radius:12px;margin-top:8px}
+@media(max-width:520px){.row2{grid-template-columns:1fr}.card{padding:14px}.wrap{padding:12px 10px 40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>⚙️ Flipkart Admin Panel</h1>
+<div class="sub">Branding, Products, Reviews aur Flipkart/Amazon Product Importer</div>
+<div class="keybar">🔒 Secure Admin Session <span style="flex:1">Login successful</span><button class="upbtn" onclick="logoutAdmin()">Logout</button></div>
+
+<div class="tabs">
+<button class="on" onclick="tab('brand',this)">🎨 Branding</button>
+<button onclick="tab('prod',this)">📦 Products</button>
+<button onclick="tab('rev',this)">⭐ Reviews</button>
+<button onclick="tab('pay',this)">💳 Payments</button>
+<button onclick="tab('imp',this)">🔗 Product Importer</button><button onclick="tab('bulk',this)">📚 Bulk Scraper</button><button onclick="tab('links',this)">📝 Saved Links</button><button onclick="tab('price',this)">％ Pricing Rules</button>
+</div>
+
+<div id="t-brand" class="card">
+<h2>🎨 Branding / Logo Settings</h2>
+<p>Logo, posters aur badges change karo.</p>
+<label>Main Logo</label>
+<label class="upbtn">⬆️ Upload Logo<input type="file" accept="image/*" onchange="upSetting(this,'logo','img')"></label><div class="prev" id="pv-logo"></div>
+<label>Video Poster (.mp4)</label>
+<label class="upbtn">⬆️ Upload Video<input type="file" accept="video/mp4" onchange="upSetting(this,'video','vid')"></label><div class="prev" id="pv-video"></div>
+<div class="row2">
+<div><label>Poster 1</label><label class="upbtn">⬆️ Upload<input type="file" accept="image/*" onchange="upSetting(this,'poster1','img')"></label><div class="prev" id="pv-poster1"></div></div>
+<div><label>Poster 2</label><label class="upbtn">⬆️ Upload<input type="file" accept="image/*" onchange="upSetting(this,'poster2','img')"></label><div class="prev" id="pv-poster2"></div></div>
+</div>
+<label>Poster 3</label><label class="upbtn">⬆️ Upload<input type="file" accept="image/*" onchange="upSetting(this,'poster3','img')"></label><div class="prev" id="pv-poster3"></div>
+<label>Assured icon</label><label class="upbtn">⬆️ Upload Icon<input type="file" accept="image/*" onchange="upSetting(this,'assured_icon','img')"></label><div class="prev" id="pv-assured_icon"></div>
+<label>Sale Price Label</label><input type="text" id="sale_label" placeholder="Flipkart Sale Price">
+<label>Sale Price Logo</label><label class="upbtn">⬆️ Upload Sale Logo<input type="file" accept="image/*" onchange="upSetting(this,'sale_logo','img')"></label><div class="prev" id="pv-sale_logo"></div>
+<button class="btn" onclick="saveSettings()">💾 Settings Save Karo</button><div class="msg" id="m-brand"></div>
+</div>
+
+<div id="t-pay" class="card" style="display:none">
+<h2>💳 UPI / QR / Paytm Settings</h2><p>Payment settings manage karo.</p>
+<label>UPI ID</label><input type="text" id="payment_upi" placeholder="example@upi">
+<label>Payment QR Code</label><label class="upbtn">⬆️ Upload QR<input type="file" accept="image/*" onchange="upPaymentQR(this)"></label><div class="prev" id="pv-payment_qr"></div>
+<label style="display:flex;align-items:center;gap:10px"><input type="checkbox" id="paytm_enabled" style="width:20px;height:20px"> Paytm available</label>
+<hr style="border-color:#ffffff26;margin:18px 0">
+<h3>Returning Customer Price</h3>
+<label style="display:flex;align-items:center;gap:10px"><input type="checkbox" id="return_price_enabled" style="width:20px;height:20px"> Feature ON</label>
+<label>Return price duration (seconds)</label><input type="number" id="return_price_seconds" min="1" step="1" placeholder="30">
+<p>Products mein Customer Return Price separately set karein.</p>
+<button class="btn" onclick="savePaymentSettings()">💾 Payment Settings Save</button><div class="msg" id="m-pay"></div>
+</div>
+
+<div id="t-prod" class="card" style="display:none">
+<h2>📦 Product Add / Edit</h2>
+<h3 style="color:#ffc34a">Imported Products</h3><div class="plist" id="liveplist"></div>
+<hr style="border-color:#ffffff26;margin:16px 0">
+<div class="plist" id="plist"></div><hr style="border-color:#ffffff26;margin:16px 0">
+<input type="hidden" id="pid">
+<label>Product Name</label><input type="text" id="pn">
+<div class="row2">
+<div><label>Original MRP ₹</label><input type="number" id="pmrp"></div>
+<div><label>Sale Price ₹</label><input type="number" id="pp"></div>
+<div><label>Customer Return Price ₹</label><input type="number" id="prp" min="0" step="any"></div>
+<div><label>Rating</label><input type="number" id="pr" step=".1" min="1" max="5"></div>
+<div><label>Ratings Count</label><input type="number" id="prc"></div>
+<div><label>Tag</label><input type="text" id="ptag"></div>
+<div><label>Emoji</label><input type="text" id="pe" maxlength="4"></div>
+</div>
+<label>Description</label><textarea id="pd"></textarea>
+<div class="row2">
+<div><label>Brand</label><input type="text" id="pbrand"></div>
+<div><label>Model</label><input type="text" id="pmodel"></div>
+<div><label>Colour</label><input type="text" id="pcolor"></div>
+</div>
+<label>Product Images</label><label class="upbtn">⬆️ Upload Images<input type="file" accept="image/*" multiple onchange="upProdImgs(this)"></label><div class="prev" id="pv-pimgs"></div>
+<label>Highlights (one per line)</label><textarea id="phl"></textarea>
+<label>Specifications (Key: Value, one per line)</label><textarea id="pspec" placeholder="Brand: HP&#10;RAM: 12 GB&#10;Display: OLED"></textarea>
+<button class="btn" onclick="saveProduct()">💾 Product Save</button><button class="btn sec" onclick="clearProdForm()">🆕 New Product</button><div class="msg" id="m-prod"></div>
+</div>
+
+<div id="t-rev" class="card" style="display:none">
+<h2>⭐ Reviews Add / Edit</h2>
+<label>Product</label><select id="rvprod" onchange="loadReviews()"><option value="">Select product</option></select>
+<div id="rvlist"></div><hr style="border-color:#ffffff26;margin:16px 0">
+<div class="row2">
+<div><label>Rating</label><select id="rvr"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div>
+<div><label>Reviewer Name</label><input type="text" id="rvn"></div>
+</div>
+<label>Review Title</label><input type="text" id="rvt">
+<label>Review Text</label><textarea id="rvx"></textarea>
+<label>Review Images</label><label class="upbtn">⬆️ Upload<input type="file" accept="image/*" multiple onchange="upRvImgs(this)"></label><div class="prev" id="pv-rvimgs"></div>
+<button class="btn" onclick="saveReview()">💾 Review Add</button><div class="msg" id="m-rev"></div>
+</div>
+
+<div id="t-imp" class="card" style="display:none">
+<h2>🔗 Amazon / Flipkart Product Importer</h2>
+<p>Product link paste karo. Naam, price, images, description aur available specifications fetch karne ki koshish hogi.</p>
+<label>Amazon ya Flipkart Product Link</label>
+<input type="url" id="impurl" placeholder="https://www.amazon.in/dp/... or https://www.flipkart.com/...">
+<div class="krow" style="flex-wrap:wrap;gap:12px;align-items:center">
+<label style="margin:0"><input type="checkbox" id="impdl" checked> Download images</label>
+<label style="margin:0"><input type="checkbox" id="impfullspec" checked> Full specifications</label>
+<label>Reviews <input type="number" id="imprv" value="10" min="1" max="15" style="width:65px"></label>
+</div>
+<button class="btn sec" onclick="doImport()">🔍 Fetch Product</button>
+<div class="msg" id="m-imp"></div><div id="previewCard"></div>
+</div>
+
+<div id="t-bulk" class="card" style="display:none"><h2>📚 Bulk Product Scraper</h2><p>Har line par ek Amazon/Flipkart URL. Products sequentially scrape aur save honge; links Saved Links mein bhi rahenge.</p><label>Product links (one per line)</label><textarea id="bulkurls" style="min-height:180px" placeholder="https://www.flipkart.com/..."></textarea><label style="margin:0"><input type="checkbox" id="bulkdl" checked> Download images</label><button class="btn sec" onclick="runBulk()">🚀 Start Bulk Scraping</button><div class="msg" id="m-bulk"></div><div id="bulkresults" class="rv"></div></div>
+<div id="t-links" class="card" style="display:none"><h2>📝 Saved Product Links Notepad</h2><p>Links refresh/logout ke baad bhi saved rahenge.</p><label>Links (one URL per line)</label><textarea id="savedurls" style="min-height:240px"></textarea><div class="row2"><button class="btn sec" onclick="saveLinks()">💾 Save Links</button><button class="btn sec" onclick="copyLinks()">📋 Copy All</button></div><button class="btn danger" onclick="clearLinks()">Clear all saved links</button><div class="msg" id="m-links"></div></div>
+<div id="t-price" class="card" style="display:none"><h2>％ Global Pricing Rules</h2><p>MRP/original price se discount; discounted price par return hike calculate hoga.</p><div class="row2"><div><label>Discount %</label><input type="number" id="discount_percent" min="0" max="99" step="0.1" value="0"></div><div><label>Return price hike %</label><input type="number" id="return_hike_percent" min="0" max="500" step="0.1" value="0"></div></div><button class="btn" onclick="savePricing()">Save & Apply to All Products</button><div class="msg" id="m-price"></div></div>
+</div>
+
+<script>
+var SETTINGS={},PRODS=[],curProd=null,pimgs=[],rvimgs=[];
+
+function gid(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function num(v){return Number(v||0).toLocaleString('en-IN');}
+function msg(id,t,ok){var e=gid(id);e.textContent=t;e.className='msg '+(ok?'ok':'err');}
+function logoutAdmin(){fetch('/admin/logout',{method:'POST'}).finally(function(){location.href='/admin';});}
+async function tab(id,btn){
+document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('on')});
+btn.classList.add('on');
+['brand','prod','rev','pay','imp','bulk','links','price'].forEach(function(t){gid('t-'+t).style.display=t===id?'':'none';});
+if(id==='rev')fillRevProducts();
+if(id==='prod')renderPlist();
+if(id==='pay')loadPaymentSettings();if(id==='links')loadLinks();if(id==='price'){SETTINGS=await api('/api/settings').catch(function(){return SETTINGS;});gid('discount_percent').value=SETTINGS.discount_percent||0;gid('return_hike_percent').value=SETTINGS.return_hike_percent||0;}
+}
+async function api(url,options){
+var response=await fetch(url,options||{});
+var data=await response.json().catch(function(){return {};});
+if(!response.ok)throw new Error(data.error||data.description||('HTTP '+response.status));
+return data;
+}
+async function upFile(file,folder){
+var fd=new FormData();fd.append('file',file);fd.append('folder',folder||'misc');
+var data=await api('/api/upload',{method:'POST',body:fd});
+return data.path;
+}
+function pvRender(id,src,isVideo){
+var el=gid(id);if(!src){el.innerHTML='';return;}
+el.innerHTML='<div class="it">'+(isVideo?'<video src="/'+esc(src)+'" muted autoplay loop playsinline></video>':'<img src="/'+esc(src)+'">')+'</div>';
+}
+async function boot(){
+try{
+SETTINGS=await api('/api/settings');
+gid('sale_label').value=SETTINGS.sale_label||'';
+['logo','video','poster1','poster2','poster3','assured_icon','sale_logo'].forEach(function(k){pvRender('pv-'+k,SETTINGS[k],k==='video');});
+renderPaymentSettings();
+PRODS=await api('/api/products');
+renderPlist();fillRevProducts();
+msg('m-brand','Connected. Products: '+PRODS.length,true);
+}catch(e){msg('m-brand','Backend error: '+e.message,false);}
+}
+async function upSetting(input,key,kind){
+var file=input.files[0];if(!file)return;
+msg('m-brand','Uploading...',true);
+try{
+SETTINGS[key]=await upFile(file,'branding');
+pvRender('pv-'+key,SETTINGS[key],kind==='vid');
+await api('/api/settings',{method:'POST',body:JSON.stringify(SETTINGS),headers:{'Content-Type':'application/json'}});
+msg('m-brand','Updated: '+key,true);
+}catch(e){msg('m-brand','Upload error: '+e.message,false);}
+}
+async function saveSettings(){
+SETTINGS.sale_label=gid('sale_label').value.trim()||'Flipkart Sale Price';
+try{await api('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(SETTINGS)});msg('m-brand','Settings saved',true);}
+catch(e){msg('m-brand',e.message,false);}
+}
+function renderPaymentSettings(){
+gid('payment_upi').value=SETTINGS.payment_upi||'';
+gid('paytm_enabled').checked=SETTINGS.paytm_enabled===true;
+gid('return_price_enabled').checked=SETTINGS.return_price_enabled===true;
+gid('return_price_seconds').value=SETTINGS.return_price_seconds||30;
+pvRender('pv-payment_qr',SETTINGS.payment_qr||'',false);
+}
+async function loadPaymentSettings(){try{SETTINGS=await api('/api/settings');renderPaymentSettings();msg('m-pay','Settings loaded',true);}catch(e){msg('m-pay',e.message,false);}}
+async function upPaymentQR(input){
+var f=input.files&&input.files[0];if(!f)return;
+try{SETTINGS.payment_qr=await upFile(f,'payments');pvRender('pv-payment_qr',SETTINGS.payment_qr,false);msg('m-pay','QR uploaded. Save settings.',true);}
+catch(e){msg('m-pay',e.message,false);}
+input.value='';
+}
+async function savePaymentSettings(){
+var upi=gid('payment_upi').value.trim();
+if(!upi){msg('m-pay','UPI ID required',false);return;}
+SETTINGS.payment_upi=upi;
+SETTINGS.paytm_enabled=gid('paytm_enabled').checked;
+SETTINGS.return_price_enabled=gid('return_price_enabled').checked;
+SETTINGS.return_price_seconds=Math.max(1,Number(gid('return_price_seconds').value)||30);
+try{await api('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(SETTINGS)});msg('m-pay','Payment settings saved',true);}
+catch(e){msg('m-pay',e.message,false);}
+}
+function renderPlist(){
+renderLiveProducts();
+gid('plist').innerHTML=PRODS.map(function(p,i){
+return '<div class="pitem" onclick="editProd('+i+')">'+(p.img?'<img src="/'+esc(p.img)+'">':'')+
+'<div class="nm">'+esc(p.n)+'</div><div class="pr">₹'+num(p.p)+'</div>'+
+'<button class="del" onclick="event.stopPropagation();delProd(\''+esc(p.id)+'\')">🗑</button></div>';
+}).join('')||'<p class="hint">No products yet.</p>';
+}
+function renderLiveProducts(){
+var el=gid('liveplist');if(!el)return;
+var live=PRODS.filter(function(p){return !!p.src||p.tag==='Imported';});
+el.innerHTML=live.map(function(p){
+return '<div class="rv"><b>'+esc(p.n)+'</b><div class="row2">'+
+'<div><label>Original Price</label><input type="number" id="lm-'+esc(p.id)+'" value="'+Number(p.mrp||0)+'"></div>'+
+'<div><label>Sale Price</label><input type="number" id="ls-'+esc(p.id)+'" value="'+Number(p.p||0)+'"></div>'+
+'<div><label>Return Price</label><input type="number" id="lrp-'+esc(p.id)+'" value="'+(p.returnPrice==null?'':Number(p.returnPrice))+'"></div></div>'+
+'<button class="upbtn" onclick="quickPrice(\''+esc(p.id)+'\')">Update Prices</button></div>';
+}).join('')||'<p class="hint">No imported products yet.</p>';
+}
+async function quickPrice(id){
+var p=PRODS.find(function(x){return x.id===id;});if(!p)return;
+p.mrp=Number(gid('lm-'+id).value)||0;p.p=Number(gid('ls-'+id).value)||0;
+var rv=gid('lrp-'+id).value;p.returnPrice=rv.trim()===''?null:Math.max(0,Number(rv)||0);
+try{var saved=await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});var i=PRODS.findIndex(function(x){return x.id===saved.id;});if(i>=0)PRODS[i]=saved;renderPlist();msg('m-prod','Prices updated',true);}
+catch(e){msg('m-prod',e.message,false);}
+}
+function editProd(i){
+var p=PRODS[i];curProd=p;pimgs=(p.imgs||[]).slice();
+gid('pid').value=p.id||'';gid('pn').value=p.n||'';gid('pmrp').value=p.mrp||'';gid('pp').value=p.p||'';gid('prp').value=p.returnPrice==null?'':p.returnPrice;
+gid('pr').value=p.r||'';gid('prc').value=p.rc||'';gid('ptag').value=p.tag||'';gid('pe').value=p.e||'';
+gid('pd').value=p.d||'';gid('pbrand').value=p.brand||'';gid('pmodel').value=p.model||'';gid('pcolor').value=p.color||'';
+gid('phl').value=(p.hl||[]).join('\n');gid('pspec').value=(p.spec||[]).map(function(s){return s[0]+': '+s[1];}).join('\n');
+renderPimgs();document.querySelectorAll('.tabs button')[1].click();window.scrollTo(0,0);
+}
+function clearProdForm(){
+curProd=null;pimgs=[];
+['pid','pn','pmrp','pp','prp','pr','prc','ptag','pe','pd','pbrand','pmodel','pcolor','phl','pspec'].forEach(function(id){gid(id).value='';});
+renderPimgs();msg('m-prod','',true);
+}
+function renderPimgs(){gid('pv-pimgs').innerHTML=pimgs.map(function(u,i){return '<div class="it"><img src="/'+esc(u)+'"><button class="rm" onclick="pimgs.splice('+i+',1);renderPimgs()">✕</button></div>';}).join('');}
+async function upProdImgs(input){
+for(var i=0;i<input.files.length;i++){try{pimgs.push(await upFile(input.files[i],'products/manual'));}catch(e){msg('m-prod',e.message,false);}}
+renderPimgs();msg('m-prod','Images uploaded',true);input.value='';
+}
+async function saveProduct(){
+if(!gid('pn').value.trim()){msg('m-prod','Product name required',false);return;}
+var product={
+id:gid('pid').value||undefined,n:gid('pn').value.trim(),
+mrp:Number(gid('pmrp').value)||0,p:Number(gid('pp').value)||0,
+returnPrice:gid('prp').value.trim()===''?null:Math.max(0,Number(gid('prp').value)||0),
+r:Number(gid('pr').value)||4.3,rc:Number(gid('prc').value)||0,
+tag:gid('ptag').value.trim()||'Hot deal',e:gid('pe').value.trim()||'📦',
+d:gid('pd').value.trim(),brand:gid('pbrand').value.trim(),model:gid('pmodel').value.trim(),color:gid('pcolor').value.trim(),
+imgs:pimgs,img:pimgs[0]||'',hl:gid('phl').value.split('\n').map(function(s){return s.trim();}).filter(Boolean),
+spec:gid('pspec').value.split('\n').map(function(s){var i=s.indexOf(':');return i>0?[s.slice(0,i).trim(),s.slice(i+1).trim()]:null;}).filter(Boolean),
+reviews:(curProd&&curProd.reviews)||[]
+};
+try{
+var saved=await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(product)});
+var i=PRODS.findIndex(function(x){return x.id===saved.id;});if(i>=0)PRODS[i]=saved;else PRODS.unshift(saved);
+gid('pid').value=saved.id;renderPlist();msg('m-prod','Product saved',true);
+}catch(e){msg('m-prod',e.message,false);}
+}
+async function delProd(id){
+if(!confirm('Delete product?'))return;
+// Keep the current scroll position so deleting items lower in the list
+// does not jump the admin panel back to the top.
+var scrollTop=window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0;
+try{
+await api('/api/products/'+encodeURIComponent(id),{method:'DELETE'});
+PRODS=PRODS.filter(function(p){return p.id!==id;});
+renderPlist();
+requestAnimationFrame(function(){window.scrollTo(0,scrollTop);});
+}
+catch(e){msg('m-prod',e.message,false);}
+}
+function fillRevProducts(){
+var s=gid('rvprod'),cur=s.value;
+s.innerHTML='<option value="">Select product</option>'+PRODS.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.n)+'</option>';}).join('');
+s.value=cur;loadReviews();
+}
+function renderRvImgs(){gid('pv-rvimgs').innerHTML=rvimgs.map(function(u,i){return '<div class="it"><img src="/'+esc(u)+'"><button class="rm" onclick="rvimgs.splice('+i+',1);renderRvImgs()">✕</button></div>';}).join('');}
+function loadReviews(){
+var p=PRODS.find(function(x){return x.id===gid('rvprod').value;}),el=gid('rvlist');
+if(!p){el.innerHTML='';return;}
+el.innerHTML=(p.reviews||[]).map(function(v,i){
+return '<div class="rv"><b>'+Number(v.r||5)+'★</b> '+esc(v.t)+
+'<button class="del" style="float:right" onclick="delReview('+i+')">🗑</button>'+
+'<div class="x">'+esc(v.x)+'</div><div>'+esc(v.n||'Buyer')+'</div>'+
+(v.imgs||[]).map(function(u){return '<img src="/'+esc(u)+'">';}).join('')+'</div>';
+}).join('')||'<p class="hint">No reviews.</p>';
+}
+async function upRvImgs(input){
+for(var i=0;i<input.files.length;i++){try{rvimgs.push(await upFile(input.files[i],'reviews'));}catch(e){msg('m-rev',e.message,false);}}
+renderRvImgs();input.value='';
+}
+async function saveReview(){
+var p=PRODS.find(function(x){return x.id===gid('rvprod').value;});
+if(!p){msg('m-rev','Select a product first',false);return;}
+if(!gid('rvx').value.trim()){msg('m-rev','Review text required',false);return;}
+p.reviews=p.reviews||[];
+p.reviews.push({r:Number(gid('rvr').value),t:gid('rvt').value.trim(),x:gid('rvx').value.trim(),n:gid('rvn').value.trim()||'Buyer',h:0,d:1,ph:rvimgs.length,imgs:rvimgs});
+try{
+await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+rvimgs=[];renderRvImgs();gid('rvt').value='';gid('rvx').value='';gid('rvn').value='';loadReviews();msg('m-rev','Review added',true);
+}catch(e){msg('m-rev',e.message,false);}
+}
+async function delReview(i){
+var p=PRODS.find(function(x){return x.id===gid('rvprod').value;});if(!p)return;
+p.reviews.splice(i,1);
+try{await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});loadReviews();}
+catch(e){msg('m-rev',e.message,false);}
+}
+async function doImport(){
+var url=gid('impurl').value.trim();
+if(!url){msg('m-imp','Product link paste karo',false);return;}
+msg('m-imp','Fetching product... please wait',true);gid('previewCard').innerHTML='';
+try{
+var p=await api('/api/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+url:url,download_images:gid('impdl').checked,
+include_specifications:gid('impfullspec').checked,
+max_reviews:Number(gid('imprv').value)||10
+})});
+curProd=p;
+saveToLinks([p.src].filter(Boolean));
+gid('previewCard').innerHTML='<hr style="border-color:#ffffff26;margin:16px 0"><h2>Product Preview</h2>'+
+'<div class="stat"><span>Name: <b>'+esc(p.n)+'</b></span><span>MRP: <b>₹'+num(p.mrp)+'</b></span>'+
+'<span>Sale: <b>₹'+num(p.p)+'</b></span><span>Rating: <b>'+esc(p.r)+'★</b></span>'+
+'<span>Images: <b>'+(p.imgs||[]).length+'</b></span><span>Specs: <b>'+(p.spec||[]).length+'</b></span>'+
+'<span>Reviews: <b>'+(p.reviews||[]).length+'</b></span></div>'+
+'<div class="grid2">'+(p.imgs||[]).map(function(u){return '<img src="/'+esc(u)+'">';}).join('')+'</div>'+
+'<h3>Specifications preview</h3><div class="rv">'+((p.spec||[]).map(function(s){return '<div><b>'+esc(s[0])+':</b> '+esc(s[1])+'</div>';}).join(''))+'</div>'+
+'<h3>🔀 Similar Products ('+((p.related_urls||[]).length)+' mile)</h3>'+
+'<p class="hint">Kaun se similar products scrape karne hain, tick karo. Sirf ticked wale upload honge.</p>'+
+'<div id="simlist" style="max-height:260px;overflow:auto;background:#ffffff12;border-radius:12px;padding:10px">'+
+((p.related_urls||[]).map(function(u,i){
+  return '<label style="display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:12px;margin:6px 0;cursor:pointer">'+
+  '<input type="checkbox" class="simchk" data-url="'+esc(u)+'" '+(i<5?'checked':'')+' style="width:auto;margin-top:2px">'+
+  '<span style="word-break:break-all">'+esc(u)+'</span></label>';
+}).join('')||'<p class="hint">Is page par koi similar product link nahi mila.</p>')+
+'</div>'+
+'<div class="krow" style="margin-top:10px;flex-wrap:wrap;gap:8px">'+
+'<label style="margin:0;font-size:12px"><input type="checkbox" id="simall" onchange="toggleAllSim(this.checked)" style="width:auto"> Sab select</label>'+
+'<button class="btn sec" onclick="saveMainAndSimilar()">🚀 Main Save + Selected Similar Scrape</button>'+
+'<button class="btn" onclick="saveImported()">✅ Sirf Main Product Save</button>'+'</div>';
+msg('m-imp','Fetch complete. Specifications check karo.',true);
+}catch(e){msg('m-imp','Import error: '+e.message,false);}
+}
+
+function toggleAllSim(on){
+document.querySelectorAll('.simchk').forEach(function(c){c.checked=on;});
+}
+
+function getSelectedSimUrls(){
+var urls=[];
+document.querySelectorAll('.simchk:checked').forEach(function(c){urls.push(c.getAttribute('data-url'));});
+return urls;
+}
+
+async function saveToLinks(urls){
+try{
+await api('/api/saved-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({links:urls})});
+}catch(e){}
+}
+
+async function saveMainAndSimilar(){
+if(!curProd)return;
+var main=curProd;
+var urls=getSelectedSimUrls();
+var allLinks=[main.src].concat(urls).filter(Boolean);
+delete main.related_urls;
+try{
+await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(main)});
+msg('m-imp','Main product saved. '+urls.length+' selected similar products processing...',true);
+}catch(e){msg('m-imp','Main product save failed: '+e.message,false);return;}
+if(!urls.length){
+await saveToLinks(allLinks);
+PRODS=await api('/api/products');renderPlist();curProd=null;
+msg('m-imp','Main product saved. Koi similar product select nahi kiya. Main link saved.',true);
+return;
+}
+var done=0,failed=0;
+for(var i=0;i<urls.length;i++){
+msg('m-imp','Similar: '+(i+1)+'/'+urls.length+' scraping...',true);
+try{
+var p=await api('/api/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:urls[i],download_images:gid('impdl').checked,include_specifications:gid('impfullspec').checked,max_reviews:Number(gid('imprv').value)||10})});
+delete p.related_urls;
+await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+done++;
+}catch(e){failed++;}
+}
+saveToLinks(allLinks); // links saved notepad me bhi chale jaayenge
+PRODS=await api('/api/products');renderPlist();curProd=null;
+msg('m-imp','Finished. Main + '+done+' similar saved. Failed: '+failed+'. Links notepad me save ho gaye.',true);
+}
+
+async function saveImported(){
+if(!curProd)return;
+try{
+curProd.tag=curProd.tag||'Imported';
+var saved=await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(curProd)});
+saveToLinks([curProd.src].filter(Boolean));
+var i=PRODS.findIndex(function(x){return x.id===saved.id;});if(i>=0)PRODS[i]=saved;else PRODS.unshift(saved);
+renderPlist();msg('m-imp','Product saved to site',true);curProd=null;
+}catch(e){msg('m-imp',e.message,false);}
+}
+
+async function loadLinks(){try{var links=await api('/api/saved-links');gid('savedurls').value=links.join('\n');msg('m-links',links.length+' saved links',true);}catch(e){msg('m-links',e.message,false);}}
+async function saveLinks(){try{var links=gid('savedurls').value.split(/\r?\n/).map(function(x){return x.trim();}).filter(Boolean);var saved=await api('/api/saved-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({links:links})});gid('savedurls').value=saved.join('\n');msg('m-links',saved.length+' links saved',true);}catch(e){msg('m-links',e.message,false);}}
+async function copyLinks(){try{await navigator.clipboard.writeText(gid('savedurls').value);msg('m-links','Links copied',true);}catch(e){msg('m-links','Copy failed; select and copy manually',false);}}
+async function clearLinks(){if(!confirm('Saare saved links delete karein?'))return;try{await api('/api/saved-links',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({clear:true})});gid('savedurls').value='';msg('m-links','Saved links cleared',true);}catch(e){msg('m-links',e.message,false);}}
+async function savePricing(){var d=Number(gid('discount_percent').value)||0,h=Number(gid('return_hike_percent').value)||0;if(d<0||d>99||h<0||h>500){msg('m-price','Discount 0-99 aur hike 0-500 ke beech rakho',false);return;}try{SETTINGS.discount_percent=d;SETTINGS.return_hike_percent=h;await api('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(SETTINGS)});PRODS=await api('/api/products');renderPlist();msg('m-price','Pricing rules applied to all products',true);}catch(e){msg('m-price',e.message,false);}}
+async function runBulk(){var urls=gid('bulkurls').value.split(/\r?\n/).map(function(x){return x.trim();}).filter(Boolean);if(!urls.length){msg('m-bulk','Pehle links paste karo',false);return;}try{await api('/api/saved-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({links:urls})});}catch(e){}var done=0,failed=0,details=[];gid('bulkresults').innerHTML='';for(var i=0;i<urls.length;i++){msg('m-bulk','Processing '+(i+1)+'/'+urls.length+' ...',true);try{var p=await api('/api/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:urls[i],download_images:gid('bulkdl').checked,include_specifications:true,max_reviews:10})});p.tag=p.tag||'Imported';await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});done++;details.push('✅ '+esc(p.n||urls[i]));}catch(e){failed++;details.push('❌ '+esc(urls[i])+' — '+esc(e.message));}gid('bulkresults').innerHTML=details.join('<br>');}PRODS=await api('/api/products');renderPlist();msg('m-bulk','Complete. Success: '+done+' | Failed: '+failed,true);}
+
+boot();
+</script>
+</body>
+</html>
